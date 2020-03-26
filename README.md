@@ -1,1 +1,1 @@
-#### Dijkstra's Canvas
+# <div align="center">Dijkstra's Canvas</div>
