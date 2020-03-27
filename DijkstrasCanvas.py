@@ -2,11 +2,6 @@
 Kyle Timmermans
 March 18th, 2020
 python v3.8.2
-
-ToDo
-    -Get Vertexes and store their locations
-    -Get Edges and store their locations
-    -Overlap logic, add to adjacency matrix
 '''
 
 # Vertex's must be created first, then edges, 'Done' buttons
@@ -36,7 +31,7 @@ def addVertex(event):
     if vertexNumber == 1:  # ID's go up by odd numbers b/c be are essentially creating two objects, the circle and its textbox label
         vertexes[vertexNumber] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
     else:
-        vertexes[vertexNumber] = draw_space.coords(vertexNumber+helperNumber)
+        vertexes[vertexNumber] = draw_space.coords(vertexNumber+helperNumber)  ##### Maybe not use .coords but just ID??
         helperNumber += 1  # increment and add to vertex labels so we get just the vertex circle, place here because we want it to start adding after VN=1
     vertexNumber += 1  # increment vertex labels
 
@@ -51,17 +46,13 @@ def addEdge(event):  # Why does *args work for this?
     else:                  # end coords when mouse is unlicked
         x2 = event.x    # end x pos of mouse
         y2 = event.y    # end y pos of mouse
-        line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=10)   # Draw line with those coords
+        line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5)   # Draw line with those coords
+        if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text='A', font=("Courier", 25))
+        elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+            line_text = draw_space.create_text(((x1+x2)/2)+10, ((y1+y2)/2)+10, text='A', font=("Courier", 25))
         draw_space.pack()  # Pack into canvas and give unique ID
-        #for all in vertexes{}, are x1 and y1 overlapping any of them?
-        '''
-        for key in vertexes:
-            for coords in vertexes[key]:
-                if
-            #for all in vertexes{} except for the one above are x2 and y2 overlapping them
-                #if yes for both, then the edge is between those two vertexes
-                    #egde[edgeNumber] = (vertexStart#, vertexDestination#, weight input?)
-        '''
+        # for
         edgeNumber += 1
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
 
@@ -80,10 +71,13 @@ draw_space.bind('<Button-2>', addVertex)  # Bind addVertex to mouse2, binded fun
 # create_button(top left corner next to this msg^^, "Done"), onclick, we can now input the shortest path we want
 draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
 
-# Input weight to edges and textbox weights next to edges on graph
 # Unbind all buttons
+# Input weight to edges and insert textbox weights next to edges on graph
 
-# Output shortest path
+# Input two numbers of Nodes
+# Output chosen nodes' shortest path to each other
 root.mainloop()
 
-print(vertexes)  # Testing purposes, storing vertex locaitons
+
+print(vertexes)  # Testing purposes, storing vertex locations
+print(edges)     # Testing purposes, storing edges and where they start/end
