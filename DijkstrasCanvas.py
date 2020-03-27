@@ -7,7 +7,7 @@ python v3.8.2
 # Vertex's must be created first, then edges, 'Done' buttons
 
 # Adjacency matrix (2D Array) to store adjacency
-# Do I make it so that the user input length changes the weigth or just the distance of edge is automatic?
+# Do I make it so that the user input length changes the weight or just the distance of edge is automatic?
 
 from tkinter import *
 
@@ -18,7 +18,6 @@ edgeNumber = vertexNumber  # Continue numbering shapes after vertexes are placed
 clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
 vertexes = {}       # Store vertex number and its location
 edges = {}          # Store edge and its location
-adjacencyMatrix = []  # 2D Array to hold weights of edges between vertexes, if they exist
 
 def addVertex(event):
     global vertexNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now
@@ -43,7 +42,7 @@ def addEdge(event):  # Why does *args work for this?
         x1 = event.x   # start x pos of mouse
         y1 = event.y   # start y pos of mouse
         clickNumber = 1   # On next click, define x2, y2
-    else:                  # end coords when mouse is unlicked
+    else:                  # end coords when mouse is unclicked
         x2 = event.x    # end x pos of mouse
         y2 = event.y    # end y pos of mouse
         line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5)   # Draw line with those coords
@@ -52,14 +51,26 @@ def addEdge(event):  # Why does *args work for this?
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
             line_text = draw_space.create_text(((x1+x2)/2)+10, ((y1+y2)/2)+10, text='A', font=("Courier", 25))
         draw_space.pack()  # Pack into canvas and give unique ID
-        # for
+        # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
+        for key in vertexes:
+            if (vertexes[key][0] < x1 < vertexes[key][2]) == True:
+                vertexStart = key
+        for key in vertexes:
+            if (vertexes[key][0] < x2 < vertexes[key][2]) == True:
+                vertexDestination = key
+        edges[edgeNumber] = (vertexStart, vertexDestination)
         edgeNumber += 1
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
+
+adjacencyMatrix = [[0] * vertexNumber] * vertexNumber  # 2D Array to hold weights of edges between vertexes, if they exist
+# Fill with zeros to initialize
+
+#def addWeight(vertexes, edges):
 
 root = Tk()
 root.title("Dijkstra's Canvas - @KyleTimmermans")
 draw_space = Canvas(root, width=1000, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
-draw_space.grid(row=0, column=0)  # Give the canvas coordinates
+draw_space.grid(row=0, column=0)  # Give the canvas coordinates, top left corner is 0,0 - Bottom right corner is 1000,1000
 
 # Do while not, not next step
 # draw_space.create_text(top left corner, "Input Vertexes by left clicking mouse")
