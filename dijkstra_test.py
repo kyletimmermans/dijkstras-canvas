@@ -78,9 +78,11 @@ draw_space.grid(row=0, column=0)  # Give the canvas coordinates
 root.mainloop()
 '''
 
+'''
 dict = {}
 x0, y0 = 100, 100
-dict['1']=(x0,y0,x0+50,y0+51)
+vertexNumber = 0
+dict[vertexNumber]=(x0,y0,x0+50,y0+51)
 dict['2']=(x0,y0,x0+100,y0+101)
 
 print(dict)
@@ -88,10 +90,36 @@ print("")
 # Tuples store coords and act as a single value to a single key in the dictionary
 # Tuples start at 0 and end at n-1
 
-if (dict['1'][1] == dict['2'][1]) is True:
+if (dict[vertexNumber][1] == dict['2'][1]) is True:
     print("This is working")
 
 print("")
 
-if (dict['1'][3] == dict['2'][3]) is False:
+if (dict[vertexNumber][3] == dict['2'][3]) is False:
     print("Oh yeah, its definitely working")
+'''
+
+vertexes = {1: [300.0, 232.0, 350.0, 282.0], 2: [325.0, 257.0], 3: [275.0, 483.0, 325.0, 533.0], 4: [300.0, 508.0], 5: [633.0, 369.0, 683.0, 419.0]}
+
+for key in dictionary:
+    for coords in dictionary[key]:
+        print(coords)
+
+
+'''
+from tkinter import *
+
+root = Tk()
+root.title("Dijkstra's Canvas - @KyleTimmermans")
+draw_space = Canvas(root, width=1000, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
+draw_space.grid(row=0, column=0)  # Give the canvas coordinates
+
+circle = draw_space.create_oval(400, 400, 450, 450, fill="Green")
+line = draw_space.create_line(300, 300, 500, 500, width=5, fill="Black")
+draw_space.pack()
+
+print(circle)
+print(line)
+print(draw_space.find_overlapping(400, 400, 450, 450))  # Print overlapping shape ids
+root.mainloop()
+'''
