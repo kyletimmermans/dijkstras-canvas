@@ -10,9 +10,11 @@ python v3.8.2
 # Do I make it so that the user input length changes the weight or just the distance of edge is automatic?
 
 from tkinter import *
+from string import ascii_uppercase  # Use to label edges
 
-vertexNumber = 1    # To be made global later, just initialized here as ??? because we have buttons and text boxes already init, id's for shapes start to assign at 1
-#### ^^ this value will change when we add some buttons, text boxes, and a title
+alphabet = ascii_uppercase
+letter = 0
+vertexNumber = 10    # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
 helperNumber = 1
 edgeNumber = vertexNumber  # Continue numbering shapes after vertexes are placed
 clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
@@ -25,18 +27,19 @@ def addVertex(event):
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
     vertex = draw_space.create_oval(x0, y0, x0+50, y0+50, fill="Green", tags="vertex")  # Create the vertex, give it a function soon to add to the dictionary
-    vertex_text = draw_space.create_text((x0+25, y0+25), text=vertexNumber, tags="vertex")  # +25 to get to the center of a 50 circle
+    vertex_text = draw_space.create_text((x0+25, y0+25), text=vertexNumber-9, tags="vertex")  # +25 to get to the center of a 50 circle
     draw_space.pack()
     if vertexNumber == 1:  # ID's go up by odd numbers b/c be are essentially creating two objects, the circle and its textbox label
-        vertexes[vertexNumber] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
+        vertexes[vertexNumber-9] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
     else:
-        vertexes[vertexNumber] = draw_space.coords(vertexNumber+helperNumber)  ##### Maybe not use .coords but just ID??
+        vertexes[vertexNumber-9] = draw_space.coords(vertexNumber+helperNumber)  ##### Maybe not use .coords but just ID??
         helperNumber += 1  # increment and add to vertex labels so we get just the vertex circle, place here because we want it to start adding after VN=1
     vertexNumber += 1  # increment vertex labels
 
 def addEdge(event):  # Why does *args work for this?
     global clickNumber
     global edgeNumber
+    global letter
     global x1, y1
     if clickNumber == 0:  # start pos before mouse is clicked
         x1 = event.x   # start x pos of mouse
@@ -47,9 +50,9 @@ def addEdge(event):  # Why does *args work for this?
         y2 = event.y    # end y pos of mouse
         line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5)   # Draw line with those coords
         if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text='A', font=("Courier", 25))
+            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet[letter], font=("Courier", 25))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            line_text = draw_space.create_text(((x1+x2)/2)+10, ((y1+y2)/2)+10, text='A', font=("Courier", 25))
+            line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet[letter], font=("Courier", 25))
         draw_space.pack()  # Pack into canvas and give unique ID
         # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
         for key in vertexes:
@@ -61,11 +64,29 @@ def addEdge(event):  # Why does *args work for this?
         edges[edgeNumber] = (vertexStart, vertexDestination)
         edgeNumber += 1
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
+        letter += 1
 
-adjacencyMatrix = [[0] * vertexNumber] * vertexNumber  # 2D Array to hold weights of edges between vertexes, if they exist
-# Fill with zeros to initialize
 
-#def addWeight(vertexes, edges):
+def vertexButtonSet():
+    draw_space.unbind("<Button 1>")
+    draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
+
+
+def edgeButtonSet():
+    draw_space.unbind("<Button 1>")
+
+
+#def addEdgeWeight():
+    #get user weight from entry, add to adjacency matrix using edges
+
+
+#def dijkstra():
+    #get two vertexes user wants
+    #dijkstra on adjacency matrix
+    #show results in pop-up window
+
+
+adjacencyMatrix = [[0] * vertexNumber] * vertexNumber  # 2D Array to hold weights of edges between vertexes, if they exist, init to all zeros
 
 # Init Window
 root = Tk()
@@ -73,25 +94,33 @@ root.title("Dijkstra's Canvas - @KyleTimmermans")
 draw_space = Canvas(root, width=1500, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
 draw_space.pack()
 
+draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to begin program
+
 # Widgets
+### We have 10 widgets, they take up first ten ID Numbers, so start vertexNumber at 10
 vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('helvetica', 14))
-draw_space.create_window(125, 30, window=vertexText)
-vertexButton = Button(text="Done")
-draw_space.create_window(275, 30, window=vertexButton)
+draw_space.create_window(126, 30, window=vertexText)
+vertexButton = Button(text="Done", command=vertexButtonSet)
+draw_space.create_window(276, 30, window=vertexButton)
 edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('helvetica', 14))
 draw_space.create_window(245, 75, window=edgeText)
-edgeButton = Button(text="Done")
+edgeButton = Button(text="Done", command=edgeButtonSet)
 draw_space.create_window(510, 75, window=edgeButton)
-weightText = Label(text='Input the weights of edges between nodes e.g. v1,v2=5', font=('helvetica', 14))
-draw_space.create_window(180, 120, window=weightText)
-weightEnter = 
+weightText = Label(text='Input the weights of edges between nodes e.g. A,B=5', font=('helvetica', 14))
+draw_space.create_window(178, 120, window=weightText)
+weightEntry = Entry(root)
+draw_space.create_window(462, 120, window=weightEntry)
+weightInput = Button(text="Input")
+draw_space.create_window(592, 120, window=weightInput)
+shortpathText = Label(text="Enter the two vertexes for the shortest path you want e.g. v2,v4", font=('helvetica', 14))
+draw_space.create_window(210, 165, window=shortpathText)
+shortpathEntry = Entry(root)
+draw_space.create_window(521, 165, window=shortpathEntry)
+shortpathButton = Button(text="Show Result")
+draw_space.create_window(671, 165, window=shortpathButton)
 
 
-
-draw_space.bind('<Button-2>', addVertex)  # Bind addVertex to mouse2, binded func's can only have event as parameter
-draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
-
-root.mainloop()
+root.mainloop() # Keep window open and loop all its functions
 
 
 print(vertexes)  # Testing purposes, storing vertex locations
