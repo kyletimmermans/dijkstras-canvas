@@ -67,26 +67,30 @@ adjacencyMatrix = [[0] * vertexNumber] * vertexNumber  # 2D Array to hold weight
 
 #def addWeight(vertexes, edges):
 
+# Init Window
 root = Tk()
 root.title("Dijkstra's Canvas - @KyleTimmermans")
-draw_space = Canvas(root, width=1000, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
-draw_space.grid(row=0, column=0)  # Give the canvas coordinates, top left corner is 0,0 - Bottom right corner is 1000,1000
+draw_space = Canvas(root, width=1500, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
+draw_space.pack()
 
-# Do while not, not next step
-# draw_space.create_text(top left corner, "Input Vertexes by left clicking mouse")
-#create_button(top left corner next to this msg^^, "Done"), onclick we can now add edges
+# Widgets
+vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('helvetica', 14))
+draw_space.create_window(125, 30, window=vertexText)
+vertexButton = Button(text="Done")
+draw_space.create_window(275, 30, window=vertexButton)
+edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('helvetica', 14))
+draw_space.create_window(245, 75, window=edgeText)
+edgeButton = Button(text="Done")
+draw_space.create_window(510, 75, window=edgeButton)
+weightText = Label(text='Input the weights of edges between nodes e.g. v1,v2=5', font=('helvetica', 14))
+draw_space.create_window(180, 120, window=weightText)
+weightEnter = 
+
+
+
 draw_space.bind('<Button-2>', addVertex)  # Bind addVertex to mouse2, binded func's can only have event as parameter
-
-# draw_space.create_text(top right corner, "Input Edges by left clicking the start vertex and then the destination vertex")
-# Do while not, next step, reassign button 1 to new function
-# create_button(top left corner next to this msg^^, "Done"), onclick, we can now input the shortest path we want
 draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
 
-# Unbind all buttons
-# Input weight to edges and insert textbox weights next to edges on graph
-
-# Input two numbers of Nodes
-# Output chosen nodes' shortest path to each other
 root.mainloop()
 
 
