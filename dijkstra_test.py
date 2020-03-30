@@ -74,4 +74,6 @@ example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
                  [0, 0, 2, 0, 0, 0, 6, 7, 0]]
 
 vertexes = 9
+
+# adjacentMatrix, vertex#, source vertex/row
 dijkstra(example_graph, vertexes, 0)
