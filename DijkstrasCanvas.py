@@ -10,9 +10,13 @@ python v3.8.2
 # Do I make it so that the user input length changes the weight or just the distance of edge is automatic?
 
 from tkinter import *
-from string import ascii_uppercase  # Use to label edges
+from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 
-alphabet = ascii_uppercase
+#############
+# Variables #
+#############
+alphabet1 = ascii_uppercase
+alphabet2 = ascii_lowercase
 letter = 0
 vertexNumber = 10    # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
 helperNumber = 1
@@ -20,7 +24,12 @@ edgeNumber = vertexNumber  # Continue numbering shapes after vertexes are placed
 clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
 vertexes = {}       # Store vertex number and its location
 edges = {}          # Store edge and its location
+adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edited by addEdgeWeight()
 
+
+#############
+# Functions #
+#############
 def addVertex(event):
     global vertexNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now
     global helperNumber   # # Need a dynamic number to add to vertex number
@@ -49,10 +58,16 @@ def addEdge(event):  # Why does *args work for this?
         x2 = event.x    # end x pos of mouse
         y2 = event.y    # end y pos of mouse
         line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5)   # Draw line with those coords
-        if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet[letter], font=("Courier", 25))
-        elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet[letter], font=("Courier", 25))
+        if letter <= 25:  # Go through uppercase letters
+            if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=("Courier", 25))
+            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=("Courier", 25))
+        elif letter > 25:
+            if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=("Courier", 25))
+            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=("Courier", 25))
         draw_space.pack()  # Pack into canvas and give unique ID
         # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
         for key in vertexes:
@@ -61,34 +76,40 @@ def addEdge(event):  # Why does *args work for this?
         for key in vertexes:
             if (vertexes[key][0] < x2 < vertexes[key][2]) == True:
                 vertexDestination = key
-        edges[edgeNumber] = (vertexStart, vertexDestination)
+        edges[edgeNumber-9] = (vertexStart, vertexDestination)
         edgeNumber += 1
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
-        letter += 1
+        letter += 1     # Next letter, eventually goes to lowercase
 
 
+# Vertex Button
 def vertexButtonSet():
     draw_space.unbind("<Button 1>")
     draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
 
-
+# Edge Finish Button
 def edgeButtonSet():
+    global adjacencyMatrix
+    adjacencyMatrix = [[0] * vertexNumber] * vertexNumber  # Fill adjacency matrix with zeros
     draw_space.unbind("<Button 1>")
 
-
-#def addEdgeWeight():
-    #get user weight from entry, add to adjacency matrix using edges
+# Input button next to entry field for getting weights
+def addEdgeWeight():
+    #global adjacencyMatrix
+    #get user weight from entry using get(), add to adjacencyMatrix using edges{} and vertexes{}
+    #draw next to corresponding letter by using edges{} to determine which vertexes, then midpoint of the two vertexes referenced
 
 
 #def dijkstra():
+    #global adjacencyMatrix
     #get two vertexes user wants
     #dijkstra on adjacency matrix
     #show results in pop-up window
+    #Throw error if no weight for edge if created
 
-
-adjacencyMatrix = [[0] * vertexNumber] * vertexNumber  # 2D Array to hold weights of edges between vertexes, if they exist, init to all zeros
-
-# Init Window
+####################
+# Window / Widgets #
+####################
 root = Tk()
 root.title("Dijkstra's Canvas - @KyleTimmermans")
 draw_space = Canvas(root, width=1500, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
@@ -119,9 +140,10 @@ draw_space.create_window(521, 165, window=shortpathEntry)
 shortpathButton = Button(text="Show Result")
 draw_space.create_window(671, 165, window=shortpathButton)
 
+root.mainloop()  # Keep window open and loop all its functions
 
-root.mainloop() # Keep window open and loop all its functions
-
-
+###########
+# Testing #
+###########
 print(vertexes)  # Testing purposes, storing vertex locations
 print(edges)     # Testing purposes, storing edges and where they start/end
