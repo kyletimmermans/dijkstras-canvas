@@ -99,12 +99,12 @@ if (dict[vertexNumber][3] == dict['2'][3]) is False:
     print("Oh yeah, its definitely working")
 '''
 
-vertexes = {1: [300.0, 232.0, 350.0, 282.0], 2: [325.0, 257.0], 3: [275.0, 483.0, 325.0, 533.0], 4: [300.0, 508.0], 5: [633.0, 369.0, 683.0, 419.0]}
+'''
+vertexes = {1: [400.0, 400.0, 450.0, 450.0]}
 
-for key in dictionary:
-    for coords in dictionary[key]:
-        print(coords)
-
+for key in vertexes:
+    print(vertexes[key][0])
+'''
 
 '''
 from tkinter import *
@@ -114,12 +114,71 @@ root.title("Dijkstra's Canvas - @KyleTimmermans")
 draw_space = Canvas(root, width=1000, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
 draw_space.grid(row=0, column=0)  # Give the canvas coordinates
 
-circle = draw_space.create_oval(400, 400, 450, 450, fill="Green")
+circle = draw_space.create_oval(280, 280, 330, 330, fill="Green")
+circle2 = draw_space.create_oval(480, 480, 530, 530, fill="Green")
 line = draw_space.create_line(300, 300, 500, 500, width=5, fill="Black")
 draw_space.pack()
+vertexes = {1: (280, 280, 330, 330), 2: (480, 480, 530, 530)}
+edgeNumber = 1
+edges = {}
 
+print("Coords of Circle: ", end='')
+print(draw_space.coords(circle))
+print("Coords of Circle2: ", end='')
+print(draw_space.coords(circle2))
+print("Coords of Line: ", end='')
+print(draw_space.coords(line))
+print("ID of Circle: ", end='')
 print(circle)
+print("ID of Circle2: ", end='')
+print(circle2)
+print("ID of Line: ", end='')
 print(line)
-print(draw_space.find_overlapping(400, 400, 450, 450))  # Print overlapping shape ids
+print("")
+
+x1, y1 = 300, 300
+x2, y2 = 500, 500
+
+
+# Checking if first part of line is in a vertex
+for key in vertexes:
+    if (vertexes[key][0] < x1 < vertexes[key][2]) == True:
+        vertexStart = key
+
+for key in vertexes:
+    if (vertexes[key][0] < x2 < vertexes[key][2]) == True:
+        vertexDestination = key
+
+edges[edgeNumber] = (vertexStart, vertexDestination)
 root.mainloop()
+print(edges)
 '''
+
+from tkinter import *
+import re
+
+vertexNumber = 2
+adjacencyMatrix = [[0]*2 for _ in range(vertexNumber)]
+
+
+def func():
+    global adjacencyMatrix
+    x = weightEntry.get()
+    x = re.sub('[^0-9]+', ' ', x).split()
+    vertex1, vertex2, weight = int(x[0]), int(x[1]), int(x[2])
+    adjacencyMatrix[vertex1 - 1][vertex2 - 1] = weight
+
+
+root = Tk()
+root.title("Dijkstra's Canvas - @KyleTimmermans")
+draw_space = Canvas(root, width=1500, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
+draw_space.pack()
+
+weightEntry = Entry(root)   # Weight Entry
+draw_space.create_window(462, 120, window=weightEntry)  # Draw Weight Entry
+weightInput = Button(text="Input", command=func)  # Weight Button
+draw_space.create_window(592, 120, window=weightInput)   # Draw Weight Button
+
+root.mainloop()  # Keep window open and loop all its functions
+
+print(adjacencyMatrix)
