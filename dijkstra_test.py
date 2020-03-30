@@ -1,184 +1,77 @@
 '''
-from tkinter import *
+def dijkstra(adjacentMatrix, start, end):
+    vertexes = []
+    shortestDFS = []  # Shortest distance from start
+    previous_vertex = []
 
-def addEdge(event):
-    global click_number
-    global x1, y1
-    if click_number == 0:  # start pos before mouse is clicked
-        x1 = event.x   # start x pos of mouse
-        y1 = event.y   # start y pos of mouse
-        click_number = 1   # On next click, define x2, y2
-    else:                  # end coords when mouse is unlicked
-        x2 = event.x    # end x pos of mouse
-        y2 = event.y    # end y pos of mouse
-        draw_space.create_line(x1, y1, x2, y2, fill='black', width=10)   # Draw line with those coords
-        click_number = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line
 
-root = Tk()
-root.title("Dijkstra's Canvas by Kyle")
-draw_space = Canvas(root, width=1000, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
-draw_space.grid(row=0, column=0)  # Give the canvas coordinates
-draw_space.bind('<Button-1>', addEdge)  # Bind addEdge to mouse1
-click_number = 0
-root.mainloop()
+# Driver program
+example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+                 [4, 0, 8, 0, 0, 0, 0, 11, 0],
+                 [0, 8, 0, 7, 0, 4, 0, 0, 2],
+                 [0, 0, 7, 0, 9, 14, 0, 0, 0],
+                 [0, 0, 0, 9, 0, 10, 0, 0, 0],
+                 [0, 0, 4, 14, 10, 0, 2, 0, 0],
+                 [0, 0, 0, 0, 0, 2, 0, 1, 6],
+                 [8, 11, 0, 0, 0, 0, 1, 0, 7],
+                 [0, 0, 2, 0, 0, 0, 6, 7, 0]]
 '''
 
-'''
-from tkinter import Tk, Canvas
+import sys
 
-window = Tk()
+def minDistance(vertexes, dist, sptSet):
+    # Initilaize minimum distance for next node
+    min = sys.maxsize
 
-c = Canvas(window, width=300, height=300)
+    # Search not nearest vertex not in the
+    # shortest path tree
+    for v in range(vertexes):
+        if dist[v] < min and sptSet[v] == False:
+            min = dist[v]
+            min_index = v
 
-def clear():
-    canvas.delete(ALL)
-
-def clicked(*args):
-    print("You clicked play!")
-
-playbutton = c.create_rectangle(75, 25, 225, 75, fill="red",tags="playbutton")
-playtext = c.create_text(150, 50, text="Play", font=("Papyrus", 26), fill='blue',tags="playbutton")
-
-c.tag_bind("playbutton", "<Button-1>", clicked)
-
-c.pack()
-
-window.mainloop()
-'''
-
-'''
-example_graph = {
-    'U': {'V': 2, 'W': 5, 'X': 1},
-    'V': {'U': 2, 'X': 2, 'W': 3},
-    'W': {'V': 3, 'U': 5, 'X': 3, 'Y': 1, 'Z': 5},
-    'X': {'U': 1, 'V': 2, 'W': 3, 'Y': 1},
-    'Y': {'X': 1, 'W': 1, 'Z': 1},
-    'Z': {'W': 5, 'Y': 1},
-}
-
-print(example_graph)
+    return min_index
 
 
-from tkinter import *
+# Funtion that implements Dijkstra's single source
+# shortest path algorithm for a graph represented
+# using adjacency matrix representation
+def dijkstra(graph, vertexes, src):
+    dist = [sys.maxsize] * vertexes
+    dist[src] = 0
+    sptSet = [False] * vertexes
 
-root = Tk()
-draw_space = Canvas(root, width=1000, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
+    for cout in range(vertexes):
 
+        # Pick the minimum distance vertex from
+        # the set of vertices not yet processed.
+        # u is always equal to src in first iteration
+        u = minDistance(vertexes, dist, sptSet)
 
-draw_space.create_oval(50, 50, 500, 500, fill="green", tags='lel')
-draw_space.create_line(50, 200, 900, 700, fill='black', width=10)
-draw_space.create_line(50, 300, 900, 700, fill='black', width=10)
+        # Put the minimum distance vertex in the
+        # shotest path tree
+        sptSet[u] = True
 
-draw_space.pack()
+        # Update dist value of the adjacent vertices
+        # of the picked vertex only if the current
+        # distance is greater than new distance and
+        # the vertex in not in the shotest path tree
+        for v in range(vertexes):
+            if graph[u][v] > 0 and sptSet[v] == False and \
+                    dist[v] > dist[u] + graph[u][v]:
+                dist[v] = dist[u] + graph[u][v]
+    for node in range(vertexes):
+        print(node, dist[node])
 
-result = draw_space.find_overlapping(50, 50, 500, 500)
-print(result)
+example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+                 [4, 0, 8, 0, 0, 0, 0, 11, 0],
+                 [0, 8, 0, 7, 0, 4, 0, 0, 2],
+                 [0, 0, 7, 0, 9, 14, 0, 0, 0],
+                 [0, 0, 0, 9, 0, 10, 0, 0, 0],
+                 [0, 0, 4, 14, 10, 0, 2, 0, 0],
+                 [0, 0, 0, 0, 0, 2, 0, 1, 6],
+                 [8, 11, 0, 0, 0, 0, 1, 0, 7],
+                 [0, 0, 2, 0, 0, 0, 6, 7, 0]]
 
-draw_space.grid(row=0, column=0)  # Give the canvas coordinates
-root.mainloop()
-'''
-
-'''
-dict = {}
-x0, y0 = 100, 100
-vertexNumber = 0
-dict[vertexNumber]=(x0,y0,x0+50,y0+51)
-dict['2']=(x0,y0,x0+100,y0+101)
-
-print(dict)
-print("")
-# Tuples store coords and act as a single value to a single key in the dictionary
-# Tuples start at 0 and end at n-1
-
-if (dict[vertexNumber][1] == dict['2'][1]) is True:
-    print("This is working")
-
-print("")
-
-if (dict[vertexNumber][3] == dict['2'][3]) is False:
-    print("Oh yeah, its definitely working")
-'''
-
-'''
-vertexes = {1: [400.0, 400.0, 450.0, 450.0]}
-
-for key in vertexes:
-    print(vertexes[key][0])
-'''
-
-'''
-from tkinter import *
-
-root = Tk()
-root.title("Dijkstra's Canvas - @KyleTimmermans")
-draw_space = Canvas(root, width=1000, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
-draw_space.grid(row=0, column=0)  # Give the canvas coordinates
-
-circle = draw_space.create_oval(280, 280, 330, 330, fill="Green")
-circle2 = draw_space.create_oval(480, 480, 530, 530, fill="Green")
-line = draw_space.create_line(300, 300, 500, 500, width=5, fill="Black")
-draw_space.pack()
-vertexes = {1: (280, 280, 330, 330), 2: (480, 480, 530, 530)}
-edgeNumber = 1
-edges = {}
-
-print("Coords of Circle: ", end='')
-print(draw_space.coords(circle))
-print("Coords of Circle2: ", end='')
-print(draw_space.coords(circle2))
-print("Coords of Line: ", end='')
-print(draw_space.coords(line))
-print("ID of Circle: ", end='')
-print(circle)
-print("ID of Circle2: ", end='')
-print(circle2)
-print("ID of Line: ", end='')
-print(line)
-print("")
-
-x1, y1 = 300, 300
-x2, y2 = 500, 500
-
-
-# Checking if first part of line is in a vertex
-for key in vertexes:
-    if (vertexes[key][0] < x1 < vertexes[key][2]) == True:
-        vertexStart = key
-
-for key in vertexes:
-    if (vertexes[key][0] < x2 < vertexes[key][2]) == True:
-        vertexDestination = key
-
-edges[edgeNumber] = (vertexStart, vertexDestination)
-root.mainloop()
-print(edges)
-'''
-
-from tkinter import *
-import re
-
-vertexNumber = 2
-adjacencyMatrix = [[0]*2 for _ in range(vertexNumber)]
-
-
-def func():
-    global adjacencyMatrix
-    x = weightEntry.get()
-    x = re.sub('[^0-9]+', ' ', x).split()
-    vertex1, vertex2, weight = int(x[0]), int(x[1]), int(x[2])
-    adjacencyMatrix[vertex1 - 1][vertex2 - 1] = weight
-
-
-root = Tk()
-root.title("Dijkstra's Canvas - @KyleTimmermans")
-draw_space = Canvas(root, width=1500, height=1000, background='white')  # Canvas for drawing, make dynamic sizing in the future
-draw_space.pack()
-
-weightEntry = Entry(root)   # Weight Entry
-draw_space.create_window(462, 120, window=weightEntry)  # Draw Weight Entry
-weightInput = Button(text="Input", command=func)  # Weight Button
-draw_space.create_window(592, 120, window=weightInput)   # Draw Weight Button
-
-root.mainloop()  # Keep window open and loop all its functions
-
-print(adjacencyMatrix)
+vertexes = 9
+dijkstra(example_graph, vertexes, 0)
