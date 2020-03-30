@@ -5,12 +5,12 @@ python v3.8.2
 '''
 
 # Vertex's must be created first, then edges, 'Done' buttons
-
 # Adjacency matrix (2D Array) to store adjacency
-# Do I make it so that the user input length changes the weight or just the distance of edge is automatic?
+# Many global calls because many of these functions can't take parameters because of tkinter module
 
 from tkinter import *
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
+import re  # Splitting up input strings
 
 #############
 # Variables #
@@ -90,22 +90,30 @@ def vertexButtonSet():
 # Edge Finish Button
 def edgeButtonSet():
     global adjacencyMatrix
-    adjacencyMatrix = [[0] * vertexNumber] * vertexNumber  # Fill adjacency matrix with zeros
+    adjacencyMatrix = [[0] * (vertexNumber-10)] * (vertexNumber-10)  # Fill adjacency matrix with zeros
     draw_space.unbind("<Button 1>")
 
 # Input button next to entry field for getting weights
 def addEdgeWeight():
-    #global adjacencyMatrix
-    #get user weight from entry using get(), add to adjacencyMatrix using edges{} and vertexes{}
+    global adjacencyMatrix
+    inputValues = weightEntry.get()  # get user weight from entry using get()
+    inputValues = re.sub('[^0-9]+', ' ', inputValues).split()  # Split string up to get necessary values only, remove 'v' ',' '='  symbols
+    vertex1, vertex2, weight = int(inputValues[0]), int(inputValues[1]), int(inputValues[2])
+    adjacencyMatrix[vertex1-1][vertex2-1] = weight
+    '''
+    for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
+        if edges[key][0] == inputValues[1] and edges[key][1] == inputValues[3]:
+            adjacencyMatrix[inputValues[1]][inputValues[3]] = inputValues[4]   # Necessary values come out with index of 1,3,4
     #draw next to corresponding letter by using edges{} to determine which vertexes, then midpoint of the two vertexes referenced
-
+    # Everypoint added needs a vice-versa in the graph, can go both ways
+    '''
 
 #def dijkstra():
     #global adjacencyMatrix
     #get two vertexes user wants
     #dijkstra on adjacency matrix
     #show results in pop-up window
-    #Throw error if no weight for edge if created
+    #Throw error for edge with no weight, allow user to addEdgeWeight() to fix it
 
 ####################
 # Window / Widgets #
@@ -119,26 +127,26 @@ draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to begin pr
 
 # Widgets
 ### We have 10 widgets, they take up first ten ID Numbers, so start vertexNumber at 10
-vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('helvetica', 14))
-draw_space.create_window(126, 30, window=vertexText)
-vertexButton = Button(text="Done", command=vertexButtonSet)
-draw_space.create_window(276, 30, window=vertexButton)
-edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('helvetica', 14))
-draw_space.create_window(245, 75, window=edgeText)
-edgeButton = Button(text="Done", command=edgeButtonSet)
-draw_space.create_window(510, 75, window=edgeButton)
-weightText = Label(text='Input the weights of edges between nodes e.g. A,B=5', font=('helvetica', 14))
-draw_space.create_window(178, 120, window=weightText)
-weightEntry = Entry(root)
-draw_space.create_window(462, 120, window=weightEntry)
-weightInput = Button(text="Input")
-draw_space.create_window(592, 120, window=weightInput)
-shortpathText = Label(text="Enter the two vertexes for the shortest path you want e.g. v2,v4", font=('helvetica', 14))
-draw_space.create_window(210, 165, window=shortpathText)
-shortpathEntry = Entry(root)
-draw_space.create_window(521, 165, window=shortpathEntry)
-shortpathButton = Button(text="Show Result")
-draw_space.create_window(671, 165, window=shortpathButton)
+vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('helvetica', 14))  # Vertex Text
+draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
+vertexButton = Button(text="Done", command=vertexButtonSet)  # Vertex Button
+draw_space.create_window(276, 30, window=vertexButton)  # Draw Vertex Button
+edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('helvetica', 14))  # Edge Text
+draw_space.create_window(245, 75, window=edgeText)  # Draw Edge Text
+edgeButton = Button(text="Done", command=edgeButtonSet)  # Edge Button
+draw_space.create_window(510, 75, window=edgeButton)    # Draw Edge Button
+weightText = Label(text='Input the weights of edges between nodes e.g. A,B=5', font=('helvetica', 14))  # Weight Text
+draw_space.create_window(178, 120, window=weightText)   # Draw Weight Text
+weightEntry = Entry(root)   # Weight Entry
+draw_space.create_window(462, 120, window=weightEntry) # Draw Weight Entry
+weightInput = Button(text="Input", command=addEdgeWeight)  # Weight Button
+draw_space.create_window(592, 120, window=weightInput)   # Draw Weight Button
+shortpathText = Label(text="Enter the two vertexes for the shortest path you want e.g. v2,v4", font=('helvetica', 14))  # Short Path Text
+draw_space.create_window(210, 165, window=shortpathText)    # Draw Short Path Text
+shortpathEntry = Entry(root)    # Short Path Entry
+draw_space.create_window(521, 165, window=shortpathEntry)  # Draw Short Path Entry
+shortpathButton = Button(text="Show Result")    # Short Path Button
+draw_space.create_window(671, 165, window=shortpathButton)  # Draw Short Path Button
 
 root.mainloop()  # Keep window open and loop all its functions
 
@@ -147,3 +155,4 @@ root.mainloop()  # Keep window open and loop all its functions
 ###########
 print(vertexes)  # Testing purposes, storing vertex locations
 print(edges)     # Testing purposes, storing edges and where they start/end
+print(adjacencyMatrix)
