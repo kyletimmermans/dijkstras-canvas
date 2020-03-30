@@ -26,7 +26,6 @@ vertexes = {}       # Store vertex number and its location
 edges = {}          # Store edge and its location
 adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edited by addEdgeWeight()
 
-
 #############
 # Functions #
 #############
@@ -63,18 +62,22 @@ def addEdge(event):  # Why does *args work for this?
                 line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=("Courier", 25))
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=("Courier", 25))
+            else:
+                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=("Courier", 25))
         elif letter > 25:
             if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
                 line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=("Courier", 25))
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=("Courier", 25))
+            else:
+                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=("Courier", 25))
         draw_space.pack()  # Pack into canvas and give unique ID
         # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
         for key in vertexes:
-            if (vertexes[key][0] < x1 < vertexes[key][2]) == True:
+            if (vertexes[key][0] < x1 < vertexes[key][2]) == True and (vertexes[key][1] < y1 < vertexes[key][3]) == True:  # If at the same point, must include x and y axis, otherwise, not specific enough
                 vertexStart = key
         for key in vertexes:
-            if (vertexes[key][0] < x2 < vertexes[key][2]) == True:
+            if (vertexes[key][0] < x2 < vertexes[key][2]) == True and (vertexes[key][1] < y2 < vertexes[key][3]) == True:
                 vertexDestination = key
         edges[edgeNumber-9] = (vertexStart, vertexDestination)
         edgeNumber += 1
@@ -90,7 +93,8 @@ def vertexButtonSet():
 # Edge Finish Button
 def edgeButtonSet():
     global adjacencyMatrix
-    adjacencyMatrix = [[0] * (vertexNumber-10)] * (vertexNumber-10)  # Fill adjacency matrix with zeros
+    adjacencyMatrix = [[0] * (vertexNumber-10) for x in range(vertexNumber-10)]  # Must use list comprehension, [[0] * n] * m is just a list of references to [0]*n and will change everything
+    # Fill adjacency matrix with zeros
     draw_space.unbind("<Button 1>")
 
 # Input button next to entry field for getting weights
@@ -99,14 +103,11 @@ def addEdgeWeight():
     inputValues = weightEntry.get()  # get user weight from entry using get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()  # Split string up to get necessary values only, remove 'v' ',' '='  symbols
     vertex1, vertex2, weight = int(inputValues[0]), int(inputValues[1]), int(inputValues[2])
-    adjacencyMatrix[vertex1-1][vertex2-1] = weight
-    '''
     for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
-        if edges[key][0] == inputValues[1] and edges[key][1] == inputValues[3]:
-            adjacencyMatrix[inputValues[1]][inputValues[3]] = inputValues[4]   # Necessary values come out with index of 1,3,4
+        if edges[key][0] == vertex1 and edges[key][1] == vertex2:
+            adjacencyMatrix[vertex1-1][vertex2-1] = weight  # -1 because lists in reality, start from 0
+            # Everypoint added needs a vice-versa in the graph, can go both ways
     #draw next to corresponding letter by using edges{} to determine which vertexes, then midpoint of the two vertexes referenced
-    # Everypoint added needs a vice-versa in the graph, can go both ways
-    '''
 
 #def dijkstra():
     #global adjacencyMatrix
@@ -138,7 +139,7 @@ draw_space.create_window(510, 75, window=edgeButton)    # Draw Edge Button
 weightText = Label(text='Input the weights of edges between nodes e.g. A,B=5', font=('helvetica', 14))  # Weight Text
 draw_space.create_window(178, 120, window=weightText)   # Draw Weight Text
 weightEntry = Entry(root)   # Weight Entry
-draw_space.create_window(462, 120, window=weightEntry) # Draw Weight Entry
+draw_space.create_window(462, 120, window=weightEntry)  # Draw Weight Entry
 weightInput = Button(text="Input", command=addEdgeWeight)  # Weight Button
 draw_space.create_window(592, 120, window=weightInput)   # Draw Weight Button
 shortpathText = Label(text="Enter the two vertexes for the shortest path you want e.g. v2,v4", font=('helvetica', 14))  # Short Path Text
