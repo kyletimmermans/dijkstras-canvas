@@ -8,9 +8,9 @@ python v3.8.2
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
 from tkinter import *
-from tkinter import messagebox  # For error handeling
+from tkinter import messagebox  # For error handling
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
-import re  # Splitting up input strings
+import re  # Splitting up and sanitizing input strings
 
 #############
 # Variables #
@@ -117,7 +117,7 @@ def addEdgeWeight():
         for lst in range(len(inputValues) - 1, -1, -1):  # Got to go backwards or its like sawing off a tree branch you're sitting on
             if sorted(inputValues)[lst][0] not in edges.keys():
                 inputValues.pop(lst)  # Pop removes element from list by index, .remove() is by value
-                messagebox.warning("One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")
+                messagebox.showwarning(title="Warning", message="One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")
     for lst in inputValues: #  For list of lists of inputted weights separated by commas
         edgeName, weight = lst[0], int(lst[1])
         for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
@@ -134,16 +134,15 @@ def addEdgeWeight():
         else:
             draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
 
-#def dijkstra(graph, start, end):
+#def dijkstra(graph, start, end):   # Takes adjacencyMatrix, start vertex(as a number), end vertex(as a number)
     #Catch error handling
-    #x = re.sub('[^0-9]+', ' ', x).split()
+    #inputValues = re.sub('[^0-9a-zA-Z]+', ' ', inputValues).split()
     #global adjacencyMatrix
     #get two vertexes user wants
     #dijkstra on adjacency matrix
-    #show results in pop-up window
-    #Throw error for edge with no weight or non existant weight, allow user to addEdgeWeight() to fix it
-    #Print a label with shortest path under last widget, keep appending and placing under the last path
-    # Shortest path value: Distance: x  Path: A->B->C->D
+    #Throw error for non-existant vertex, or no-connection possible between the two vertexes, or allow user to addEdgeWeight() to fix it
+    #Print a label with shortest path under last widget, keep appending and placing under the last path, see format below
+    # show "Shortest path value: Distance: x  Path: A->B->C->D"
 
 ####################
 # Window / Widgets #
