@@ -8,6 +8,7 @@ python v3.8.2
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
 from tkinter import *
+from tkinter import messagebox  # For error handeling
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 import re  # Splitting up input strings
 
@@ -38,10 +39,14 @@ def addVertex(event):
     draw_space.pack()
     if vertexNumber == 1:  # ID's go up by odd numbers b/c be are essentially creating two objects, the circle and its textbox label
         vertexes[vertexNumber-9] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
-    else:
+        vertexNumber += 1  # increment vertex labels
+    elif vertexNumber < 45:
         vertexes[vertexNumber-9] = draw_space.coords(vertexNumber+helperNumber)  ##### Maybe not use .coords but just ID??
         helperNumber += 1  # increment and add to vertex labels so we get just the vertex circle, place here because we want it to start adding after VN=1
-    vertexNumber += 1  # increment vertex labels
+        vertexNumber += 1
+    else:
+        messagebox.showwarning(title="Warning", message="Number of vertexes limited to 52! You can now add edges to your graph.") # Handle for when we run out of vertex labels (Past lower case alphabet)
+        vertexButtonSet()  # Go straight to creating edges
 
 def addEdge(event):  # Why does *args work for this?
     global clickNumber
@@ -107,12 +112,12 @@ def addEdgeWeight():
     inputValues = [inputValues[x:x + 2] for x in range(0, len(inputValues), 2)]  # For every 2 items put them in a new list, increase x, stop at 2, repeat
     # Input one value, or multiple values separated by commas
     if len(inputValues) > len(edges.keys()):    # Input sanitation
-        messagebox.warning("More edge values declared than edges exist")
+        messagebox.showwarning(title="Warning", message="One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")  # User put too many edges in
     else:
         for lst in range(len(inputValues) - 1, -1, -1):  # Got to go backwards or its like sawing off a tree branch you're sitting on
             if sorted(inputValues)[lst][0] not in edges.keys():
                 inputValues.pop(lst)  # Pop removes element from list by index, .remove() is by value
-                messagebox.warning("Edge x does not exist")
+                messagebox.warning("One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")
     for lst in inputValues: #  For list of lists of inputted weights separated by commas
         edgeName, weight = lst[0], int(lst[1])
         for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
@@ -148,7 +153,7 @@ root.title("Dijkstra's Canvas - @KyleTimmermans")
 draw_space = Canvas(root, width=1500, height=1000, background='Floral White')  # Canvas for drawing, make dynamic sizing in the future
 draw_space.pack()
 
-draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to begin program
+draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
 # Widgets
 ### We have 10 widgets, they take up first ten ID Numbers, so start vertexNumber at 10
