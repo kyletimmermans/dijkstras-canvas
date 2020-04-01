@@ -4,8 +4,7 @@ March 18th, 2020
 python v3.8.2
 '''
 
-# Vertex's must be created first, then edges, 'Done' buttons
-# Adjacency matrix (2D Array) to store adjacency
+#
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
 from tkinter import *
@@ -104,32 +103,42 @@ def edgeButtonSet():
 def addEdgeWeight():
     global adjacencyMatrix
     inputValues = weightEntry.get()  # get user weight from entry using get()
-    # Need to get Alphabet letter of edge
     inputValues = re.sub('[^0-9a-zA-Z]+', ' ', inputValues).split()  # Space allows for correct split, instead of just no spaces
-    edgeName, weight = inputValues[0], int(inputValues[1])
-    # Catch error handling
-    for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
-        if key == edgeName:     # Get values out of edges, e.g. edges{A: [1, 2]}
-            adjacencyMatrix[edges[edgeName][0] - 1][edges[edgeName][1] - 1] = weight  # -1 because lists in reality, start from 0
-            adjacencyMatrix[edges[edgeName][1] - 1][edges[edgeName][0] - 1] = weight  # Reversed here, can travel edges both ways b/c its an undirected graph
-    point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
-    point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
-    x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
-    if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):   # Get Edge labeling correct, if same do one way, if different, do other way
-        draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2), text=weight, font=('Courier', 15))
-    elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-        draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
+    inputValues = [inputValues[x:x + 2] for x in range(0, len(inputValues), 2)]  # For every 2 items put them in a new list, increase x, stop at 2, repeat
+    # Input one value, or multiple values separated by commas
+    if len(inputValues) > len(edges.keys()):    # Input sanitation
+        messagebox.warning("More edge values declared than edges exist")
     else:
-        draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
+        for lst in range(len(inputValues) - 1, -1, -1):  # Got to go backwards or its like sawing off a tree branch you're sitting on
+            if sorted(inputValues)[lst][0] not in edges.keys():
+                inputValues.pop(lst)  # Pop removes element from list by index, .remove() is by value
+                messagebox.warning("Edge x does not exist")
+    for lst in inputValues: #  For list of lists of inputted weights separated by commas
+        edgeName, weight = lst[0], int(lst[1])
+        for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
+            if key == edgeName:     # Get values out of edges, e.g. edges{A: [1, 2]}
+                adjacencyMatrix[edges[edgeName][0] - 1][edges[edgeName][1] - 1] = weight  # -1 because lists in reality, start from 0
+                adjacencyMatrix[edges[edgeName][1] - 1][edges[edgeName][0] - 1] = weight  # Reversed here, can travel edges both ways b/c its an undirected graph
+        point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
+        point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
+        x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
+        if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):   # Get Edge labeling correct, if same do one way, if different, do other way
+            draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+        elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+            draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
+        else:
+            draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
 
-#def dijkstra():
+#def dijkstra(graph, start, end):
     #Catch error handling
     #x = re.sub('[^0-9]+', ' ', x).split()
     #global adjacencyMatrix
     #get two vertexes user wants
     #dijkstra on adjacency matrix
     #show results in pop-up window
-    #Throw error for edge with no weight, allow user to addEdgeWeight() to fix it
+    #Throw error for edge with no weight or non existant weight, allow user to addEdgeWeight() to fix it
+    #Print a label with shortest path under last widget, keep appending and placing under the last path
+    # Shortest path value: Distance: x  Path: A->B->C->D
 
 ####################
 # Window / Widgets #
@@ -151,14 +160,14 @@ edgeText = Label(text='Input Edges by left clicking the start vertex and then th
 draw_space.create_window(245, 75, window=edgeText)  # Draw Edge Text
 edgeButton = Button(text='Done', command=edgeButtonSet, background='Floral White')  # Edge Button
 draw_space.create_window(510, 75, window=edgeButton)    # Draw Edge Button
-weightText = Label(text='Input the weights of edges between nodes e.g. A=7 (Case-Sensitive)', font=('Helvetica', 14), background='Floral White')  # Weight Text
-draw_space.create_window(225, 120, window=weightText)   # Draw Weight Text
+weightText = Label(text='Input the weights of edges between nodes e.g. A=7, B=8 (Case-Sensitive)', font=('Helvetica', 14), background='Floral White')  # Weight Text
+draw_space.create_window(241, 120, window=weightText)   # Draw Weight Text
 weightEntry = Entry(root)   # Weight Entry
-draw_space.create_window(550, 120, window=weightEntry)  # Draw Weight Entry
+draw_space.create_window(589, 120, window=weightEntry)  # Draw Weight Entry
 weightInput = Button(text='Input', command=addEdgeWeight, background='Floral White')  # Weight Button
-draw_space.create_window(675, 120, window=weightInput)   # Draw Weight Button
+draw_space.create_window(715, 120, window=weightInput)   # Draw Weight Button
 shortpathText = Label(text='Enter the two vertexes for the shortest path you want e.g. v2,v4', font=('Helvetica', 14), background='Floral White')  # Short Path Text
-draw_space.create_window(210, 165, window=shortpathText)    # Draw Short Path Text
+draw_space.create_window(209, 165, window=shortpathText)    # Draw Short Path Text
 shortpathEntry = Entry(root)    # Short Path Entry
 draw_space.create_window(521, 165, window=shortpathEntry)  # Draw Short Path Entry
 shortpathButton = Button(text='Show Result', background='Floral White')    # Short Path Button
