@@ -20,15 +20,15 @@ example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
 import sys
 
 # Can we place mindistance inside of dijstkra() ?
-def minDistance(vertexes, dist, sptSet):
+def minDistance(vertexes, distance, shortestPathTree):
     # Initilaize minimum distance for next node
     min = sys.maxsize
 
     # Search not nearest vertex not in the
     # shortest path tree
     for v in range(vertexes):
-        if dist[v] < min and sptSet[v] == False:
-            min = dist[v]
+        if distance[v] < min and shortestPathTree[v] is False:
+            min = distance[v]
             min_index = v
 
     return min_index
@@ -37,32 +37,32 @@ def minDistance(vertexes, dist, sptSet):
 # Funtion that implements Dijkstra's single source
 # shortest path algorithm for a graph represented
 # using adjacency matrix representation
-def dijkstra(graph, vertexes, src):
-    dist = [sys.maxsize] * vertexes
-    dist[src] = 0
-    sptSet = [False] * vertexes
+def dijkstra(graph, vertexes, source):
+    distance = [sys.maxsize] * vertexes
+    distance[source] = 0   # Distance from source
+    shortestPathTree = [False] * vertexes
 
-    for cout in range(vertexes):
+    for output in range(vertexes):
 
         # Pick the minimum distance vertex from
         # the set of vertices not yet processed.
         # u is always equal to src in first iteration
-        u = minDistance(vertexes, dist, sptSet)
+        u = minDistance(vertexes, distance, shortestPathTree)
 
         # Put the minimum distance vertex in the
-        # shotest path tree
-        sptSet[u] = True
+        # Shortest path tree
+        shortestPathTree[u] = True
 
         # Update dist value of the adjacent vertices
         # of the picked vertex only if the current
         # distance is greater than new distance and
-        # the vertex in not in the shotest path tree
+        # the vertex in not in the Shortest path tree
         for v in range(vertexes):
-            if graph[u][v] > 0 and sptSet[v] == False and \
-                    dist[v] > dist[u] + graph[u][v]:
-                dist[v] = dist[u] + graph[u][v]
+            if graph[u][v] > 0 and shortestPathTree[v] == False and \
+                    distance[v] > distance[u] + graph[u][v]:
+                distance[v] = distance[u] + graph[u][v]
     for node in range(vertexes):
-        print(node, dist[node])
+        print(node, distance[node])
 
 example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
                  [4, 0, 8, 0, 0, 0, 0, 11, 0],
