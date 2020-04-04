@@ -1,68 +1,33 @@
 '''
-def dijkstra(adjacentMatrix, start, end):
-    vertexes = []
-    shortestDFS = []  # Shortest distance from start
-    previous_vertex = []
-
-
-# Driver program
-example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
-                 [4, 0, 8, 0, 0, 0, 0, 11, 0],
-                 [0, 8, 0, 7, 0, 4, 0, 0, 2],
-                 [0, 0, 7, 0, 9, 14, 0, 0, 0],
-                 [0, 0, 0, 9, 0, 10, 0, 0, 0],
-                 [0, 0, 4, 14, 10, 0, 2, 0, 0],
-                 [0, 0, 0, 0, 0, 2, 0, 1, 6],
-                 [8, 11, 0, 0, 0, 0, 1, 0, 7],
-                 [0, 0, 2, 0, 0, 0, 6, 7, 0]]
+Function should look like: dijkstra(graph, start, end)
+Should move from print path A->B->C and distance number
 '''
 
 import sys
 
-# Can we place mindistance inside of dijstkra() ?
-def minDistance(vertexes, distance, shortestPathTree):
-    # Initilaize minimum distance for next node
-    min = sys.maxsize
+# Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
+def dijkstra(graph, start):
+    vertexes = len(graph)
+    distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
+    distance[start] = 0   # Initialize source to be 0
+    visited = [False] * vertexes  # Visited array initialized to not visited
 
-    # Search not nearest vertex not in the
-    # shortest path tree
-    for v in range(vertexes):
-        if distance[v] < min and shortestPathTree[v] is False:
-            min = distance[v]
-            min_index = v
+    for i in range(vertexes):
+        minDistance = sys.maxsize + 1  # Impossible to be at, so its automatically the largest
+        for length in range(vertexes):  # Return smallest distance of a row
+            if distance[length] < minDistance and visited[length] is False:
+                minDistance = distance[length]
+                vertex = length  # vertex = the index of the smallest distance in a row(vertex)
+        print("u = " + str(vertex) + " | minDinstance(vertexes=" + str(vertexes) + ", distance=" + str(distance) + ", visited=" + str(visited))
 
-    return min_index
+        visited[vertex] = True  # Mark vertex as visited
 
-
-# Funtion that implements Dijkstra's single source
-# shortest path algorithm for a graph represented
-# using adjacency matrix representation
-def dijkstra(graph, vertexes, source):
-    distance = [sys.maxsize] * vertexes
-    distance[source] = 0   # Distance from source
-    shortestPathTree = [False] * vertexes
-
-    for output in range(vertexes):
-
-        # Pick the minimum distance vertex from
-        # the set of vertices not yet processed.
-        # u is always equal to src in first iteration
-        u = minDistance(vertexes, distance, shortestPathTree)
-
-        # Put the minimum distance vertex in the
-        # Shortest path tree
-        shortestPathTree[u] = True
-
-        # Update dist value of the adjacent vertices
-        # of the picked vertex only if the current
-        # distance is greater than new distance and
-        # the vertex in not in the Shortest path tree
-        for v in range(vertexes):
-            if graph[u][v] > 0 and shortestPathTree[v] == False and \
-                    distance[v] > distance[u] + graph[u][v]:
-                distance[v] = distance[u] + graph[u][v]
+        for length in range(vertexes):  # For each distance in a row(vertex)
+            if graph[vertex][length] > 0 and visited[length] is False and distance[length] > distance[vertex] + graph[vertex][length]:
+                distance[length] = distance[vertex] + graph[vertex][length]  # Add smallest distances
     for node in range(vertexes):
         print(node, distance[node])
+
 
 example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
                  [4, 0, 8, 0, 0, 0, 0, 11, 0],
@@ -76,5 +41,6 @@ example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
 
 vertexes = 9
 
-# adjacentMatrix, vertex#, source vertex/row
-dijkstra(example_graph, vertexes, 0)
+#adjacentMatrix, vertex#, source vertex/row
+dijkstra(example_graph, 0)
+
