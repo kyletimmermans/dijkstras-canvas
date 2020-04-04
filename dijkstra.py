@@ -62,7 +62,7 @@ def dijkstra(graph, start, end):
             if distance[length] < minDistance and visited[length] is False:
                 minDistance = distance[length]
                 vertex = length  # vertex = the index of the smallest distance in a row(vertex)
-        # Every time, we see this point, vertex is increased because it is visited
+        # Every time, we see this point, vertex is increased because the last vertex is marked as visited, and we move to the next one
 
         visited[vertex] = True  # Mark vertex as visited
 
