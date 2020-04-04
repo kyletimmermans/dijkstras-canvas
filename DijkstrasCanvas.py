@@ -2,9 +2,11 @@
 Kyle Timmermans
 March 18th, 2020
 python v3.8.2
+
+Fix weight labeling when x and y are greater than point 1
+For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
 '''
 
-#
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
 from tkinter import *
@@ -128,7 +130,7 @@ def addEdgeWeight():
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
         if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):   # Get Edge labeling correct, if same do one way, if different, do other way
-            draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            draw_space.create_text((((x1 + x2) / 2) + 20), (((y1 + y2) / 2) - 20), text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
             draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
         else:
