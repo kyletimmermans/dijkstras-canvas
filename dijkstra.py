@@ -7,9 +7,25 @@ path.append()
 
 import sys
 path = []
+vertexes = 9
+adjacencyMatrix = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+                 [4, 0, 8, 0, 0, 0, 0, 11, 0],
+                 [0, 8, 0, 7, 0, 4, 0, 0, 2],
+                 [0, 0, 7, 0, 9, 14, 0, 0, 0],
+                 [0, 0, 0, 9, 0, 10, 0, 0, 0],
+                 [0, 0, 4, 14, 10, 0, 2, 0, 0],
+                 [0, 0, 0, 0, 0, 2, 0, 1, 6],
+                 [8, 11, 0, 0, 0, 0, 1, 0, 7],
+                 [0, 0, 2, 0, 0, 0, 6, 7, 0]]
+start = 1
+end = 9
+
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
-def dijkstra(graph, start, end):
+def dijkstra():
+    global vertexes, start, end, adjacencyMatrix
+    start = start - 1
+    graph = adjacencyMatrix
     vertexes = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
@@ -44,23 +60,10 @@ def dijkstra(graph, start, end):
     getPath(parent, end-1)  # Execute getPath here, for start to end
     print(path)
 
-    for node in range(vertexes):
-        print("Vertex = "+str(node)+"|", distance[node])
+    print("node="+str(start)+" distance="+str(distance[end-1]))
 
-
-example_graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
-                 [4, 0, 8, 0, 0, 0, 0, 11, 0],
-                 [0, 8, 0, 7, 0, 4, 0, 0, 2],
-                 [0, 0, 7, 0, 9, 14, 0, 0, 0],
-                 [0, 0, 0, 9, 0, 10, 0, 0, 0],
-                 [0, 0, 4, 14, 10, 0, 2, 0, 0],
-                 [0, 0, 0, 0, 0, 2, 0, 1, 6],
-                 [8, 11, 0, 0, 0, 0, 1, 0, 7],
-                 [0, 0, 2, 0, 0, 0, 6, 7, 0]]
-
-vertexes = 9
 
 #adjacentMatrix, vertex#, source vertex/row
-dijkstra(example_graph, 0, 9)
+dijkstra()
 
 # path for 0 to 9: 0->1->2->8
