@@ -4,13 +4,13 @@ March 18th, 2020
 python v3.8.2
 
 #ToDo:
-    Adjust coords for placing in weightValues for edges so they are closer to the edges
-    For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
-    Add Reset Button for when people want to make a new graph without
-    Fix print shortest path:
+    1. Fix print shortest path in dijkstra()
         -Make sure it takes start and end properly
             -First vertex is 1, not 0, so make changes accordingly
         -Make print font, start point, and everything prettier
+    2. Add Reset Button for when people want to make a new graph without
+    3. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
+    4. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
