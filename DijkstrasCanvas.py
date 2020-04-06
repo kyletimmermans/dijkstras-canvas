@@ -171,7 +171,7 @@ def dijkstra():
                 parent[dist] = vertex   # Why does this line work
     path = []  # Reset path so it doesn't add the last pass's data, bc path is global
     # How does this work
-    def getPath(parent, j):  # Recurse through parent array and append to path
+    def getPath(parent, j):  # Recurse through parent array and append vertexes to path
         global path
         if parent[j] == -1:
             path.append(j)
@@ -184,19 +184,25 @@ def dijkstra():
     path_string = ""  # Initialize path with arrows string
     for i in range(len(path)):  # Create arrow path, if last value, don't place in so no hanging arrows
         if i != len(path) - 1:
-            path_string += str(path[i]+1) + "-->"
+            path_string += str(path[i]+1) + "-->"  # Needs a +1 for some reason
         else:
             path_string += str(path[i]+1)
     final_string = "v"+str(start+1)+" to v"+str(end)+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output
     finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
     textCounterVertical += 20
-    draw_space.create_window(120, textCounterVertical, window=finalLabel)
+    stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
+    for length in range(len(final_string)):
+        if length > 37:   # 37 is smallest possible string length
+            stringSize+4  # Add 4 more spaces to adjust for a new character, everytime we are over the smallest point
+    draw_space.create_window(120+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
 
 
 def resetGraph():
     i = "hey"
-    #delete all ovals, delete all lines
+    #delete all ovals, delete all lines, maybe label all lines with a tag too?
+    #remove all dijsktra() calculations, maybe give those labels a tag too?
     #draw_space.bind('<Button-1>', addVertex)
+
 
 
 ####################
