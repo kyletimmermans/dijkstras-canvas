@@ -24,7 +24,6 @@ end = 9
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
 def dijkstra():
     global vertexes, start, end, adjacencyMatrix
-    start = start - 1
     graph = adjacencyMatrix
     vertexes = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
