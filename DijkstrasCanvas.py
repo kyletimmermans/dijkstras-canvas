@@ -4,10 +4,7 @@ March 18th, 2020
 python v3.8.2
 
 #ToDo:
-    1. Fix print shortest path in dijkstra()
-        -Make sure it takes start and end properly
-            -First vertex is 1, not 0, so make changes accordingly
-        -Make print font, start point, and everything prettier
+    1. Fix print shortest path in dijkstra() so its window-x-value is dynamic depending on the size of the path
     2. Add Reset Button for when people want to make a new graph without
     3. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
     4. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
@@ -36,7 +33,7 @@ edges = {}          # Store edge and its location
 adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edited by addEdgeWeight()
 path = []  # Store shortest path vertexes
 start, end = 0, 0   # Init start and end to be used with the button
-textCounterVertical = 165  # farthest-element-down-the-page's' y-value so we know where to start printing the dijkstra values
+textCounterVertical = 175  # farthest-element-down-the-page's' y-value so we know where to start printing the dijkstra values
 
 #############
 # Functions #
@@ -149,11 +146,11 @@ def addEdgeWeight():
 # Everytime we call, we can change the start position and get all the distances
 # Only want the distance from start to end, and its path
 def dijkstra():
-    global vertexes, start, end, adjacencyMatrix, textCounterVertical
+    global vertexes, start, end, adjacencyMatrix, path, textCounterVertical
     graph = adjacencyMatrix
     inputValues = shortpathEntry.get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()
-    start, end = int(inputValues[0])+1, int(inputValues[1]) # +1 because our vertexes start from 1 and not 0
+    start, end = int(inputValues[0])-1, int(inputValues[1])  # -1 because our vertexes start from 1, but arrays in reality start from 0. Same for end
     vertexes = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
@@ -167,12 +164,13 @@ def dijkstra():
                 vertex = length  # vertex = the index of the smallest distance in a row(vertex)
         # Every time, we see this point, vertex is increased because the last vertex is marked as visited, and we move to the next one
         visited[vertex] = True  # Mark vertex as visited
-        ########################################## Why does this part work ##########################################################
+        # Why does this part work
         for dist in range(vertexes):  # For each distance in a row(vertex)
             if graph[vertex][dist] > 0 and visited[length] is False and distance[dist] > distance[vertex] + graph[vertex][dist]:
                 distance[dist] = distance[vertex] + graph[vertex][dist]  # Add smallest distance
-                parent[dist] = vertex  ####### Why does this line work #######
-        #############################################################################################################################
+                parent[dist] = vertex   # Why does this line work
+    path = []  # Reset path so it doesn't add the last pass's data, bc path is global
+    # How does this work
     def getPath(parent, j):  # Recurse through parent array and append to path
         global path
         if parent[j] == -1:
@@ -186,13 +184,13 @@ def dijkstra():
     path_string = ""  # Initialize path with arrows string
     for i in range(len(path)):  # Create arrow path, if last value, don't place in so no hanging arrows
         if i != len(path) - 1:
-            path_string += str(path[i]) + "->"
+            path_string += str(path[i]+1) + "-->"
         else:
-            path_string += str(path[i])
-    final_string = "v"+str(start)+" to v"+str(end-1)+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output
-    finalLabel = Label(text=final_string, font=('Times', 12), background='Floral White')
+            path_string += str(path[i]+1)
+    final_string = "v"+str(start+1)+" to v"+str(end)+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output
+    finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
     textCounterVertical += 20
-    draw_space.create_window(100, textCounterVertical, window=finalLabel)
+    draw_space.create_window(120, textCounterVertical, window=finalLabel)
 
 
 def resetGraph():
