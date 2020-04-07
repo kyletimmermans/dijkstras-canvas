@@ -1,14 +1,16 @@
 '''
 Kyle Timmermans
 March 18th, 2020
-python v3.8.2
+compiled in python v3.8.2
 
-#ToDo:
-    1. Change where shortest paths print to
-    2. Fix print shortest path in dijkstra() so its window-x-value is dynamic depending on the size of the path
-    3. Add Reset Button for when people want to make a new graph without
-    4. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
-    5. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
+ToDo:
+    1. Fix reverse dijkstra(), e.g. v2,v1 instead of of v1,v2. It gives a huge value for the distance
+        -Has to do with start and end, and math like start+1 and end-1
+    2. Dijkstra() error handling
+    3. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
+    4. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
+        -Especially when x1<x2 and y1<y2
+    5. Add Reset Button for when people want to make a new graph without closing window
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -194,9 +196,13 @@ def dijkstra():
     textCounterVertical += 20
     stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
     for length in range(len(final_string)):
-        if length > 37:   # 37 is smallest possible string length
-            stringSize+4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
-    draw_space.create_window(825+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
+        if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
+            stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
+            if length == len(final_string)-1:
+                stringSize += 1  # Needs an extra 2 pixels at the end to look uniform with others
+    print("stringSize = "+str(stringSize))
+    draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
+    # 884 is for when the string is smallest
 
 
 def resetGraph():
