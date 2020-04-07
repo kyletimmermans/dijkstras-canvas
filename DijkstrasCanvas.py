@@ -4,16 +4,18 @@ March 18th, 2020
 python v3.8.2
 
 #ToDo:
-    1. Fix print shortest path in dijkstra() so its window-x-value is dynamic depending on the size of the path
-    2. Add Reset Button for when people want to make a new graph without
-    3. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
-    4. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
+    1. Change where shortest paths print to
+    2. Fix print shortest path in dijkstra() so its window-x-value is dynamic depending on the size of the path
+    3. Add Reset Button for when people want to make a new graph without
+    4. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
+    5. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
-from tkinter import *
+from tkinter import *  # Import all widgets, canvas, etc
 from tkinter import messagebox  # For error handling
+from tkinter import font  # For custom font (Bold, Underline)
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 import re  # Splitting up and sanitizing input strings
 import sys  # Used for sys.maxsize
@@ -24,7 +26,7 @@ import sys  # Used for sys.maxsize
 alphabet1 = ascii_uppercase
 alphabet2 = ascii_lowercase
 letter = 0
-vertexNumber = 11    # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
+vertexNumber = 12   # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
 helperNumber = 1
 edgeNumber = vertexNumber  # Continue numbering shapes after vertexes are placed
 clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
@@ -33,7 +35,7 @@ edges = {}          # Store edge and its location
 adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edited by addEdgeWeight()
 path = []  # Store shortest path vertexes
 start, end = 0, 0   # Init start and end to be used with the button
-textCounterVertical = 175  # farthest-element-down-the-page's' y-value so we know where to start printing the dijkstra values
+textCounterVertical = 25  # farthest-element-down-the-page's' y-value so we know where to start printing the dijkstra values
 
 #############
 # Functions #
@@ -43,13 +45,13 @@ def addVertex(event):
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
     vertex = draw_space.create_oval(x0, y0, x0+50, y0+50, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
-    vertex_text = draw_space.create_text((x0+25, y0+25), text=vertexNumber-10, tags='vertex')  # +25 to get to the center of a 50 circle
+    vertex_text = draw_space.create_text((x0+25, y0+25), text=vertexNumber-11, tags='vertex')  # +25 to get to the center of a 50 circle
     draw_space.pack()
     if vertexNumber == 1:  # ID's go up by odd numbers b/c be are essentially creating two objects, the circle and its textbox label
-        vertexes[vertexNumber-10] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
+        vertexes[vertexNumber-11] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
         vertexNumber += 1  # increment vertex labels
     elif vertexNumber < 45:
-        vertexes[vertexNumber-10] = draw_space.coords(vertexNumber+helperNumber)
+        vertexes[vertexNumber-11] = draw_space.coords(vertexNumber+helperNumber)
         helperNumber += 1  # increment and add to vertex labels so we get just the vertex circle, place here because we want it to start adding after VN=1
         vertexNumber += 1
     else:
@@ -105,7 +107,7 @@ def vertexButtonSet():
 # Edge Finish Button
 def edgeButtonSet():
     global adjacencyMatrix
-    adjacencyMatrix = [[0] * (vertexNumber-11) for x in range(vertexNumber-11)]  # Must use list comprehension, [[0] * n] * m is just a list of references to [0]*n and will change everything
+    adjacencyMatrix = [[0] * (vertexNumber-12) for x in range(vertexNumber-12)]  # Must use list comprehension, [[0] * n] * m is just a list of references to [0]*n and will change everything
     # Fill adjacency matrix with zeros
     draw_space.unbind('<Button 1>')
 
@@ -193,14 +195,19 @@ def dijkstra():
     stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
     for length in range(len(final_string)):
         if length > 37:   # 37 is smallest possible string length
-            stringSize+4  # Add 4 more spaces to adjust for a new character, everytime we are over the smallest point
-    draw_space.create_window(120+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
+            stringSize+4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
+    draw_space.create_window(825+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
 
 
 def resetGraph():
     i = "hey"
     #delete all ovals, delete all lines, maybe label all lines with a tag too?
     #remove all dijsktra() calculations, maybe give those labels a tag too?
+    #Init variables back to default
+    #letter = 0, vertexNumber = 12, edgeNumber = vertexNumber, clickNumber = 0, start = 0, end = 0
+    #Init dicts and lists to empty
+    #vertexes = {}, edges = {}, adjacencyMatrix = [], path=[]
+    #Start back to placing vertexes
     #draw_space.bind('<Button-1>', addVertex)
 
 
@@ -216,9 +223,10 @@ draw_space.pack()
 draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
 # Widgets
-### We have 11 widgets, they take up first eleven ID Numbers, so start vertexNumber at 11
+### We have 12 widgets, they take up first eleven ID Numbers, so start vertexNumber at 12
 ### Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
-### Search for "-11" or -"whatever number of widgets there are"
+### Search for "-12" or -"whatever number of widgets there are"
+### Fix everything in addVertex() and addEdgeWeight() when adding another widget
 vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), background='Floral White')  # Vertex Text
 draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
 vertexButton = Button(text='Done', command=vertexButtonSet, background='Floral White')  # Vertex Button
@@ -241,6 +249,9 @@ shortpathButton = Button(text='Show Result', command=dijkstra, background='Flora
 draw_space.create_window(671, 165, window=shortpathButton)  # Draw Short Path Button
 resetButton = Button(text='Reset Canvas', command=resetGraph, background='Floral White')  # Reset Button
 draw_space.create_window(500, 30, window=resetButton)  # Draw Reset Button
+custFont = font.Font(family='Helvetica', size=15, weight='bold', underline=1)  # Custom Font
+resultTitle = Label(text='Shortest Paths', font=custFont, background='Floral White')  # Result Title (Bold, Underlined)
+draw_space.create_window(825, 25, window=resultTitle)  # Draw Result Title
 
 root.mainloop()  # Keep window open and loop all its functions
 
