@@ -15,9 +15,8 @@ ToDo:
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
-from tkinter import *  # Import all widgets, canvas, etc
-from tkinter import messagebox  # For error handling
-from tkinter import font  # For custom font (Bold, Underline)
+from tkinter import *
+from tkinter import messagebox, font  # Import all widgets, canvas, etc
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 import re  # Splitting up and sanitizing input strings
 import sys  # Used for sys.maxsize
@@ -37,7 +36,7 @@ edges = {}          # Store edge and its location
 adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edited by addEdgeWeight()
 path = []  # Store shortest path vertexes
 start, end = 0, 0   # Init start and end to be used with the button
-textCounterVertical = 25  # farthest-element-down-the-page's' y-value so we know where to start printing the dijkstra values
+textCounterVertical = 25  # y-value to place shortest paths, incremented in dijkstra() so we can have a clean list
 
 #############
 # Functions #

@@ -17,8 +17,8 @@ adjacencyMatrix = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
                  [0, 0, 0, 0, 0, 2, 0, 1, 6],
                  [8, 11, 0, 0, 0, 0, 1, 0, 7],
                  [0, 0, 2, 0, 0, 0, 6, 7, 0]]
-start = 1
-end = 9
+start = 9
+end = 1
 
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
@@ -27,13 +27,13 @@ def dijkstra():
     graph = adjacencyMatrix
     vertexes = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
-    distance[start] = 0   # Initialize source to be 0
+    distance[start-1] = 0   # Initialize source to be 0
     visited = [False] * vertexes  # Visited array initialized to not visited
     parent = [-1] * vertexes  # Parent array of previous vertexes to store shortest path tree, see:  path[dist] = vertex
 
-    for nextVertex in range(vertexes):  # For all vertexes
+    for nextVertex in range(vertexes-1, -1, -1):  # For all vertexes
         minDistance = sys.maxsize + 1  # Impossible to be at, so its automatically the largest
-        for length in range(vertexes):  # Return smallest distance of a row  # Return
+        for length in range(vertexes-1, -1, -1):  # Return smallest distance of a row  # Return
             if distance[length] < minDistance and visited[length] is False:
                 minDistance = distance[length]
                 vertex = length  # vertex = the index of the smallest distance in a row(vertex)
