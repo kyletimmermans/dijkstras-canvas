@@ -17,8 +17,8 @@ ToDo:
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
-from tkinter import *
-from tkinter import messagebox, font  # Import all widgets, canvas, etc
+from tkinter import *  # Import all widgets, canvas, etc
+from tkinter import messagebox, font  # messagebox warnings, custom font
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 import re  # Splitting up and sanitizing input strings
 import sys  # Used for sys.maxsize
