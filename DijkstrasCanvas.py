@@ -4,7 +4,6 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    - Click fix
     1. Dijkstra() error handling
         - If vertex not found
     2. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
@@ -43,10 +42,11 @@ textCounterVertical = 25  # y-value to place shortest paths, incremented in dijk
 #############
 def addVertex(event):
     global vertexNumber, helperNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now  # helperNumber: Need a dynamic number to add to vertex number
-    x0 = event.x    # Current X-Coord for mouse click, with click fix
-    y0 = event.y    # Current Y-Coord for mouse click, with click fix
-    vertex = draw_space.create_oval(x0, y0, x0+50, y0+50, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
-    vertex_text = draw_space.create_text((x0+25, y0+25), text=vertexNumber-11, tags='vertex')  # +25 to get to the center of a 50 circle
+    x0 = event.x    # Current X-Coord for mouse click
+    y0 = event.y    # Current Y-Coord for mouse click
+    # -25s and +25s to ensure the tip of the pointer is the center of the created circle
+    vertex = draw_space.create_oval(x0-25, y0-25, x0+25, y0+25, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
+    vertex_text = draw_space.create_text(x0, y0, text=vertexNumber-11, tags='vertex')  # +25 to get to the center of a 50 circle
     draw_space.pack()
     if vertexNumber == 1:  # ID's go up by odd numbers b/c be are essentially creating two objects, the circle and its textbox label
         vertexes[vertexNumber-11] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
