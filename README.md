@@ -1,20 +1,16 @@
 # <div align="center">Dijkstra's Canvas</div>
 
-Table of contents
+"Gist of program here"
+
+Table of Contents
 =================
 
 <!--ts-->
-   * [gh-md-toc](#gh-md-toc)
-   * [Table of contents](#table-of-contents)
-   * [Installation](#installation)
+   * [Who is Dijkstra?](#gh-md-toc)
+      * [Dijkstra's Algorithm](#dijkstras-algorithm)
+      * [Pseudocode](#pseudocode)
+   * [Installation](#table-of-contents)
    * [Usage](#usage)
-      * [STDIN](#stdin)
-      * [Local files](#local-files)
-      * [Remote files](#remote-files)
-      * [Multiple files](#multiple-files)
-      * [Combo](#combo)
-      * [Auto insert and update TOC](#auto-insert-and-update-toc)
-      * [GitHub token](#github-token)
-   * [Tests](#tests)
-   * [Dependency](#dependency)
+      * [Example](#stdin)
+      * [Errors](#local-files)
 <!--te-->
