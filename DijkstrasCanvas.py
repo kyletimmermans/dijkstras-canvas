@@ -11,7 +11,7 @@ ToDo:
         - If vertex not found
     2. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
     3. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
-        -Especially when x1<x2 and y1<y2
+        -Especially when x1<x2 and y1<y2, look at the other cases that print well on canvas
     4. Add Reset Button for when people want to make a new graph without closing window
 '''
 
@@ -155,10 +155,15 @@ def dijkstra():
     graph = adjacencyMatrix
     inputValues = shortpathEntry.get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()
-    if int(inputValues[1]) > int(inputValues[0]):  # Allows for v2,v1 instead of v1,v2. Allows us to go backwards
+    # Error Handling - Chop off extra values if there
+    # Error Handling - if vertex not found
+    #if vertex == found:
+    if int(inputValues[1]) > int(inputValues[0]):
         start, end = int(inputValues[0]) - 1, int(inputValues[1])
-    elif int(inputValues[0]) > int(inputValues[1]):   # if start > end
+    elif int(inputValues[0]) > int(inputValues[1]):   # if start > end, Allows for v2,v1 instead of v1,v2. Allows us to go backwards
         start, end = int(inputValues[1]) - 1, int(inputValues[0])
+    #elif == vertex does not exist:
+       # print path None and distance 0
     vertexes = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
@@ -196,17 +201,27 @@ def dijkstra():
             path_string += str(path[i]+1) + "-->"  # Needs a +1 for some reason
         else:
             path_string += str(path[i]+1)
-    final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, check original input
-    finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
-    textCounterVertical += 20
-    stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
-    for length in range(len(final_string)):
-        if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
-            stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
-            if length == len(final_string)-1:
-                stringSize += 1  # Needs an extra 2 pixels at the end to look uniform with others
-    draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
-    # 884 is for when the string is smallest
+    # Error Handling, starting with normal cases
+    if distance[end-1] < sys.maxsize and (start != end):  # Normal and backwards cases, has a connection, and not going to itself
+        final_string = "v"+str(start)+" to v"+str(end)+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, check original input
+        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
+        textCounterVertical += 20
+        stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
+        for length in range(len(final_string)):
+            if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
+                stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
+                if length == len(final_string)-1:
+                    stringSize += 1  # Needs an extra 2 pixels at the end to look uniform with others
+        draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
+        # 884 is for when the string is smallest
+   #elif distance[end-1] > sys.maxsize:  # If no connection found
+
+
+
+
+
+
+
 
 
 def resetGraph():
