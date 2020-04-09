@@ -4,18 +4,16 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Dijkstra() error handling
-        - If vertex not found
-    2. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
-    3. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
+    1. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
+    2. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
         -Especially when x1<x2 and y1<y2, look at the other cases that print well on canvas
-    4. Add Reset Button for when people want to make a new graph without closing window
+    3. Add Reset Button for when people want to make a new graph without closing window
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
 
 from tkinter import *  # Import all widgets, canvas, etc
-from tkinter import messagebox, font  # messagebox warnings, custom font
+from tkinter import messagebox, font  # Messagebox warnings, custom font
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 import re  # Splitting up and sanitizing input strings
 import sys  # Used for sys.maxsize
@@ -153,30 +151,31 @@ def dijkstra():
     graph = adjacencyMatrix
     inputValues = shortpathEntry.get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()
-    # Error Handling - Chop off extra values if there
-    # Error Handling - if vertex not found
-    #if vertex == found:
-    if int(inputValues[1]) > int(inputValues[0]):
-        start, end = int(inputValues[0]) - 1, int(inputValues[1])
-    elif int(inputValues[0]) > int(inputValues[1]):   # if start > end, Allows for v2,v1 instead of v1,v2. Allows us to go backwards
-        start, end = int(inputValues[1]) - 1, int(inputValues[0])
-    #elif == vertex does not exist:
-       # print path None and distance 0
-    vertexes = len(graph)  # -1 or +1, do we start at 0 in the graph?
-    distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
+    # Error Handling - Chop off extra values if there are
+    if (int(inputValues[0]) and int(inputValues[1])) in vertexes.keys():    # Error Handling - If vertex(es) not found
+        if int(inputValues[1]) > int(inputValues[0]):
+            start, end = int(inputValues[0]) - 1, int(inputValues[1])
+        elif int(inputValues[0]) > int(inputValues[1]):   # if start > end, Allows for v2,v1 instead of v1,v2. Allows us to go backwards
+            start, end = int(inputValues[1]) - 1, int(inputValues[0])
+    else:
+        messagebox.showwarning(title="Warning", message="One or neither of the vertexes entered, exist!")
+        return  # Show warning and backout of function
+        # print path None and distance 0
+    vertexesLocal = len(graph)  # -1 or +1, do we start at 0 in the graph?
+    distance = [sys.maxsize+1] * vertexesLocal  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
-    visited = [False] * vertexes  # Visited array initialized to not visited
-    parent = [-1] * vertexes  # Parent array of previous vertexes to store shortest path tree, see:  path[dist] = vertex
-    for nextVertex in range(vertexes):  # For all vertexes
+    visited = [False] * vertexesLocal  # Visited array initialized to not visited
+    parent = [-1] * vertexesLocal  # Parent array of previous vertexes to store shortest path tree, see:  path[dist] = vertex
+    for nextVertex in range(vertexesLocal):  # For all vertexes
         minDistance = sys.maxsize + 1  # Impossible to be at, so its automatically the largest
-        for length in range(vertexes):  # Return smallest distance of a row  # Return
+        for length in range(vertexesLocal):  # Return smallest distance of a row  # Return
             if distance[length] < minDistance and visited[length] is False:
                 minDistance = distance[length]
                 vertex = length  # vertex = the index of the smallest distance in a row(vertex)
         # Every time, we see this point, vertex is increased because the last vertex is marked as visited, and we move to the next one
         visited[vertex] = True  # Mark vertex as visited
         # Why does this part work
-        for dist in range(vertexes):  # For each distance in a row(vertex)
+        for dist in range(vertexesLocal):  # For each distance in a row(vertex)
             if graph[vertex][dist] > 0 and visited[length] is False and distance[dist] > distance[vertex] + graph[vertex][dist]:
                 distance[dist] = distance[vertex] + graph[vertex][dist]  # Add smallest distance
                 parent[dist] = vertex  # Why does this line work
