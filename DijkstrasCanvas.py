@@ -4,10 +4,8 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
+    - Click fix
     1. Dijkstra() error handling
-        - If no connection found
-        - If v1,v1 - vertex to itself, if start == end exception
-            - New smallest string answer, needs formatting
         - If vertex not found
     2. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
     3. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
@@ -45,8 +43,8 @@ textCounterVertical = 25  # y-value to place shortest paths, incremented in dijk
 #############
 def addVertex(event):
     global vertexNumber, helperNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now  # helperNumber: Need a dynamic number to add to vertex number
-    x0 = event.x    # Current X-Coord for mouse click
-    y0 = event.y    # Current Y-Coord for mouse click
+    x0 = event.x    # Current X-Coord for mouse click, with click fix
+    y0 = event.y    # Current Y-Coord for mouse click, with click fix
     vertex = draw_space.create_oval(x0, y0, x0+50, y0+50, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
     vertex_text = draw_space.create_text((x0+25, y0+25), text=vertexNumber-11, tags='vertex')  # +25 to get to the center of a 50 circle
     draw_space.pack()
@@ -202,10 +200,10 @@ def dijkstra():
         else:
             path_string += str(path[i]+1)
     # Error Handling, starting with normal cases
-    if distance[end-1] < sys.maxsize and (start != end):  # Normal and backwards cases, has a connection, and not going to itself
-        final_string = "v"+str(start)+" to v"+str(end)+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, check original input
+    if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
+        final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
         finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
-        textCounterVertical += 20
+        textCounterVertical += 20  # Move down the list
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
             if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
@@ -214,18 +212,34 @@ def dijkstra():
                     stringSize += 1  # Needs an extra 2 pixels at the end to look uniform with others
         draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
         # 884 is for when the string is smallest
-   #elif distance[end-1] > sys.maxsize:  # If no connection found
-
-
-
-
-
-
-
+    elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
+        final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
+        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
+        textCounterVertical += 20  # Move down the list
+        stringSize = 0  # init stringSize locally
+        for length in range(len(final_string)):
+            if length > 29:  # 28 is the smallest length for no path found
+                stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
+                if length == len(final_string) - 1:
+                    stringSize += 1  # Needs an extra at the end to look uniform with others
+        draw_space.create_window(868+stringSize, textCounterVertical, window=finalLabel)  # 868 perfect number for smallest case
+    elif inputValues[0] == inputValues[1]:
+        final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
+        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
+        textCounterVertical += 20  # Move down the list
+        stringSize = 0  # init stringSize locally
+        for length in range(len(final_string)):
+            if length > 28:  # 28 is the smallest length for no path found
+                stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
+                if length == len(final_string) - 1:
+                    stringSize += 1  # Needs an extra at the end to look uniform with others
+        draw_space.create_window(854+stringSize, textCounterVertical, window=finalLabel)  # 855 perfect number for smallest case
 
 
 def resetGraph():
     i = "hey"
+    # Remove all labels past id # 12 ???
+
     #delete all ovals, delete all lines, maybe label all lines with a tag too?
     #remove all dijsktra() calculations, maybe give those labels a tag too?
     #Init variables back to default
