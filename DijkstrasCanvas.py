@@ -4,13 +4,15 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix reverse dijkstra(), e.g. v2,v1 instead of of v1,v2. It gives a huge value for the distance
-        -Has to do with start and end, and math like start+1 and end-1
-    2. Dijkstra() error handling
-    3. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
-    4. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
+    1. Dijkstra() error handling
+        - If no connection found
+        - If v1,v1 - vertex to itself, if start == end exception
+            - New smallest string answer, needs formatting
+        - If vertex not found
+    2. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
+    3. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
         -Especially when x1<x2 and y1<y2
-    5. Add Reset Button for when people want to make a new graph without closing window
+    4. Add Reset Button for when people want to make a new graph without closing window
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -153,7 +155,10 @@ def dijkstra():
     graph = adjacencyMatrix
     inputValues = shortpathEntry.get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()
-    start, end = int(inputValues[0])-1, int(inputValues[1])  # -1 because our vertexes start from 1, but arrays in reality start from 0. Same for end
+    if int(inputValues[1]) > int(inputValues[0]):  # Allows for v2,v1 instead of v1,v2. Allows us to go backwards
+        start, end = int(inputValues[0]) - 1, int(inputValues[1])
+    elif int(inputValues[0]) > int(inputValues[1]):   # if start > end
+        start, end = int(inputValues[1]) - 1, int(inputValues[0])
     vertexes = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexes  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
@@ -171,7 +176,7 @@ def dijkstra():
         for dist in range(vertexes):  # For each distance in a row(vertex)
             if graph[vertex][dist] > 0 and visited[length] is False and distance[dist] > distance[vertex] + graph[vertex][dist]:
                 distance[dist] = distance[vertex] + graph[vertex][dist]  # Add smallest distance
-                parent[dist] = vertex   # Why does this line work
+                parent[dist] = vertex  # Why does this line work
     path = []  # Reset path so it doesn't add the last pass's data, bc path is global
     # How does this work
     def getPath(parent, j):  # Recurse through parent array and append vertexes to path
@@ -182,7 +187,8 @@ def dijkstra():
         getPath(parent, parent[j])
         path.append(j)
     getPath(parent, end-1)  # Execute getPath here, for start to end
-    # Draw things here, right under the last elements
+    if int(inputValues[0]) > int(inputValues[1]):  # Allows us to check original input values and do v2,v1 instead of v1,v2
+        path = [elem for elem in reversed(path)]  # One liner to reverse list, if it can be found going forwards, it can be found going backwards
     final_string = ""  # Initialize final string
     path_string = ""  # Initialize path with arrows string
     for i in range(len(path)):  # Create arrow path, if last value, don't place in so no hanging arrows
@@ -190,7 +196,7 @@ def dijkstra():
             path_string += str(path[i]+1) + "-->"  # Needs a +1 for some reason
         else:
             path_string += str(path[i]+1)
-    final_string = "v"+str(start+1)+" to v"+str(end)+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output
+    final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, check original input
     finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
     textCounterVertical += 20
     stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
@@ -199,7 +205,6 @@ def dijkstra():
             stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
             if length == len(final_string)-1:
                 stringSize += 1  # Needs an extra 2 pixels at the end to look uniform with others
-    print("stringSize = "+str(stringSize))
     draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
     # 884 is for when the string is smallest
 

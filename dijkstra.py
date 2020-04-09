@@ -7,6 +7,7 @@ path.append()
 
 import sys
 path = []
+
 vertexes = 9
 adjacencyMatrix = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
                  [4, 0, 8, 0, 0, 0, 0, 11, 0],
@@ -17,8 +18,11 @@ adjacencyMatrix = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
                  [0, 0, 0, 0, 0, 2, 0, 1, 6],
                  [8, 11, 0, 0, 0, 0, 1, 0, 7],
                  [0, 0, 2, 0, 0, 0, 6, 7, 0]]
-start = 9
-end = 1
+
+
+
+start = 9  # make 9
+end = 1    # make 1
 
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
@@ -47,6 +51,7 @@ def dijkstra():
                 distance[dist] = distance[vertex] + graph[vertex][dist]  # Add smallest distance
                 parent[dist] = vertex  ####### Why does this line work #######
         #############################################################################################################################
+    print(visited)
 
     def getPath(parent, j):  # Recurse through parent array and append to path
         global path
@@ -59,7 +64,7 @@ def dijkstra():
     getPath(parent, end-1)  # Execute getPath here, for start to end
     print(path)
 
-    print("node="+str(start)+" distance="+str(distance[end-1]))
+    print("startNode="+str(start)+" distance="+str(distance[end-1]))
 
 
 #adjacentMatrix, vertex#, source vertex/row
