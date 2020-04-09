@@ -4,8 +4,7 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. For add edge weight, when entering non-real weight value, make sure to handle 'KeyError' error
-    2. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
+    1. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
         -Especially when x1<x2 and y1<y2, look at the other cases that print well on canvas
     3. Add Reset Button for when people want to make a new graph without closing window
 '''
