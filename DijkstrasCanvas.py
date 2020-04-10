@@ -4,9 +4,7 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Adjust coords for placing in weightValues for edges so they are closer to the edges, make ring diagram to check
-        -Especially when x1<x2 and y1<y2, look at the other cases that print well on canvas
-    3. Add Reset Button for when people want to make a new graph without closing window
+    1. Add Reset Button for when people want to make a new graph without closing window
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -133,7 +131,7 @@ def addEdgeWeight():
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
         if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):   # Get Edge labeling correct, if same do one way, if different, do other way
-            draw_space.create_text((((x1 + x2) / 2) + 20), (((y1 + y2) / 2) - 20), text=weight, font=('Courier', 15))
+            draw_space.create_text((((x1 + x2) / 2) + 10), (((y1 + y2) / 2) - 10), text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
             draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
