@@ -4,7 +4,9 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Add Reset Button for when people want to make a new graph without closing window
+    1. Fix Edge Weights, use letters as example, and just make it go opposite
+    2. Shortest Path result spacing, for each --> added, more space
+    2. Add Reset Button for when people want to make a new graph without closing window
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -23,7 +25,7 @@ alphabet2 = ascii_lowercase
 letter = 0
 vertexNumber = 12   # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
 helperNumber = 1
-edgeNumber = vertexNumber  # Continue numbering shapes after vertexes are placed
+edgeNumber = 1
 clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
 vertexes = {}       # Store vertex number and its location
 edges = {}          # Store edge and its location
@@ -50,12 +52,15 @@ def addVertex(event):
         vertexes[vertexNumber-11] = draw_space.coords(vertexNumber+helperNumber)
         helperNumber += 1  # increment and add to vertex labels so we get just the vertex circle, place here because we want it to start adding after VN=1
         vertexNumber += 1
-    else:
-        messagebox.showwarning(title="Warning", message="Number of vertexes limited to 52! You can now add edges to your graph.") # Handle for when we run out of vertex labels (Past lower case alphabet)
-        vertexButtonSet()  # Go straight to creating edges
 
 def addEdge(event):  # Why does *args work for this?
     global clickNumber, edgeNumber, letter, x1, y1
+    if edgeNumber != 52:  # Error Handling - Edge Amount
+        edgeNumber += 1
+    else:
+        messagebox.showwarning(title="Warning", message="Number of edges limited to 52!")  # Handle for when we run out of vertex labels (Past lower case alphabet)
+        edgeButtonSet()  # Go straight to giving edge weights
+        return
     if clickNumber == 0:  # start pos before mouse is clicked
         x1 = event.x   # start x pos of mouse
         y1 = event.y   # start y pos of mouse
@@ -77,7 +82,7 @@ def addEdge(event):  # Why does *args work for this?
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25))
             else:
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25))
+                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet2[letter], font=('Courier', 25))
         draw_space.pack()  # Pack into canvas and give unique ID
         # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
         for key in vertexes:
@@ -90,7 +95,6 @@ def addEdge(event):  # Why does *args work for this?
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
         elif letter > 25:
             edges[alphabet2[letter]] = [vertexStart, vertexDestination]
-        edgeNumber += 1
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
         letter += 1     # Next letter, eventually goes to lowercase
 
@@ -112,7 +116,6 @@ def edgeButtonSet():
 def addEdgeWeight():
     global adjacencyMatrix
     inputValues = weightEntry.get()  # get user weight from entry using get()
-    print(inputValues)
     inputValues = re.sub('[^0-9a-zA-Z]+', ' ', inputValues).split()  # Space allows for correct split, instead of just no spaces
     inputValues = [inputValues[x:x + 2] for x in range(0, len(inputValues), 2)]  # For every 2 items put them in a new list, increase x, stop at 2, repeat
     # Input one value, or multiple values separated by commas
@@ -132,18 +135,12 @@ def addEdgeWeight():
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
-        if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):   # Get Edge labeling correct, if same do one way, if different, do other way
-            draw_space.create_text((((x1 + x2) / 2) + 10), (((y1 + y2) / 2) - 10), text=weight, font=('Courier', 15))
-        elif ((x1 < (x2+10) and (y1 < y2))) or (x1 > (x2+10) and (y1 > y2)):
-            draw_space.create_text((((x1 + x2) / 2) - 20), (((y1 + y2) / 2) - 10), text=weight, font=('Courier', 15))
+        if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
-        elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 2, text=weight, font=('Courier', 15))
-        elif (((y1 < y2) or (y1 > y2)) and (x1 == x2)):
-            draw_space.create_text(((x1 + x2) / 2) - 5, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
         else:
-            draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
+            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
 
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
@@ -154,7 +151,7 @@ def dijkstra():
     graph = adjacencyMatrix
     inputValues = shortpathEntry.get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()
-    # Error Handling - Chop off extra values if there are
+    # Error Handling - Chop off extra values if present
     if (int(inputValues[0]) and int(inputValues[1])) in vertexes.keys():    # Error Handling - If vertex(es) not found
         if int(inputValues[1]) > int(inputValues[0]):
             start, end = int(inputValues[0]) - 1, int(inputValues[1])
@@ -256,6 +253,7 @@ def resetGraph():
     #draw_space.bind('<Button-1>', addVertex)
 
 
+# Start Main #
 
 ####################
 # Window / Widgets #
@@ -300,9 +298,4 @@ draw_space.create_window(825, 25, window=resultTitle)  # Draw Result Title
 
 root.mainloop()  # Keep window open and loop all its functions
 
-###########
-# Testing #
-###########
-print(vertexes)  # Testing purposes, storing vertex locations
-print(edges)     # Testing purposes, storing edges and where they start/end
-print(adjacencyMatrix)
+# End of Main #
