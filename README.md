@@ -24,7 +24,11 @@ Table of Contents
 2. Run `git clone https://github.com/kyletimmermans/dijkstras-canvas/DijsktrasCanvas.py`
 3. Run `python3 DijsktrasCanvas.py`
 
+<br/>
+
 ### Usage
+
+<br/>
 
 ### Example
 Geeksforgeeks.org has a well-made undirected weighted graph image that I will use as an example and re-create it in Dijsktra's Canvas. 
