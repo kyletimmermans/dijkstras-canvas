@@ -97,20 +97,22 @@ def addEdge(event):  # Why does *args work for this?
 
 # Vertex Button
 def vertexButtonSet():
+    global adjacencyMatrix
+    # Fill matrix with zeros
+    adjacencyMatrix = [[0] * (vertexNumber - 12) for x in range(vertexNumber - 12)]  # Must use list comprehension, [[0] * n] * m is just a list of references to [0]*n and will change everything
     draw_space.unbind('<Button 1>')
     draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
 
 # Edge Finish Button
 def edgeButtonSet():
-    global adjacencyMatrix
-    adjacencyMatrix = [[0] * (vertexNumber-12) for x in range(vertexNumber-12)]  # Must use list comprehension, [[0] * n] * m is just a list of references to [0]*n and will change everything
-    # Fill adjacency matrix with zeros
+    # Can't draw vertexes anymore
     draw_space.unbind('<Button 1>')
 
 # Input button next to entry field for getting weights
 def addEdgeWeight():
     global adjacencyMatrix
     inputValues = weightEntry.get()  # get user weight from entry using get()
+    print(inputValues)
     inputValues = re.sub('[^0-9a-zA-Z]+', ' ', inputValues).split()  # Space allows for correct split, instead of just no spaces
     inputValues = [inputValues[x:x + 2] for x in range(0, len(inputValues), 2)]  # For every 2 items put them in a new list, increase x, stop at 2, repeat
     # Input one value, or multiple values separated by commas
@@ -125,17 +127,21 @@ def addEdgeWeight():
         edgeName, weight = lst[0], int(lst[1])
         for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
             if key == edgeName:     # Get values out of edges, e.g. edges{A: [1, 2]}
-                adjacencyMatrix[edges[edgeName][0] - 1][edges[edgeName][1] - 1] = weight  # -1 because lists in reality, start from 0
-                adjacencyMatrix[edges[edgeName][1] - 1][edges[edgeName][0] - 1] = weight  # Reversed here, can travel edges both ways b/c its an undirected graph
+                adjacencyMatrix[edges[edgeName][0]-1][edges[edgeName][1]-1] = weight  # -1 because lists in reality, start from 0
+                adjacencyMatrix[edges[edgeName][1]-1][edges[edgeName][0]-1] = weight  # Reversed here, can travel edges both ways b/c its an undirected graph
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
         if ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):   # Get Edge labeling correct, if same do one way, if different, do other way
             draw_space.create_text((((x1 + x2) / 2) + 10), (((y1 + y2) / 2) - 10), text=weight, font=('Courier', 15))
+        elif ((x1 < (x2+10) and (y1 < y2))) or (x1 > (x2+10) and (y1 > y2)):
+            draw_space.create_text((((x1 + x2) / 2) - 20), (((y1 + y2) / 2) - 10), text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
             draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
             draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 2, text=weight, font=('Courier', 15))
+        elif (((y1 < y2) or (y1 > y2)) and (x1 == x2)):
+            draw_space.create_text(((x1 + x2) / 2) - 5, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         else:
             draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
 
@@ -202,10 +208,14 @@ def dijkstra():
         textCounterVertical += 20  # Move down the list
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
-            if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
+            if length < 45 and length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
                 stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
                 if length == len(final_string)-1:
-                    stringSize += 1  # Needs an extra 2 pixels at the end to look uniform with others
+                    stringSize += 2  # Needs an extra 2 pixels at the end to look flush with others
+            elif length > 40:  # Even longer strings
+                    stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
+                    if length == len(final_string) - 1:
+                        stringSize -= 4  # Needs an extra 4 pixels at the end to look flush with others
         draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
         # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
