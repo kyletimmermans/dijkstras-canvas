@@ -8,11 +8,11 @@ Table of Contents
 =================
 
 <!--ts-->
-   * [Installation](#table-of-contents)
-   * [Usage](#table-of-contents)
-      * [Example](#table-of-contents)
-      * [Errors](#table-of-contents)
-   * [Who is Dijkstra?](#table-of-contents)
-      * [Dijkstra's Algorithm](#table-of-contents)
-      * [Pseudocode](#table-of-contents)
+   * [Installation](#installation)
+   * [Usage](#usage)
+      * [Example](#example)
+      * [Error Handling](#error-handling)
+   * [Who is Dijkstra?](#who-is-dijkstra)
+      * [Dijkstra's Algorithm](#dijkstras-algorithm)
+      * [Pseudocode](#pseudocode)
 <!--te-->
