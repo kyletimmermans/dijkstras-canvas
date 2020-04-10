@@ -12,7 +12,7 @@ Table of Contents
    * [Usage](#usage)
       * [Example](#example)
       * [Error Handling](#error-handling)
-   * [Who is Dijkstra?](#who-is-dijkstra?)
+   * [Who is Dijkstra?](#who-is-dijkstra)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
       * [Pseudocode](#pseudocode)
 <!--te-->
