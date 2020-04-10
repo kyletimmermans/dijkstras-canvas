@@ -46,7 +46,7 @@ If we are given a graph such as this one:
 </p>
 
 ### Adjacency Matrix
-Once the graph is initialized with all its vertexes, edges, and edge weights, the program will take all the data and create an "Adjacency Matrix" that the path finding algorithm can read and work on. The Adjacency Matrix for the example graph would look something like this:
+Once the graph is initialized with all its vertexes, edges, and edge weights, the program will take all the data and create an "Adjacency Matrix" that the path finding algorithm can read and work with. The Adjacency Matrix for the example graph would look something like this:
 
 <p align="center">
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/adjacencyMatrix.png?raw=true" alt="Adjacency Matrix"/>
