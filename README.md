@@ -23,3 +23,10 @@ Table of Contents
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `git clone https://github.com/kyletimmermans/dijkstras-canvas/DijsktrasCanvas.py`
 3. Run `python3 DijsktrasCanvas.py`
+
+### Usage
+
+### Example
+Geeksforgeeks.org has a well-made undirected weighted graph image that I will use as an example and re-create it in Dijsktra's Canvas. 
+If we are given a graph such as this one:
+![alt text](https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/UndirectedWeightedGraph.png "Sample Graph")
