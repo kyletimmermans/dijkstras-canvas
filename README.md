@@ -10,7 +10,7 @@ Table of Contents
 <!--ts-->
    * [Installation](#installation)
    * [Usage](#usage)
-      * [Example](#example)
+      * [How it Works](#how-it-works)
       * [Error Handling](#error-handling)
    * [Who is Dijkstra?](#who-is-dijkstra)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
