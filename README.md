@@ -36,7 +36,7 @@ e.g. v1,v2
 
 <br/>
 
-### Example
+### How it Works
 Geeksforgeeks.org has a well-made undirected weighted graph image that I will use as an example and re-create it in Dijsktra's Canvas. 
 If we are given a graph such as this one:
 
