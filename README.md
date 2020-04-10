@@ -12,7 +12,7 @@ Table of Contents
    * [Usage](#usage)
       * [Example](#example)
       * [Error Handling](#error-handling)
-   * [Who is Dijkstra?](#who-is-dijkstra)
+   * [Who is Dijkstra?](#who-is-dijkstra?)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
       * [Pseudocode](#pseudocode)
 <!--te-->
@@ -39,3 +39,12 @@ e.g. v1,v2
 Geeksforgeeks.org has a well-made undirected weighted graph image that I will use as an example and re-create it in Dijsktra's Canvas. 
 If we are given a graph such as this one:
 ![alt text](https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/UndirectedWeightedGraph.png "Sample Graph")
+
+<br/>
+
+### Who is Dijktra?
+Edsgar W. Dijkstra was a famous Dutch physicist, mathematician, and computer science pioneer. He is credited in creating "Dijkstra's Algorithm", an algorithm used to find the shortest paths from a given source node, to all other nodes in a graph.
+
+### Pseudocode
+This is the backbone behind his algorithm
+![alt text](https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/pseudocode.png "Pseudocode")
