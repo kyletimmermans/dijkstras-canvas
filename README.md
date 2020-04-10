@@ -12,7 +12,7 @@ Table of Contents
    * [Usage](#usage)
       * [Example](#example)
       * [Error Handling](#error-handling)
-   * [Who is Dijkstra?](#who)
+   * [Who is Dijkstra?](#who-is-dijkstra?)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
       * [Pseudocode](#pseudocode)
 <!--te-->
@@ -49,7 +49,7 @@ For instance, to get from point 0 to point 1, the distance is 4. We can see this
 
 <br/>
 
-### Who is Dijktra?
+### Who is Dijkstra?
 Edsgar W. Dijkstra was a famous Dutch physicist, mathematician, and computer science pioneer who spent most of his life in a small Netherlands town known as Nuenen.
 
 ### Dijkstra's Algorithm
