@@ -29,7 +29,7 @@ Table of Contents
 ### Usage
 1. Right-click to enter Vertex points at any point in the window
 2. Click the 'Done' Button and click from any vertex point to any other vertex point to create edges, then hit 'Done'
-3. Input weights separated by commas and hit 'Input', e.g. A=7,B=8,C=9
+3. Input weights separated by commas and hit 'Input', e.g. A=7, B=8, C=9
 4. Input two vertexes, a source and destination vertex. Then click 'Show Results' to see the Shortest Path between the two 
 e.g. v1,v2
 
