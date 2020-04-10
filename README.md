@@ -21,4 +21,4 @@ Table of Contents
 
 ### Installation
 
-All of the libraries used come pre-packaged in Python 3.x, so there's no need to install anything.
+All of the libraries used come pre-packaged in Python 3.x, so there's no need to install any dependencies.
