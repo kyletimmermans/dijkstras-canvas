@@ -10,7 +10,8 @@ Table of Contents
 <!--ts-->
    * [Installation](#installation)
    * [Usage](#usage)
-      * [How it Works](#how-it-works)
+      * [Example](#example)
+      * [Adjacency Matrix](#adjacency-matrix)
       * [Error Handling](#error-handling)
    * [Who is Dijkstra?](#who-is-dijkstra)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
@@ -36,7 +37,7 @@ e.g. v1,v2
 
 <br/>
 
-### How it Works
+### Example
 Geeksforgeeks.org has a well-made undirected weighted graph image that I will use as an example and re-create it in Dijsktra's Canvas. 
 If we are given a graph such as this one:
 
@@ -44,6 +45,7 @@ If we are given a graph such as this one:
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/UndirectedWeightedGraph.png?raw=true" alt="Sample Graph"/>
 </p>
 
+### Adjacency Matrix
 Once the graph is initialized with all its vertexes, edges, and edge weights, the program will take all the data and create an "Adjacency Matrix" that the path finding algorithm can read and work on. The Adjacency Matrix for the example graph would look something like this:
 
 <p align="center">
