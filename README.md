@@ -20,6 +20,4 @@ Table of Contents
 <p>&nbsp;</p>
 
 ### Installation
-If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer")
-
-All of the libraries used come pre-packaged in Python 3.x, so there's no need to install any dependencies.
+If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer")   All of the libraries used come pre-packaged in Python 3.x, so there's no need to install any dependencies.
