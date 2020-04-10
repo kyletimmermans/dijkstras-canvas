@@ -32,6 +32,7 @@ Table of Contents
 3. Input weights separated by commas and hit 'Input', e.g. A=7, B=8, C=9
 4. Input two vertexes, a source and destination vertex. Then click 'Show Results' to see the Shortest Path between the two 
 e.g. v1,v2
+5. Finally, hit the 'Reset Canvas' Button to start over again and create a new graph
 
 <br/>
 
