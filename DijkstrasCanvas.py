@@ -26,7 +26,6 @@ alphabet2 = ascii_lowercase
 letter = 0
 vertexNumber = 12   # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
 helperNumber = 1
-edgeNumber = 1
 clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
 vertexes = {}       # Store vertex number and its location
 edges = {}          # Store edge and its location
@@ -55,9 +54,9 @@ def addVertex(event):
         vertexNumber += 1
 
 def addEdge(event):  # Why does *args work for this?
-    global clickNumber, edgeNumber, letter, x1, y1
-    if edgeNumber != 52:  # Error Handling - Edge Amount
-        edgeNumber += 1
+    global clickNumber, letter, x1, y1
+    if letter != 52:  # Error Handling - Edge Amount
+        pass
     else:
         messagebox.showwarning(title="Warning", message="Number of edges limited to 52!")  # Handle for when we run out of vertex labels (Past lower case alphabet)
         edgeButtonSet()  # Go straight to giving edge weights
@@ -103,7 +102,7 @@ def addEdge(event):  # Why does *args work for this?
         if letter <= 25:
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
         elif letter > 25:
-            edges[alphabet2[letter]] = [vertexStart, vertexDestination]
+            edges[alphabet2[letter-26]] = [vertexStart, vertexDestination]  # Needs a -26 or will return index error
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
         letter += 1     # Next letter, eventually goes to lowercase
 
@@ -145,9 +144,9 @@ def addEdgeWeight():
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
         if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet2[letter - 26], font=('Courier', 25))
+            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter - 26], font=('Courier', 25))
+            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=weight, font=('Courier', 15))
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):
             line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
@@ -259,7 +258,7 @@ def resetGraph():
     #delete all ovals, delete all lines, maybe label all lines with a tag too?
     #remove all dijsktra() calculations, maybe give those labels a tag too?
     #Init variables back to default
-    #letter = 0, vertexNumber = 12, edgeNumber = vertexNumber, clickNumber = 0, start = 0, end = 0
+    #letter = 0, vertexNumber = 12 clickNumber = 0, start = 0, end = 0
     #Init dicts and lists to empty
     #vertexes = {}, edges = {}, adjacencyMatrix = [], path=[]
     #Start back to placing vertexes
