@@ -4,10 +4,11 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. vertexStart referenced before assignment error
-    2. Shortest Path result spacing, for each --> added, more space
-    3. Add Reset Button for when people want to make a new graph without closing window
-    4. Keep testing out bugs
+    1. Add Reset Button for when people want to make a new graph without closing window
+    2. Keep testing out bugs, try and break it
+        -vertexStart referenced before assignment error??
+        -key error with non-existant edges
+        -shortest Path result spacing, for each --> added, more space
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -240,9 +241,9 @@ def dijkstra():
         for length in range(len(final_string)):
             if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
                 if final_string[length] == '-':
-                    stringSize += 0.5
+                    stringSize += 4.0
                 else:
-                    stringSize += 1.0
+                    stringSize += 3.5
         draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
         # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
