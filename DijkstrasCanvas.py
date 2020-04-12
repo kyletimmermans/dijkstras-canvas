@@ -4,9 +4,11 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Shortest Path result spacing, for each --> added, more space
-    2. Add Reset Button for when people want to make a new graph without closing window
-    3. Keep testing out bugs
+    1. vertexStart referenced before assignment error
+    2. If vertex to itself, don't allow
+    3. Shortest Path result spacing, for each --> added, more space
+    4. Add Reset Button for when people want to make a new graph without closing window
+    5. Keep testing out bugs
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -67,6 +69,11 @@ def addEdge(event):  # Why does *args work for this?
     else:                  # end coords when mouse is unclicked
         x2 = event.x    # end x pos of mouse
         y2 = event.y    # end y pos of mouse
+        # Error Handling - When drawing edge to itself
+        if (x1 <= x2 <= x1+25) and (y1 <= y2 <= y1+25):
+            messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself")
+            clickNumber = 0  # Allow a new line to be drawn again, from a new spot
+            return
         line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5)   # Draw line with those coords
         if letter <= 25:  # Go through uppercase letters
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
@@ -142,17 +149,22 @@ def addEdgeWeight():
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
-        slope = (y2 - y1) / (x2 - x1)  # Check Slope for extra cases
+        if (x2 - x1) > 0.0:
+            slope = (y2 - y1) / (x2 - x1)  # Check Slope for extra cases
+        else:  # Just in case we have zero in denominator
+            slope = 0
         if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
             line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
             line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=weight, font=('Courier', 15))
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):
-            if slope < 1.50:
+            if slope < 0.20:
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            elif 1.50 > slope >= 0.20:
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
-            if 2.00 > slope > 1.50:
+            elif 2.00 > slope >= 1.50:
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 30, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
-            if slope > 2.00:
+            elif slope >= 2.00:
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
             line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
