@@ -155,7 +155,7 @@ def addEdgeWeight():
         if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
             line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=weight, font=('Courier', 15))
+            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 5, text=weight, font=('Courier', 15))
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):
             if slope < 0.20:
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
@@ -233,14 +233,8 @@ def dijkstra():
         textCounterVertical += 20  # Move down the list
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
-            if length < 45 and length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
-                stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
-                if length == len(final_string)-1:
-                    stringSize += 2  # Needs an extra 2 pixels at the end to look flush with others
-            elif length > 40:  # Even longer strings
-                    stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
-                    if length == len(final_string) - 1:
-                        stringSize -= 4  # Needs an extra 4 pixels at the end to look flush with others
+            if length > 36:   # 36 is smallest possible string length, - needs only 3 pixels
+                stringSize += 4
         draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
         # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
