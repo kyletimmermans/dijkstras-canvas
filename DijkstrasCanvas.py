@@ -5,10 +5,9 @@ compiled in python v3.8.2
 
 ToDo:
     1. vertexStart referenced before assignment error
-    2. If vertex to itself, don't allow
-    3. Shortest Path result spacing, for each --> added, more space
-    4. Add Reset Button for when people want to make a new graph without closing window
-    5. Keep testing out bugs
+    2. Shortest Path result spacing, for each --> added, more space
+    3. Add Reset Button for when people want to make a new graph without closing window
+    4. Keep testing out bugs
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -73,7 +72,7 @@ def addEdge(event):  # Why does *args work for this?
         if (x1 <= x2 <= x1+25) and (y1 <= y2 <= y1+25):
             messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself")
             clickNumber = 0  # Allow a new line to be drawn again, from a new spot
-            return
+            return  # Drop the rest of the function
         line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5)   # Draw line with those coords
         if letter <= 25:  # Go through uppercase letters
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
