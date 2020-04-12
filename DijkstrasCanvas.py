@@ -4,9 +4,11 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Add Reset Button for when people want to make a new graph without closing window
-    2. Keep testing out bugs, try and break it
-        -vertexStart referenced before assignment error??
+    1. draw_space.pack()
+    2. Case ? fix
+    3. Reset button work
+    4. Keep testing out bugs, try and break it
+        -UnboundLocalError: local variable 'vertexStart' referenced before assignment
         -key error with non-existant edges
         -shortest Path result spacing, for each --> added, more space
 '''
@@ -74,29 +76,29 @@ def addEdge(event):  # Why does *args work for this?
             messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself")
             clickNumber = 0  # Allow a new line to be drawn again, from a new spot
             return  # Drop the rest of the function
-        line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5)   # Draw line with those coords
+        line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5, tags='edge')   # Draw line with those coords
         if letter <= 25:  # Go through uppercase letters
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             else:
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25), tags='edge')
         elif letter > 25:
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             else:
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25))
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
         draw_space.pack()  # Pack into canvas and give unique ID
         # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
         for key in vertexes:
@@ -154,27 +156,29 @@ def addEdgeWeight():
         else:  # Just in case we have zero in denominator
             slope = 0
         if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 5, text=weight, font=('Courier', 15))
+            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 5, text=weight, font=('Courier', 15), tags='edge')
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):
+            print("case 1 " + str(slope))
             if slope < 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif 1.50 > slope >= 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 25, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif 2.00 > slope >= 1.50:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 30, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 35, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif slope >= 2.00:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+            print("case 2 "+str(slope))
             if slope < 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 5, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 5, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif 1.50 > slope >= 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif 2.00 > slope >= 1.50:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif slope >= 2.00:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
 
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
@@ -235,7 +239,7 @@ def dijkstra():
     # Error Handling, starting with normal cases
     if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
-        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
+        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White', tags='shortPath')
         textCounterVertical += 20  # Move down the list
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
@@ -248,7 +252,7 @@ def dijkstra():
         # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
-        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
+        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White', tags='shortPath')
         textCounterVertical += 20  # Move down the list
         stringSize = 0  # init stringSize locally
         for length in range(len(final_string)):
@@ -259,7 +263,7 @@ def dijkstra():
         draw_space.create_window(868+stringSize, textCounterVertical, window=finalLabel)  # 868 perfect number for smallest case
     elif inputValues[0] == inputValues[1]:
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
-        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White')
+        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White', tags='shortPath')
         textCounterVertical += 20  # Move down the list
         stringSize = 0  # init stringSize locally
         for length in range(len(final_string)):
@@ -271,18 +275,14 @@ def dijkstra():
 
 
 def resetGraph():
-    i = "hey"
-    # Remove all labels past id # 12 ???
-
-    #delete all ovals, delete all lines, maybe label all lines with a tag too?
-    #remove all dijsktra() calculations, maybe give those labels a tag too?
-    #Init variables back to default
-    #letter = 0, vertexNumber = 12 clickNumber = 0, start = 0, end = 0
-    #Init dicts and lists to empty
-    #vertexes = {}, edges = {}, adjacencyMatrix = [], path=[]
-    #Start back to placing vertexes
-    #draw_space.bind('<Button-1>', addVertex)
-
+    global letter, vertexNumber, clickNumber, start, end, vertexes, edges, adjacencyMatrix, path
+    # Delete all user created shapes
+    draw_space.delete('vertex')
+    draw_space.delete('edge')
+    draw_space.delete('shortPath')
+    letter, vertexNumber, clickNumber, start, end = 0, 12, 0, 0, 0  #Init variables back to default
+    vertexes, edges, adjacencyMatrix, path = {}, {}, [], [] # Init dicts and lists to empty
+    draw_space.bind('<Button-1>', addVertex)  #Start back to placing vertexes
 
 # Start Main #
 
