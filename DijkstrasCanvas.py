@@ -56,7 +56,7 @@ def addVertex(event):
 def addEdge(event):  # Why does *args work for this?
     global clickNumber, letter, x1, y1
     if letter != 52:  # Error Handling - Edge Amount
-        pass
+        pass  # Keep going if condition met
     else:
         messagebox.showwarning(title="Warning", message="Number of edges limited to 52!")  # Handle for when we run out of vertex labels (Past lower case alphabet)
         edgeButtonSet()  # Go straight to giving edge weights
@@ -143,14 +143,21 @@ def addEdgeWeight():
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
+        slope = (y2 - y1) / (x2 - x1)  # Check Slope for extra cases
         if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
             line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
             line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=weight, font=('Courier', 15))
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):
-            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
+            if slope < 1.50:
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            if 2.00 > slope > 1.50:
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 30, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            if slope > 2.00:
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
             line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
+            print("Case 4 | Slope = "+str(slope))
         else:
             line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
 
