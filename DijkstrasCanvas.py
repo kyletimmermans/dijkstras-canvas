@@ -4,10 +4,9 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix Edge Weights, use letters as example, and just make it go opposite the line, opposite of the letter
-        -Try letter plus ten for each case, each x-value needs+10 for the addEdgeWeight()
-    2. Shortest Path result spacing, for each --> added, more space
-    3. Add Reset Button for when people want to make a new graph without closing window
+    1. Shortest Path result spacing, for each --> added, more space
+    2. Add Reset Button for when people want to make a new graph without closing window
+    3. Keep testing out bugs
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -157,7 +156,6 @@ def addEdgeWeight():
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
             line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
-            print("Case 4 | Slope = "+str(slope))
         else:
             line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
 
