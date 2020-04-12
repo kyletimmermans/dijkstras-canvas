@@ -166,9 +166,14 @@ def addEdgeWeight():
             elif slope >= 2.00:
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
-        else:
-            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=weight, font=('Courier', 15))
+            if slope < 0.20:
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 5, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            elif 1.50 > slope >= 0.20:
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            elif 2.00 > slope >= 1.50:
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
+            elif slope >= 2.00:
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15))
 
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
@@ -233,8 +238,11 @@ def dijkstra():
         textCounterVertical += 20  # Move down the list
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
-            if length > 36:   # 36 is smallest possible string length, - needs only 3 pixels
-                stringSize += 4
+            if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
+                if final_string[length] == '-':
+                    stringSize += 0.5
+                else:
+                    stringSize += 1.0
         draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
         # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
