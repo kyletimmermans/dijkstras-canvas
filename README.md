@@ -72,6 +72,11 @@ For instance, to get from point 0 to point 1, the distance is 4. We can see this
 
 <br/>
 
+### Error Handling
+
+<br/>
+
+
 ### Who is Dijkstra?
 Edsgar W. Dijkstra was a famous Dutch physicist, mathematician, and computer science pioneer who spent most of his life in a small Netherlands town known as Nuenen. Dijkstra was a professor at two prestigious universities, was a fellow for research boards, and held several awards such as the ACM A.M. Turing Award. He is the reason why this program was possible.
 
