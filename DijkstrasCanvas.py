@@ -4,13 +4,12 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. draw_space.pack()
-    2. Case ? fix
-    3. Reset button work
+    1. Fix reset work
+    2  Can't make vertex into the button area, give messagebox, can't draw up here
+    3. Fix shortest path spacing
     4. Keep testing out bugs, try and break it
         -UnboundLocalError: local variable 'vertexStart' referenced before assignment
         -key error with non-existant edges
-        -shortest Path result spacing, for each --> added, more space
 '''
 
 # Many global calls because many of these functions can't take parameters because of tkinter module
@@ -36,28 +35,35 @@ adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edi
 path = []  # Store shortest path vertexes
 start, end = 0, 0   # Init start and end to be used with the button
 textCounterVertical = 25  # y-value to place shortest paths, incremented in dijkstra() so we can have a clean list
+vertexReset = 0
+isReset = False
 
 #############
 # Functions #
 #############
 def addVertex(event):
     global vertexNumber, helperNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now  # helperNumber: Need a dynamic number to add to vertex number
+    global isReset, finalElementID
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
-    # -25s and +25s to ensure the tip of the pointer is the center of the created circle
+    # -25s and +25s to ensure the tip of the mouse-pointer is the center of the created circle
     vertex = draw_space.create_oval(x0-25, y0-25, x0+25, y0+25, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
-    vertex_text = draw_space.create_text(x0, y0, text=vertexNumber-11, tags='vertex')  # +25 to get to the center of a 50 circle
+    vertex_text = draw_space.create_text(x0, y0, text=vertexNumber-11-vertexReset, tags='vertex')  # +25 to get to the center of a 50 circle
     draw_space.pack()
-    if vertexNumber == 1:  # ID's go up by odd numbers b/c be are essentially creating two objects, the circle and its textbox label
-        vertexes[vertexNumber-11] = draw_space.coords(vertexNumber)   # Coords just going with continuity of id's auto-assigning
-        vertexNumber += 1  # increment vertex labels
-    elif vertexNumber < 45:
-        vertexes[vertexNumber-11] = draw_space.coords(vertexNumber+helperNumber)
+    if isReset == False:  # if not after a reset
+        vertexes[vertexNumber-11-vertexReset] = draw_space.coords(vertexNumber+helperNumber)  # vertexNumber + helperNumber
         helperNumber += 1  # increment and add to vertex labels so we get just the vertex circle, place here because we want it to start adding after VN=1
         vertexNumber += 1
+        finalElementID = vertex_text  # If stop here, this is the final element id
+    else:   # if after a reset
+        vertexes[vertexNumber - 11 - vertexReset] = draw_space.coords(finalElementID+1)  # +1 because vertex_text also cost an id when printed
+        vertexNumber += 1
+    print(vertexes)  # Debugging
+    
 
 def addEdge(event):  # Why does *args work for this?
     global clickNumber, letter, x1, y1
+    global finalElementID
     if letter != 52:  # Error Handling - Edge Amount
         pass  # Keep going if condition met
     else:
@@ -76,7 +82,8 @@ def addEdge(event):  # Why does *args work for this?
             messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself")
             clickNumber = 0  # Allow a new line to be drawn again, from a new spot
             return  # Drop the rest of the function
-        line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5, tags='edge')   # Draw line with those coords
+        line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
+        finalElementID = line  # if stopping here before reset
         if letter <= 25:  # Go through uppercase letters
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
@@ -99,6 +106,7 @@ def addEdge(event):  # Why does *args work for this?
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             else:
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+        finalElementID = lineLetter  # if stopping here before reset
         draw_space.pack()  # Pack into canvas and give unique ID
         # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
         for key in vertexes:
@@ -131,6 +139,7 @@ def edgeButtonSet():
 # Input button next to entry field for getting weights
 def addEdgeWeight():
     global adjacencyMatrix
+    global finalElementID
     inputValues = weightEntry.get()  # get user weight from entry using get()
     inputValues = re.sub('[^0-9a-zA-Z]+', ' ', inputValues).split()  # Space allows for correct split, instead of just no spaces
     inputValues = [inputValues[x:x + 2] for x in range(0, len(inputValues), 2)]  # For every 2 items put them in a new list, increase x, stop at 2, repeat
@@ -160,7 +169,6 @@ def addEdgeWeight():
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
             line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 5, text=weight, font=('Courier', 15), tags='edge')
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):
-            print("case 1 " + str(slope))
             if slope < 0.20:
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif 1.50 > slope >= 0.20:
@@ -170,7 +178,6 @@ def addEdgeWeight():
             elif slope >= 2.00:
                 line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            print("case 2 "+str(slope))
             if slope < 0.20:
                 line_text = draw_space.create_text(((x1 + x2) / 2) - 5, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif 1.50 > slope >= 0.20:
@@ -179,26 +186,26 @@ def addEdgeWeight():
                 line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
             elif slope >= 2.00:
                 line_text = draw_space.create_text(((x1 + x2) / 2) - 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
+        finalElementID = line_text  # if stopping here before reset
 
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
 # Everytime we call, we can change the start position and get all the distances
 # Only want the distance from start to end, and its path
 def dijkstra():
-    global vertexes, start, end, adjacencyMatrix, path, textCounterVertical
+    global vertexes, start, end, adjacencyMatrix, path, textCounterVertical, finalElementID
     graph = adjacencyMatrix
     inputValues = shortpathEntry.get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()
     # Error Handling - Chop off extra values if present
-    if (int(inputValues[0]) and int(inputValues[1])) in vertexes.keys():    # Error Handling - If vertex(es) not found
+    if (int(inputValues[0]) and int(inputValues[1])) in vertexes.keys():
         if int(inputValues[1]) > int(inputValues[0]):
             start, end = int(inputValues[0]) - 1, int(inputValues[1])
         elif int(inputValues[0]) > int(inputValues[1]):   # if start > end, Allows for v2,v1 instead of v1,v2. Allows us to go backwards
             start, end = int(inputValues[1]) - 1, int(inputValues[0])
     else:
-        messagebox.showwarning(title="Warning", message="One or neither of the vertexes entered, exist!")
+        messagebox.showwarning(title="Warning", message="One or neither of the vertexes entered, do not exist!")  # Error Handling - If vertex(es) not found
         return  # Show warning and backout of function
-        # print path None and distance 0
     vertexesLocal = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexesLocal  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
@@ -236,52 +243,51 @@ def dijkstra():
             path_string += str(path[i]+1) + "-->"  # Needs a +1 for some reason
         else:
             path_string += str(path[i]+1)
+    textCounterVertical += 20  # Move down the list
     # Error Handling, starting with normal cases
     if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
-        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White', tags='shortPath')
-        textCounterVertical += 20  # Move down the list
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
-            if length > 37:   # 36 is smallest possible string length, - needs only 3 pixels
+            if length > 37:   # 37 is smallest possible string length, - needs only 3 pixels
                 if final_string[length] == '-':
-                    stringSize += 4.0
-                else:
                     stringSize += 3.5
-        draw_space.create_window(884+stringSize, textCounterVertical, window=finalLabel)   # Place results on upper-right part of screen
-        # 884 is for when the string is smallest
+                else:
+                    stringSize += 4
+        finalLabel = draw_space.create_text(885+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath') # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
-        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White', tags='shortPath')
-        textCounterVertical += 20  # Move down the list
         stringSize = 0  # init stringSize locally
         for length in range(len(final_string)):
             if length > 29:  # 28 is the smallest length for no path found
                 stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
                 if length == len(final_string) - 1:
                     stringSize += 1  # Needs an extra at the end to look uniform with others
-        draw_space.create_window(868+stringSize, textCounterVertical, window=finalLabel)  # 868 perfect number for smallest case
+        finalLabel = draw_space.create_text(869+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')
     elif inputValues[0] == inputValues[1]:
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
-        finalLabel = Label(text=final_string, font=('Times', 14), background='Floral White', tags='shortPath')
-        textCounterVertical += 20  # Move down the list
         stringSize = 0  # init stringSize locally
         for length in range(len(final_string)):
             if length > 28:  # 28 is the smallest length for no path found
                 stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
                 if length == len(final_string) - 1:
                     stringSize += 1  # Needs an extra at the end to look uniform with others
-        draw_space.create_window(854+stringSize, textCounterVertical, window=finalLabel)  # 855 perfect number for smallest case
+        finalLabel = draw_space.create_text(855+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')
+    draw_space.pack()
+    finalElementID = finalLabel  # Used for reset
 
 
 def resetGraph():
-    global letter, vertexNumber, clickNumber, start, end, vertexes, edges, adjacencyMatrix, path
+    global letter, clickNumber, start, end, textCounterVertical, vertexes, edges, adjacencyMatrix, path
+    global vertexReset, isReset
+    isReset = True
+    vertexReset = vertexNumber-12
     # Delete all user created shapes
     draw_space.delete('vertex')
     draw_space.delete('edge')
     draw_space.delete('shortPath')
-    letter, vertexNumber, clickNumber, start, end = 0, 12, 0, 0, 0  #Init variables back to default
-    vertexes, edges, adjacencyMatrix, path = {}, {}, [], [] # Init dicts and lists to empty
+    letter, clickNumber, start, end, textCounterVertical = 0, 0, 0, 0, 25  # Init vars back to default, DO revert vertexNumber and helperNumber, id number's do not reset with .delete()
+    vertexes, edges, adjacencyMatrix, path = {}, {}, [], []  # Init dicts and lists to empty
     draw_space.bind('<Button-1>', addVertex)  #Start back to placing vertexes
 
 # Start Main #
