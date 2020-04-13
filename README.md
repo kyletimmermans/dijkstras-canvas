@@ -1,5 +1,7 @@
 ![Version 1.0](http://img.shields.io/badge/version-v1.0-orange.svg)
-![Python 3.6](http://img.shields.io/badge/python-3.6-blue.svg)
+![Python 3.8](http://img.shields.io/badge/python-3.8-blue.svg)
+[![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
+
 
 # <div align="center">Dijkstra's Canvas</div>
 
