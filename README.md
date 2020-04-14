@@ -41,7 +41,7 @@ Table of Contents
 ### Changelog
 <div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div>
 <div>v1.1:</div>
-<div>-Fixed lots of user-input related bugs</div>
+<div style="position:absolute; right:0;">-Fixed lots of user-input related bugs</div>
 <div>-Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines</div>
 <div>-Added 'Reset Canvas' Button</div>
 <div>v1.2:</div>
