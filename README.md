@@ -39,15 +39,15 @@ Table of Contents
 <br/>
 
 ### Changelog
-<pre><div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div></pre>
+<div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div>
 <div>v1.1:</div>
-<div>&nbsp;-Fixed lots of user-input related bugs</div>
-<div>&nbsp;-Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines</div>
-<div>&nbsp;-Added 'Reset Canvas' Button</div>
+<div>-Fixed lots of user-input related bugs</div>
+<div>-Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines</div>
+<div>-Added 'Reset Canvas' Button</div>
 <div>v1.2:</div>
-<div>&nbsp;-Added Canvas-Buttons separation line</div>
-<div>&nbsp;-Can only have so many results before it reaches the separation line</div>
-<div>&nbsp;-Minor bug fixes</div>
+<div>-Added Canvas-Buttons separation line</div>
+<div>-Can only have so many results before it reaches the separation line</div>
+<div>-Minor bug fixes</div>
 
 </br>
 
