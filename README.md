@@ -39,7 +39,7 @@ Table of Contents
 <br/>
 
 ### Changelog
-<div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div>
+<pre><div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div></pre>
 <div>v1.1:</div>
 <div>&nbsp;-Fixed lots of user-input related bugs</div>
 <div>&nbsp;-Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines</div>
