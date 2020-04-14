@@ -19,11 +19,11 @@ Table of Contents
 
 <!--ts-->
    * [Installation](#installation)
+   * [Changelog](#changelog)
    * [Usage](#usage)
       * [Example](#example)
       * [Adjacency Matrix](#adjacency-matrix)
       * [Error Handling](#error-handling)
-   * [Changelog](#changelog)
    * [Who is Dijkstra?](#who-is-dijkstra)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
       * [Pseudocode](#pseudocode)
@@ -37,6 +37,19 @@ Table of Contents
 3. Run `python3 DijsktrasCanvas.py`
 
 <br/>
+
+### Changelog
+<div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div>
+<div>v1.1:</div>
+<div>&nbsp;-Fixed lots of user-input related bugs</div>
+<div>&nbsp;-Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines</div>
+<div>&nbsp;-Added 'Reset Canvas' Button</div>
+<div>v1.2:</div>
+<div>&nbsp;-Added Canvas-Buttons separation line</div>
+<div>&nbsp;-Can only have so many results before it reaches the separation line</div>
+<div>&nbsp;-Minor bug fixes</div>
+
+</br>
 
 ### Usage
 1. Right-click to enter Vertex points at any point in the window, and hit the 'Done' Button next to the input field
@@ -76,20 +89,6 @@ For instance, to get from point 0 to point 1, the distance is 4. We can see this
 ### Error Handling
 
 <br/>
-
-### Changelog
-<div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div>
-<div>v1.1:</div>
-<div>&nbsp;-Fixed lots of user-input related bugs</div>
-<div>&nbsp;-Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines</div>
-<div>&nbsp;-Added 'Reset Canvas' Button</div>
-<div>v1.2:</div>
-<div>&nbsp;-Added Canvas-Buttons separation line</div>
-<div>&nbsp;-Can only have so many results before it reaches the separation line</div>
-<div>&nbsp;-Minor bug fixes</div>
-
-</br>
-
 
 ### Who is Dijkstra?
 Edsgar W. Dijkstra was a famous Dutch physicist, mathematician, and computer science pioneer who spent most of his life in a small Netherlands town known as Nuenen. Dijkstra was a professor at two prestigious universities, was a fellow for research boards, and held several awards such as the ACM A.M. Turing Award. He is the reason why this program was possible.
