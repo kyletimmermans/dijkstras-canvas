@@ -78,15 +78,15 @@ For instance, to get from point 0 to point 1, the distance is 4. We can see this
 <br/>
 
 ### Changelog
-v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs
-v1.1:
-  -Fixed lots of user-input related bugs
-  -Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines
-  -Added 'Reset Canvas' Button
-v1.2:
-  -Added Canvas-Buttons separation line
-  -Can only have so many results before it reaches the separation line
-  -Minor bug fixes
+<div>v1.0: Initial-Relase: One graph allowed, lots of possible user-input related bugs</div>
+<div>v1.1:</div>
+<div> -Fixed lots of user-input related bugs</div>
+<div> -Fixed edge weight number printing, no longer prints edge weight numbers inside of or on top of lines</div>
+<div> -Added 'Reset Canvas' Button</div>
+<div>v1.2:</div>
+<div> -Added Canvas-Buttons separation line</div>
+<div> -Can only have so many results before it reaches the separation line</div>
+<div> -Minor bug fixes</div>
 
 </br>
 
