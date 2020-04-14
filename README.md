@@ -23,7 +23,7 @@ Table of Contents
       * [Example](#example)
       * [Adjacency Matrix](#adjacency-matrix)
       * [Error Handling](#error-handling)
-   * [Changelog]
+   * [Changelog](#changelog)
    * [Who is Dijkstra?](#who-is-dijkstra)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
       * [Pseudocode](#pseudocode)
