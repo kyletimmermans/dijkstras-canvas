@@ -1,4 +1,4 @@
-![Version 1.1](http://img.shields.io/badge/version-v1.1-orange.svg)
+![Version 1.2](http://img.shields.io/badge/version-v1.2-orange.svg)
 ![Python 3.8](http://img.shields.io/badge/python-3.8-blue.svg)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
