@@ -33,7 +33,7 @@ Table of Contents
 
 ### Installation
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
-2. Run `git clone https://github.com/kyletimmermans/dijkstras-canvas/DijsktrasCanvas.py`
+2. Run ????????`git clone https://github.com/kyletimmermans/dijkstras-canvas/DijsktrasCanvas.py`????????
 3. Run `python3 DijsktrasCanvas.py`
 
 <br/>
