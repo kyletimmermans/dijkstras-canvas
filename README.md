@@ -8,7 +8,7 @@
 Dijsktra's Canvas is an application written in Python3 and Tkinter that allows users to draw a visual undirected weighted graph in the program's window. Using only the mouse, users can click where they want to place different vertex points. They can then draw edges from one vertex to another by first clicking on the source vertex, and then on the destination vertex, creating the connections. At this point, the user can now enter weights for the edges they drew to simulate distance between the vertex points. Finally, they can specify two vertex points, and have the program use Dijsktra's algorithm to find the shortest path between the specified points. The visual aspect of this program is solely created with Tkinter and does not use visual-graphing libraries such as networkx or matplotlib.
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/finalGraph.png?raw=true" alt="Dijkstra's Canvas"/>
+  <img src="new base picture?raw=true" alt="Dijkstra's Canvas"/>
 </p>
 
 
@@ -72,7 +72,7 @@ If we are given a graph such as this one:
 We can draw the same graph in the program and give it the same edge weights.
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/exampleGraph.png?raw=true" alt="Example Graph"/>
+  <img src="new example graph?raw=true" alt="Example Graph"/>
 </p>
 
 ### Adjacency Matrix
