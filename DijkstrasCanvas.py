@@ -18,7 +18,7 @@ ToDo:
         -Hit buttons in different orders
 '''
 
-# Many global calls because many of these functions can't take parameters because of tkinter module
+# Many global variables because many of these functions can't take parameters because of tkinter module
 
 from tkinter import *  # Import all widgets, canvas, etc
 from tkinter import messagebox, font  # Messagebox warnings, custom font
@@ -32,7 +32,7 @@ import sys  # Used for sys.maxsize
 alphabet1 = ascii_uppercase
 alphabet2 = ascii_lowercase
 letter = 0
-vertexNumber = 12   # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
+vertexNumber = 13   # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
 helperNumber = 1
 clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
 vertexes = {}       # Store vertex number and its location
@@ -56,18 +56,17 @@ def addVertex(event):
     y0 = event.y    # Current Y-Coord for mouse click
     # -25s and +25s to ensure the tip of the mouse-pointer is the center of the created circle
     vertex = draw_space.create_oval(x0-25, y0-25, x0+25, y0+25, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
-    vertex_text = draw_space.create_text(x0, y0, text=vertexNumber-11-vertexReset, tags='vertex')  # +25 to get to the center of a 50 circle
+    vertex_text = draw_space.create_text(x0, y0, text=vertexNumber-12-vertexReset, tags='vertex')  # +25 to get to the center of a 50 circle
     draw_space.pack()
     if isReset == False:  # if not after a reset
-        vertexes[vertexNumber-11-vertexReset] = draw_space.coords(vertexNumber+helperNumber)  # vertexNumber + helperNumber
+        vertexes[vertexNumber-12-vertexReset] = draw_space.coords(vertexNumber+helperNumber)  # vertexNumber + helperNumber
         helperNumber += 1  # increment and add to vertex labels so we get just the vertex circle, place here because we want it to start adding after VN=1
         vertexNumber += 1
         finalElementID = vertex_text  # If stop here, this is the final element id
     else:   # if after a reset
-        vertexes[vertexNumber - 11 - vertexReset] = draw_space.coords(finalElementID+1)  # +1 because vertex_text also cost an id when printed
+        vertexes[vertexNumber - 12 - vertexReset] = draw_space.coords(finalElementID+1)  # +1 because vertex_text also cost an id when printed
         vertexNumber += 1
         finalElementID = vertex_text  # If stop here, this is the final element id
-    print(vertexes)  # Debugging
 
 
 def addEdge(event):  # Why does *args work for this?
@@ -135,7 +134,7 @@ def addEdge(event):  # Why does *args work for this?
 def vertexButtonSet():
     global adjacencyMatrix
     # Fill matrix with zeros
-    adjacencyMatrix = [[0] * (vertexNumber - 12) for x in range(vertexNumber - 12)]  # Must use list comprehension, [[0] * n] * m is just a list of references to [0]*n and will change everything
+    adjacencyMatrix = [[0] * (vertexNumber - 13) for x in range(vertexNumber - 13)]  # Must use list comprehension, [[0] * n] * m is just a list of references to [0]*n and will change everything
     draw_space.unbind('<Button 1>')
     draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
 
@@ -289,9 +288,9 @@ def resetGraph():
     global letter, clickNumber, start, end, textCounterVertical, vertexes, edges, adjacencyMatrix, path
     global vertexReset, isReset, finalElementID, vertexButtonisClicked
     if vertexButtonisClicked == 0:  # If nothing is done at all and reset is hit, last element created is id #12
-        finalElementID = 12
+        finalElementID = 13
     isReset = True
-    vertexReset = vertexNumber-12
+    vertexReset = vertexNumber-13
     # Delete all user created shapes
     draw_space.delete('vertex')
     draw_space.delete('edge')
@@ -313,10 +312,10 @@ draw_space.pack()
 draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
 # Widgets
-### We have 12 widgets, they take up first eleven ID Numbers, so start vertexNumber at 12
+### We have 13 widgets, they take up first eleven ID Numbers, so start vertexNumber at 13
 ### Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
-### Search for "-12" or -"whatever number of widgets there are"
-### Look for "-11" too
+### Search for "-13" or -"whatever number of widgets there are"
+### Look for "-12" too
 ### Fix everything in addVertex() and addEdgeWeight() when adding another widget
 vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), background='Floral White')  # Vertex Text
 draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
@@ -343,6 +342,8 @@ draw_space.create_window(500, 30, window=resetButton)  # Draw Reset Button
 custFont = font.Font(family='Helvetica', size=15, weight='bold', underline=1)  # Custom Font
 resultTitle = Label(text='Shortest Paths', font=custFont, background='Floral White')  # Result Title (Bold, Underlined)
 draw_space.create_window(825, 25, window=resultTitle)  # Draw Result Title
+separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
+draw_space.pack()  # Pack in separationLine, ID#13
 
 root.mainloop()  # Keep window open and loop all its functions
 
