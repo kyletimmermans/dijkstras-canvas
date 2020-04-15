@@ -47,6 +47,7 @@ Table of Contents
 <div>v1.2:</div>
 <div>&ensp;&ensp;-Added Canvas-Buttons separation line</div>
 <div>&ensp;&ensp;-Can only have so many shortest path results before it reaches the separation line</div>
+<div>&ensp;&ensp;-Added more Error Handling</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
 
 </br>
