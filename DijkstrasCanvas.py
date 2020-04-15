@@ -10,7 +10,7 @@ ToDo:
     2. Fix shortest path spacing
     3. Add thin line separating buttons / results from canvas
         -Change all necessary baked in values
-        -Error Handling: Can't make vertex into the button area, give messagebox, can't draw up here
+        -Error Handling: Can't make vertex into the button area, give messagebox, can't draw up here, place in addVertex
         -If shortpath results go past line, reset those, add to end of dijkstra() function
     4. Keep testing out bugs, try and break it
         -UnboundLocalError: local variable 'vertexStart' referenced before assignment
@@ -43,13 +43,15 @@ start, end = 0, 0   # Init start and end to be used with the button
 textCounterVertical = 25  # y-value to place shortest paths, incremented in dijkstra() so we can have a clean list
 vertexReset = 0
 isReset = False
+vertexButtonisClicked = 0
 
 #############
 # Functions #
 #############
 def addVertex(event):
     global vertexNumber, helperNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now  # helperNumber: Need a dynamic number to add to vertex number
-    global isReset, finalElementID
+    global isReset, finalElementID, vertexButtonisClicked
+    vertexButtonisClicked = 1  # At least something is done, used for resetButton
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
     # -25s and +25s to ensure the tip of the mouse-pointer is the center of the created circle
@@ -65,7 +67,7 @@ def addVertex(event):
         vertexes[vertexNumber - 11 - vertexReset] = draw_space.coords(finalElementID+1)  # +1 because vertex_text also cost an id when printed
         vertexNumber += 1
     print(vertexes)  # Debugging
-    
+
 
 def addEdge(event):  # Why does *args work for this?
     global clickNumber, letter, x1, y1
@@ -284,8 +286,9 @@ def dijkstra():
 
 def resetGraph():
     global letter, clickNumber, start, end, textCounterVertical, vertexes, edges, adjacencyMatrix, path
-    global vertexReset, isReset, finalElementID
-    finalElementID = 12  # If nothing is done at all and reset is hit, last element created is id #12
+    global vertexReset, isReset, finalElementID, vertexButtonisClicked
+    if vertexButtonisClicked == 0:  # If nothing is done at all and reset is hit, last element created is id #12
+        finalElementID = 12 
     isReset = True
     vertexReset = vertexNumber-12
     # Delete all user created shapes
