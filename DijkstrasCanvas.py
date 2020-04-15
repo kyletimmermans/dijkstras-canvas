@@ -1,21 +1,21 @@
 '''
 Kyle Timmermans
-March 18th, 2020
+Project Start Date: March 18th, 2020
+v1.2 Release Date: April 15th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix shortest path spacing
-    2. Add thin line separating buttons / results from canvas
-        -Change all necessary baked in values
-        -Error Handling: Can't make vertex into the button area, give messagebox, can't draw up here, place in addVertex
-        -If shortpath results go past line, reset those, add to end of dijkstra() function
+    1. Error Handling: Can't make vertex into the button area, give messagebox, can't draw up here, place in addVertex
+    2. Fix:
+            edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
+            UnboundLocalError: local variable 'vertexDestination' referenced before assignment
     3. Keep testing out bugs, try and break it
         -UnboundLocalError: local variable 'vertexStart' referenced before assignment
         -key error with non-existant edges
         -Hit buttons in different orders
 '''
 
-# Many global variables because many of these functions can't take parameters because of tkinter module
+# Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
 
 from tkinter import *  # Import all widgets, canvas, etc
 from tkinter import messagebox, font  # Messagebox warnings, custom font
@@ -41,6 +41,7 @@ textCounterVertical = 25  # y-value to place shortest paths, incremented in dijk
 vertexReset = 0  # Used in resetButton
 isReset = False  # Used in resetButton
 vertexButtonisClicked = 0  # Used in resetButton
+separationLineLimit = 1  # Max amount of short path results to be shown at once
 
 #############
 # Functions #
@@ -51,6 +52,10 @@ def addVertex(event):
     vertexButtonisClicked = 1  # At least something is done, used for resetButton
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
+    # Error Handling - If vertex is attempted to be placed above separation line
+    if y0 < 200:  # Separation line begins at y=200, anything above is widgets space
+        messagebox.showwarning(title="Warning", message="Can't place vertexes above the Canvas Separation Line!")
+        return  # Exit, let user try again
     # -25s and +25s to ensure the tip of the mouse-pointer is the center of the created circle
     vertex = draw_space.create_oval(x0-25, y0-25, x0+25, y0+25, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
     vertex_text = draw_space.create_text(x0, y0, text=vertexNumber-12-vertexReset, tags='vertex')  # +25 to get to the center of a 50 circle
@@ -84,7 +89,7 @@ def addEdge(event):  # Why does *args work for this?
         y2 = event.y    # end y pos of mouse
         # Error Handling - When drawing edge to itself
         if (x1 <= x2 <= x1+25) and (y1 <= y2 <= y1+25):
-            messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself")
+            messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself!")
             clickNumber = 0  # Allow a new line to be drawn again, from a new spot
             return  # Drop the rest of the function
         line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
@@ -248,7 +253,12 @@ def dijkstra():
         else:
             path_string += str(path[i]+1)
     textCounterVertical += 20  # Move down the list
-    # Error Handling, starting with normal cases
+    # Error Handling - When results get to separationLine, 8 mount of results, or when it reaches (8*20) + 25 pixels high
+    if textCounterVertical > 185:
+        messagebox.showwarning(title="Warning", message="'Shortest Paths' results bank is full, clearing past results")
+        textCounterVertical = 45  # Reset to normal
+        draw_space.delete('shortPath')  # Remove prior shortest path results
+    # Short path spacing, starting with normal cases
     if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
@@ -258,7 +268,7 @@ def dijkstra():
                     stringSize += 3.5
                 else:
                     stringSize += 4
-        finalLabel = draw_space.create_text(885+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath') # 884 is for when the string is smallest
+        finalLabel = draw_space.create_text(885+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')  # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
         stringSize = 0  # init stringSize locally
