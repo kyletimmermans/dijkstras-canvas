@@ -5,14 +5,12 @@ v1.2 Release Date: April 15th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Error Handling: Can't make vertex into the button area, give messagebox, can't draw up here, place in addVertex
-    2. Fix:
+    1. Fix "Edge Doubles Up Bug"
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    3. Keep testing out bugs, try and break it
-        -UnboundLocalError: local variable 'vertexStart' referenced before assignment
+    2. Keep testing out bugs, try and break it
         -key error with non-existant edges
-        -Hit buttons in different orders
+        -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
@@ -277,7 +275,7 @@ def dijkstra():
                 stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
                 if length == len(final_string) - 1:
                     stringSize += 1  # Needs an extra at the end to look uniform with others
-        finalLabel = draw_space.create_text(869+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')
+        finalLabel = draw_space.create_text(868+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')
     elif inputValues[0] == inputValues[1]:
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
         stringSize = 0  # init stringSize locally
@@ -319,11 +317,13 @@ draw_space.pack()
 draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
 # Widgets
-### We have 13 widgets, they take up first eleven ID Numbers, so start vertexNumber at 13
-### Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
-### Search for "-13" or -"whatever number of widgets there are"
-### Look for "-12" too
-### Fix everything in addVertex() and addEdgeWeight() when adding another widget
+'''
+We have 13 widgets, they take up first eleven ID Numbers, so start vertexNumber at 13
+Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
+Search for "-13" or -"whatever number of widgets there are"
+Look for "-12" too
+Fix everything in addVertex() and addEdgeWeight() when adding another widget
+'''
 vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), background='Floral White')  # Vertex Text
 draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
 vertexButton = Button(text='Done', command=vertexButtonSet, background='Floral White')  # Vertex Button
