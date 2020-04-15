@@ -41,9 +41,9 @@ adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edi
 path = []  # Store shortest path vertexes
 start, end = 0, 0   # Init start and end to be used with the button
 textCounterVertical = 25  # y-value to place shortest paths, incremented in dijkstra() so we can have a clean list
-vertexReset = 0
-isReset = False
-vertexButtonisClicked = 0
+vertexReset = 0  # Used in resetButton
+isReset = False  # Used in resetButton
+vertexButtonisClicked = 0  # Used in resetButton
 
 #############
 # Functions #
@@ -66,6 +66,7 @@ def addVertex(event):
     else:   # if after a reset
         vertexes[vertexNumber - 11 - vertexReset] = draw_space.coords(finalElementID+1)  # +1 because vertex_text also cost an id when printed
         vertexNumber += 1
+        finalElementID = vertex_text  # If stop here, this is the final element id
     print(vertexes)  # Debugging
 
 
@@ -288,7 +289,7 @@ def resetGraph():
     global letter, clickNumber, start, end, textCounterVertical, vertexes, edges, adjacencyMatrix, path
     global vertexReset, isReset, finalElementID, vertexButtonisClicked
     if vertexButtonisClicked == 0:  # If nothing is done at all and reset is hit, last element created is id #12
-        finalElementID = 12 
+        finalElementID = 12
     isReset = True
     vertexReset = vertexNumber-12
     # Delete all user created shapes
