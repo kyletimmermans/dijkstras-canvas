@@ -5,10 +5,11 @@ v1.2 Release Date: April 15th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix "Edge Doubles Up Bug"
+    1. Fix short path results spacing
+    2. Fix "Edge Doubles Up Bug"
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    2. Keep testing out bugs, try and break it
+    3. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
 '''
