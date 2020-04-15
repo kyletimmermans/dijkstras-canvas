@@ -4,15 +4,12 @@ March 18th, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix reset work
-            edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
-            UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    2. Fix shortest path spacing
-    3. Add thin line separating buttons / results from canvas
+    1. Fix shortest path spacing
+    2. Add thin line separating buttons / results from canvas
         -Change all necessary baked in values
         -Error Handling: Can't make vertex into the button area, give messagebox, can't draw up here, place in addVertex
         -If shortpath results go past line, reset those, add to end of dijkstra() function
-    4. Keep testing out bugs, try and break it
+    3. Keep testing out bugs, try and break it
         -UnboundLocalError: local variable 'vertexStart' referenced before assignment
         -key error with non-existant edges
         -Hit buttons in different orders
