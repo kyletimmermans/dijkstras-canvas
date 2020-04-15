@@ -86,6 +86,13 @@ For instance, to get from point 0 to point 1, the distance is 4. We can see this
 <br/>
 
 ### Error Handling
+1. Can't place vertexes beyond the allowed canvas space, only below separation line
+2. Can't place an edge from a vertex to itself
+3. Can't have more than 52 edges, edge labeling system uses A-Z and when that runs out, a-z (26+26)
+4. Can't give edge weights for non-existant edges
+5. When trying to get the shortest path of two vertexes, will check to see if the two entered vertexes exist
+6. When trying to get the shortest path of two vertexes and they are the same, e.g. v1,v1. Will return "Path = None | Distance = 0"
+7. When trying to get the shortest path of two vertexes that are not connected at some point on the graph, will return "No Connection Found"
 
 <br/>
 
