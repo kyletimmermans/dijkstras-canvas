@@ -1,4 +1,4 @@
-![Version 1.2](http://img.shields.io/badge/version-v1.2-orange.svg)
+![Version 1.3](http://img.shields.io/badge/version-v1.3-orange.svg)
 ![Python 3.8](http://img.shields.io/badge/python-3.8-blue.svg)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
@@ -50,6 +50,7 @@ Table of Contents
 <div>&ensp;&ensp;-Can only have so many shortest path results (8 results) before it reaches the separation line</div>
 <div>&ensp;&ensp;-Added more Error Handling</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
+<div>v1.3: Coming soon</div>
 
 </br>
 
