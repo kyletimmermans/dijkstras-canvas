@@ -6,10 +6,13 @@ compiled in python v3.8.2
 
 ToDo:
     1. Fix short path results spacing
+    2. Can't draw an edge to its original vertex in addEdge()
     2. Fix "Edge Doubles Up Bug"
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    3. Keep testing out bugs, try and break it
+    4. Fix drawing lines so that they don't fill the middle, only drawn from the edge of the circle outside
+        -incorporate class into addEdge()
+    5. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
 '''
@@ -19,6 +22,7 @@ ToDo:
 from tkinter import *  # Import all widgets, canvas, etc
 from tkinter import messagebox, font  # Messagebox warnings, custom font
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
+from math import sqrt  # For circleEdgePoint class math
 import re  # Splitting up and sanitizing input strings
 import sys  # Used for sys.maxsize
 
@@ -41,6 +45,25 @@ vertexReset = 0  # Used in resetButton
 isReset = False  # Used in resetButton
 vertexButtonisClicked = 0  # Used in resetButton
 separationLineLimit = 1  # Max amount of short path results to be shown at once
+
+##############
+# Data Types #
+##############
+# This point lies on the edge of the circle so there's no line overhang on the green vertex (cuts off extra overlap)
+# https://math.stackexchange.com/questions/127613/closest-point-on-circle-edge-from-point-outside-inside-the-circle
+class circleEdgePoint:
+    def __init__(self, x1, y1, x2, y2, r):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.r = r
+    def cx(self):
+        return self.x1 + (self.r * (self.x2 - self.x1) / sqrt((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2 ))  # Needs the multiplication asterisk
+    def cy(self):
+        return self.y1 + (self.r * (self.y2 - self.y1) / sqrt((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2 ))
+    def final(self):
+        return [round(self.cx(), 1), round(self.cy(), 1)]  # Return x,y of C-coord as a list, round() to nearest tenths place, e.g. 7.1
 
 #############
 # Functions #
@@ -131,6 +154,7 @@ def addEdge(event):  # Why does *args work for this?
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
         letter += 1     # Next letter, eventually goes to lowercase
 
+
 # Vertex Button
 def vertexButtonSet():
     global adjacencyMatrix
@@ -139,10 +163,12 @@ def vertexButtonSet():
     draw_space.unbind('<Button 1>')
     draw_space.tag_bind('vertex', '<Button-1>', addEdge)  # tags used for clicking function, the declared variables in addVertex need the 'vertex' tag
 
+
 # Edge Finish Button
 def edgeButtonSet():
     # Can't draw vertexes anymore
     draw_space.unbind('<Button 1>')
+
 
 # Input button next to entry field for getting weights
 def addEdgeWeight():
@@ -262,7 +288,7 @@ def dijkstra():
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
-            if length > 37:   # 37 is smallest possible string length, - needs only 3 pixels
+            if length > 37:  # 37 is smallest possible string length, letters/number = 4 characters, - = x characters, > = x characters
                 if final_string[length] == '-':
                     stringSize += 3.5
                 else:
@@ -286,7 +312,7 @@ def dijkstra():
                 if length == len(final_string) - 1:
                     stringSize += 1  # Needs an extra at the end to look uniform with others
         finalLabel = draw_space.create_text(855+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')
-    draw_space.pack()
+    draw_space.pack()  # Place the result onto the screen
     finalElementID = finalLabel  # Used for reset
 
 
@@ -304,6 +330,7 @@ def resetGraph():
     letter, clickNumber, start, end, textCounterVertical = 0, 0, 0, 0, 25  # Init vars back to default, DO revert vertexNumber and helperNumber, id number's do not reset with .delete()
     vertexes, edges, adjacencyMatrix, path = {}, {}, [], []  # Init dicts and lists to empty
     draw_space.bind('<Button-1>', addVertex)  #Start back to placing vertexes
+
 
 # Start Main #
 
@@ -351,8 +378,8 @@ custFont = font.Font(family='Helvetica', size=15, weight='bold', underline=1)  #
 resultTitle = Label(text='Shortest Paths', font=custFont, background='Floral White')  # Result Title (Bold, Underlined)
 draw_space.create_window(825, 25, window=resultTitle)  # Draw Result Title
 separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
-draw_space.pack()  # Pack in separationLine, ID#13
+draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
 
-root.mainloop()  # Keep window open and loop all its functions
+root.mainloop()  # Keep window open and loop all its functions / widgets
 
 # End of Main #
