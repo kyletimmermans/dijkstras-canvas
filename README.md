@@ -50,7 +50,9 @@ Table of Contents
 <div>&ensp;&ensp;-Can only have so many shortest path results (8 results) before it reaches the separation line</div>
 <div>&ensp;&ensp;-Added more Error Handling</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
-<div>v1.3: Coming soon</div>
+<div>v1.3:</div>
+<div>&ensp;&ensp;-Added geometry fix for edge lines, they no longer overlap the vertexes. Automatically, go to edge of vertex</div>
+<div>&ensp;&ensp;-Bug fixes</div>
 
 </br>
 
