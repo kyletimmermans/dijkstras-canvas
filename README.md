@@ -21,6 +21,7 @@ Table of Contents
    * [Installation](#installation)
    * [Changelog](#changelog)
    * [Usage](#usage)
+      * [Features](#features)
       * [Example](#example)
       * [Adjacency Matrix](#adjacency-matrix)
       * [Error Handling](#error-handling)
@@ -60,6 +61,11 @@ Table of Contents
 5. Finally, hit the 'Reset Canvas' Button to start over again and create a new graph
 
 <br/>
+
+### Features
+
+
+</br>
 
 ### Example
 Geeksforgeeks.org has a well-made undirected weighted graph image that I will use as an example and re-create it in Dijsktra's Canvas. 
