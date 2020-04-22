@@ -74,6 +74,8 @@ def addVertex(event):
     vertexButtonisClicked = 1  # At least something is done, used for resetButton
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
+    print("x0 = "+str(x0))
+    print("y0 = "+str(y0))
     # Error Handling - If vertex is attempted to be placed above separation line
     if y0 < 200:  # Separation line begins at y=200, anything above is widgets space
         messagebox.showwarning(title="Warning", message="Can't place vertexes above the Canvas Separation Line!")
@@ -114,7 +116,22 @@ def addEdge(event):  # Why does *args work for this?
             messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself!")
             clickNumber = 0  # Allow a new line to be drawn again, from a new spot
             return  # Drop the rest of the function
-        line = draw_space.create_line(x1, y1, x2, y2, fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
+        # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
+        for key in vertexes:
+            if (vertexes[key][0] < x1 < vertexes[key][2]) == True and (vertexes[key][1] < y1 < vertexes[key][3]) == True:  # If at the same point, must include x and y axis, otherwise, not specific enough
+                vertexStart = key  # To be added to edges{}
+                c1 = [vertexes[key][0]+25, vertexes[key][1]+25]  # Used for circleEdgePoint center, +25 to undo mouse pointer fix and get original vertex center value
+            if (vertexes[key][0] < x2 < vertexes[key][2]) == True and (vertexes[key][1] < y2 < vertexes[key][3]) == True:
+                vertexDestination = key  # To be added to edges{}
+                c2 = [vertexes[key][0]+25, vertexes[key][1]+25]  # Used for circleEdgePoint center, +25 to undo mouse pointer fix and get original vertex center value
+        if letter <= 25:
+            edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
+        elif letter > 25:
+            edges[alphabet2[letter-26]] = [vertexStart, vertexDestination]  # Needs a -26 or will return index error
+        # Edge Overlap fix here
+        points1 = circleEdgePoint(c1[0], c1[1], c2[0], c2[1], 25).final()  # circleEdgePoint class called twice, for both clicks
+        points2 = circleEdgePoint(c2[0], c2[1], c1[0], c1[1], 25).final()  # Both end points of the edge need a circle edge value
+        line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
         finalElementID = line  # if stopping here before reset
         if letter <= 25:  # Go through uppercase letters
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
@@ -140,17 +157,6 @@ def addEdge(event):  # Why does *args work for this?
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
         finalElementID = lineLetter  # if stopping here before reset
         draw_space.pack()  # Pack into canvas and give unique ID
-        # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
-        for key in vertexes:
-            if (vertexes[key][0] < x1 < vertexes[key][2]) == True and (vertexes[key][1] < y1 < vertexes[key][3]) == True:  # If at the same point, must include x and y axis, otherwise, not specific enough
-                vertexStart = key
-        for key in vertexes:
-            if (vertexes[key][0] < x2 < vertexes[key][2]) == True and (vertexes[key][1] < y2 < vertexes[key][3]) == True:
-                vertexDestination = key
-        if letter <= 25:
-            edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
-        elif letter > 25:
-            edges[alphabet2[letter-26]] = [vertexStart, vertexDestination]  # Needs a -26 or will return index error
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
         letter += 1     # Next letter, eventually goes to lowercase
 
@@ -383,3 +389,5 @@ draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
 root.mainloop()  # Keep window open and loop all its functions / widgets
 
 # End of Main #
+print("vertexes")
+print(vertexes)
