@@ -51,7 +51,7 @@ Table of Contents
 <div>&ensp;&ensp;-Added more Error Handling</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
 <div>v1.3:</div>
-<div>&ensp;&ensp;-Added geometry fix for edge lines, they no longer overlap the vertexes. Automatically connect to edge of vertex</div>
+<div>&ensp;&ensp;-Added automatic geometry fix for edge lines, they no longer overlap the vertexes. Automatically connect to edge of the circumference of the vertex</div>
 <div>&ensp;&ensp;-Bug fixes</div>
 
 </br>
