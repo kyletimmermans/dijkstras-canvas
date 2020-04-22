@@ -9,7 +9,7 @@ ToDo:
     2. Fix "Edge Doubles Up Bug"
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    4. Keep testing out bugs, try and break it
+    3. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
 '''
