@@ -6,13 +6,10 @@ compiled in python v3.8.2
 
 ToDo:
     1. Fix short path results spacing
-    2. Can't draw an edge to its original vertex in addEdge()
     2. Fix "Edge Doubles Up Bug"
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    4. Fix drawing lines so that they don't fill the middle, only drawn from the edge of the circle outside
-        -incorporate class into addEdge()
-    5. Keep testing out bugs, try and break it
+    4. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
 '''
@@ -74,8 +71,6 @@ def addVertex(event):
     vertexButtonisClicked = 1  # At least something is done, used for resetButton
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
-    print("x0 = "+str(x0))
-    print("y0 = "+str(y0))
     # Error Handling - If vertex is attempted to be placed above separation line
     if y0 < 200:  # Separation line begins at y=200, anything above is widgets space
         messagebox.showwarning(title="Warning", message="Can't place vertexes above the Canvas Separation Line!")
@@ -128,33 +123,35 @@ def addEdge(event):  # Why does *args work for this?
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
         elif letter > 25:
             edges[alphabet2[letter-26]] = [vertexStart, vertexDestination]  # Needs a -26 or will return index error
-        # Edge Overlap fix here
+        # Edge Overlap fix here, auto geometry
         points1 = circleEdgePoint(c1[0], c1[1], c2[0], c2[1], 25).final()  # circleEdgePoint class called twice, for both clicks
         points2 = circleEdgePoint(c2[0], c2[1], c1[0], c1[1], 25).final()  # Both end points of the edge need a circle edge value
         line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
         finalElementID = line  # if stopping here before reset
+        x1, y1 = c1[0], c1[1]  # New Points to use, no longer using exact click points, rather the vertex centers
+        x2, y2 = c2[0], c2[1]
         if letter <= 25:  # Go through uppercase letters
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             else:
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
         elif letter > 25:
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
                 lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             else:
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 10, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
         finalElementID = lineLetter  # if stopping here before reset
         draw_space.pack()  # Pack into canvas and give unique ID
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
@@ -389,5 +386,3 @@ draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
 root.mainloop()  # Keep window open and loop all its functions / widgets
 
 # End of Main #
-print("vertexes")
-print(vertexes)
