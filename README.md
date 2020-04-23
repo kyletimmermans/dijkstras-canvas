@@ -33,6 +33,8 @@ Table of Contents
 <br/>
 
 ### Installation
+Include download for .app and .exe
+
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `wget https://github.com/kyletimmermans/dijkstras-canvas/blob/master/DijkstrasCanvas.py`
 3. Run `python3 DijsktrasCanvas.py`
