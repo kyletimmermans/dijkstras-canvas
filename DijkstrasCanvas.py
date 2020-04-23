@@ -291,8 +291,8 @@ def dijkstra():
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
         stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
         for length in range(len(final_string)):
-            if length > 37:  # 37 is smallest possible string length, letters/number = 4 characters, - = x characters, > = x characters
-                if final_string[length] == '-':
+            if length > 37:  # 37 is smallest possible string length, letters/number = 4 pixels, '-' = x pixels,  '>' = 3.5 pixels
+                if final_string[length] == '>':
                     stringSize += 3.5
                 else:
                     stringSize += 4
