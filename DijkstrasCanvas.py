@@ -281,40 +281,21 @@ def dijkstra():
         else:
             path_string += str(path[i]+1)
     textCounterVertical += 20  # Move down the list
-    # Error Handling - When results get to separationLine, 8 mount of results, or when it reaches (8*20) + 25 pixels high
+    # Error Handling - When results get to separationLine, 8 lines of results, or when it reaches (8*20) + 25 pixels high
     if textCounterVertical > 185:
         messagebox.showwarning(title="Warning", message="'Shortest Paths' results bank is full, clearing past results")
         textCounterVertical = 45  # Reset to normal
         draw_space.delete('shortPath')  # Remove prior shortest path results
-    # Short path spacing, starting with normal cases
+    # Short path spacing, starting with normal cases, needs anchor=W to keep results flush despite result length
     if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
-        stringSize = 0  # Used to dynamically update the x-value for the text depending on the size of final string
-        for length in range(len(final_string)):
-            if length > 37:  # 37 is smallest possible string length, letters/number = 4 pixels, '-' = x pixels,  '>' = 3.5 pixels
-                if final_string[length] == '>':
-                    stringSize += 3.5
-                else:
-                    stringSize += 4
-        finalLabel = draw_space.create_text(885+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')  # 884 is for when the string is smallest
+        finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # 884 is for when the string is smallest
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
-        stringSize = 0  # init stringSize locally
-        for length in range(len(final_string)):
-            if length > 29:  # 28 is the smallest length for no path found
-                stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
-                if length == len(final_string) - 1:
-                    stringSize += 1  # Needs an extra at the end to look uniform with others
-        finalLabel = draw_space.create_text(868+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')
-    elif inputValues[0] == inputValues[1]:
+        finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
+    elif inputValues[0] == inputValues[1]:  # If vertex to itself
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
-        stringSize = 0  # init stringSize locally
-        for length in range(len(final_string)):
-            if length > 28:  # 28 is the smallest length for no path found
-                stringSize += 4  # Add 4 more spaces to adjust for a new character, every time we are over the smallest point
-                if length == len(final_string) - 1:
-                    stringSize += 1  # Needs an extra at the end to look uniform with others
-        finalLabel = draw_space.create_text(855+stringSize, textCounterVertical, text=final_string, font=('Times', 14), tags='shortPath')
+        finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
     draw_space.pack()  # Place the result onto the screen
     finalElementID = finalLabel  # Used for reset
 
