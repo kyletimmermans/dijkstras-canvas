@@ -1,4 +1,4 @@
-![Version 1.3](http://img.shields.io/badge/version-v1.3-orange.svg)
+![Version 1.4](http://img.shields.io/badge/version-v1.4-orange.svg)
 ![Python 3.8](http://img.shields.io/badge/python-3.8-blue.svg)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
@@ -55,6 +55,9 @@ Include download for .app and .exe (Make a different file with sizing changes fo
 <div>v1.3:</div>
 <div>&ensp;&ensp;-Added automatic geometry fix for creating edges, no more edge overlapping vertex</div>
 <div>&ensp;&ensp;-Bug fixes</div>
+<div>v1.4:</div>
+<div>&ensp;&ensp;-Optimization fixes</div>
+<div>&ensp;&ensp;-Minor bug fixes</div>
 
 </br>
 
