@@ -66,7 +66,7 @@ Include download for .app and .exe (Make a different file with sizing changes fo
 2. Now you can click from any vertex point to any other vertex point to create edges, then hit the second 'Done' Button
 3. Input weights separated by commas and hit 'Input', e.g. A=7, B=8, C=9
 4. Input two vertexes (source and destination. Then click 'Show Results' to see the Shortest Path between the two e.g. v1,v2
-5. Finally, hit the 'Reset Canvas' Button to start over again and create a new graph
+5. Hit the 'Reset Canvas' Button at any point, to remove the graph and all its elements to start over again
 
 <br/>
 
