@@ -117,7 +117,7 @@ Edsgar W. Dijkstra was a famous Dutch physicist, mathematician, and computer sci
 <br/>
 
 ### Dijkstra's Algorithm
-An algorithm created by Dijkstra that is used to find the shortest paths from a given source node, to all other nodes in a graph. 
+An algorithm created by Dijkstra, that is used to find the shortest paths from a given source node, to all other nodes in a graph. 
 
 <br/>
 
