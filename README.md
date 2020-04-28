@@ -1,4 +1,4 @@
-![Version 1.4](http://img.shields.io/badge/version-v1.4-orange.svg)
+![Version 1.5](http://img.shields.io/badge/version-v1.5-orange.svg)
 ![Python 3.8](http://img.shields.io/badge/python-3.8-blue.svg)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
@@ -58,7 +58,10 @@ Include download for .app and .exe (Make a different file with sizing changes fo
 <div>v1.4:</div>
 <div>&ensp;&ensp;-Optimization fixes</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
-
+<div>v1.5:</div>
+<div>&ensp;&ensp;-Fixed edge weight placement</div>
+<div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment/div>
+  
 </br>
 
 ### Usage
