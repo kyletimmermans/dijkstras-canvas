@@ -1,5 +1,6 @@
-![Version 1.5](http://img.shields.io/badge/version-v1.5-orange.svg)
-![Python 3.8](http://img.shields.io/badge/python-3.8-blue.svg)
+![Version 1.5](https://img.shields.io/badge/version-v1.5-orange.svg)
+![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)
+![Release Date](https://img.shields.io/badge/release%20date-May%202020-red.svg)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
 
