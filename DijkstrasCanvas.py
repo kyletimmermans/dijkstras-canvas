@@ -1,14 +1,14 @@
 '''
 Kyle Timmermans
-Project Start Date: March 18th, 2020
-v1.2 Release Date: April 15th, 2020
+v1.5 Release Date: May xx, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix "Edge Doubles Up Bug" - Maybe due to bad weight inputs?
+    1. Fix weight numbers being too far from line, use pyautogui to test?
+    2. Fix "Edge Doubles Up Bug" - Maybe due to bad weight inputs (Find why it happens and have a solve for it)? e.g. B=1,A=2,C=3 instead of A=1,B=2,C=3
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    2. Keep testing out bugs, try and break it
+    3. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
 '''
