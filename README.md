@@ -59,8 +59,8 @@ Include download for .app and .exe (Make a different file with sizing changes fo
 <div>&ensp;&ensp;-Optimization fixes</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
 <div>v1.5:</div>
-<div>&ensp;&ensp;-Fixed edge weight placement</div>
-<div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment/div>
+<div>&ensp;&ensp;-Fixed edge weight placement being too far away in some cases</div>
+<div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment</div>
   
 </br>
 
