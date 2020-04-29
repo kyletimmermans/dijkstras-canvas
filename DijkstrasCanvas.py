@@ -11,6 +11,7 @@ ToDo:
     3. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
+    4. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
