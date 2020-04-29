@@ -317,17 +317,18 @@ def resetGraph():
 
 # Start Main #
 
-####################
-# Window / Widgets #
-####################
+##########
+# Window #
+##########
 root = Tk()
 root.title("Dijkstra's Canvas - @KyleTimmermans")
 draw_space = Canvas(root, width=1500, height=1000, background='Floral White')  # Canvas for drawing, make dynamic sizing in the future
 draw_space.pack()
-
 draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
-# Widgets
+###########
+# Widgets #
+###########
 '''
 We have 13 widgets, they take up first eleven ID Numbers, so start vertexNumber at 13
 Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
