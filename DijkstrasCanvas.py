@@ -4,7 +4,7 @@ v1.5 Release Date: May xx, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix weight numbers being too far from line, use pyautogui to test?
+    1. Fix weight numbers being too far from line, also fix weights being too far when line is short, use pyautogui to test?
     2. Fix "Edge Doubles Up Bug" - Maybe due to bad weight inputs (Find why it happens and have a solve for it)? e.g. B=1,A=2,C=3 instead of A=1,B=2,C=3
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
@@ -393,6 +393,9 @@ elif platform == "win32":  # Windows widget dimension and spacing setup
     draw_space.create_window(910, 20, window=resultTitle)  # Draw Result Title
     separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
     draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
+else:  # If the OS is unsupported e.g. Linux
+    print("OS Not Supported!")
+    exit()
 
 root.mainloop()  # Keep window open and loop all its functions / widgets
 
