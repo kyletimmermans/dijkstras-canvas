@@ -55,7 +55,7 @@ Include download for .app and .exe (Make a different file with sizing changes fo
 <div>&ensp;&ensp;-Added more Error Handling</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
 <div>v1.3:</div>
-<div>&ensp;&ensp;-Added automatic geometry fix for creating edges, no more edge overlapping vertex</div>
+<div>&ensp;&ensp;-Added automatic geometry fix for creating edges, no more edges overlapping vertexes</div>
 <div>&ensp;&ensp;-Bug fixes</div>
 <div>v1.4:</div>
 <div>&ensp;&ensp;-Optimization fixes</div>
