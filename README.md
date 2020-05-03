@@ -1,4 +1,4 @@
-![Version 1.5](https://img.shields.io/badge/version-v1.5-orange.svg)
+![Version 2.0](https://img.shields.io/badge/version-v2.0-orange.svg)
 ![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)
 ![Latest Release Date](https://img.shields.io/badge/latest%20release%20date-May%202020-red.svg)
 ![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
@@ -60,7 +60,7 @@ Include mega.nz download link for a zipped .app folder and zipped .exe folder
 <div>v1.4:</div>
 <div>&ensp;&ensp;-Optimization fixes</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
-<div>v1.5:</div>
+<div>v2.0:</div>
 <div>&ensp;&ensp;-Fixed edge weight placement being too far away in some cases</div>
 <div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment</div>
 <div>&ensp;&ensp;-Added Windows compatibility (Anti-Aliasing with aggdraw)</div>
