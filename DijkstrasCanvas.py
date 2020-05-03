@@ -11,6 +11,11 @@ ToDo:
     3. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
+    4. Add Anti-Aliasing for windows version
+        - if mac
+            draw stuff like lines and vertexes, buttons, font with tkinter
+        - elif windows
+            draw stuff line lines and vertexes, buttons, font with aggdraw
     4. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
 '''
 
@@ -132,26 +137,26 @@ def addEdge(event):  # Why does *args work for this?
         x2, y2 = c2[0], c2[1]
         if letter <= 25:  # Go through uppercase letters
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
             else:
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
         elif letter > 25:
             if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
             else:
-                lineLetter = line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
         finalElementID = lineLetter  # if stopping here before reset
         draw_space.pack()  # Pack into canvas and give unique ID
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
@@ -256,16 +261,15 @@ def dijkstra():
                 vertex = length  # vertex = the index of the smallest distance in a row(vertex)
         # Every time, we see this point, vertex is increased because the last vertex is marked as visited, and we move to the next one
         visited[vertex] = True  # Mark vertex as visited
-        # Why does this part work
+        # Learn this part and understand how parent array works
         for dist in range(vertexesLocal):  # For each distance in a row(vertex)
             if graph[vertex][dist] > 0 and visited[length] is False and distance[dist] > distance[vertex] + graph[vertex][dist]:
                 distance[dist] = distance[vertex] + graph[vertex][dist]  # Add smallest distance
                 parent[dist] = vertex  # Why does this line work
     path = []  # Reset path so it doesn't add the last pass's data, bc path is global
-    # How does this work
     def getPath(parent, j):  # Recurse through parent array and append vertexes to path
         global path
-        if parent[j] == -1:
+        if parent[j] == -1:   # -1 is the source
             path.append(j)
             return
         getPath(parent, parent[j])
