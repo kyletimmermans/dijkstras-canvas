@@ -47,6 +47,6 @@ vertexButton = Button(text='Done', command=lineDraw, background='Floral White') 
 draw_space.create_window(355, 30, window=vertexButton)  # Draw Vertex Button
 separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
 draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
-#########################################################################
+
 
 root.mainloop()
