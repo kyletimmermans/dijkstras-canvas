@@ -63,7 +63,7 @@ Include mega.nz download link for a zipped .app folder and zipped .exe folder
 <div>v2.0:</div>
 <div>&ensp;&ensp;-Fixed edge weight placement being too far away in some cases</div>
 <div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment</div>
-<div>&ensp;&ensp;-Added Windows compatibility (Anti-Aliasing with aggdraw)</div>
+<div>&ensp;&ensp;-Added Windows compatibility (Anti-Aliasing with aggdraw library)</div>
 
   
 </br>
