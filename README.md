@@ -84,7 +84,7 @@ Include mega.nz download link for a zipped .app folder and zipped .exe folder
 |Reset Canvas Button: Reset the entire graph and start from scratch|
 |Forward and Reverse Path Finding: Go from v1,v2 or from v2,v1 and get its traversal path in reverse!|
 |Automatic Edge Fix: Click on one vertex and then another, the resulting line will instantly create best looking line between the two, and it won't overlap the vertex. It is just created from the circumference of the vertex, making edges a breeze!|
-|Offered for MacOS (.app) and Windows (.exe): A GUI has been specifically made for both MacOS and Windows using Tkinter and aggdraw to make Dijkstra's Canvas look like a native app on both operating systems!|
+|Available for MacOS (.app) and Windows (.exe): A GUI has been specifically made for both MacOS and Windows using Tkinter and aggdraw to make Dijkstra's Canvas look like a native app on both operating systems!|
 
 </br>
 
