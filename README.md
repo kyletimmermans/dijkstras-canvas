@@ -96,7 +96,7 @@ If we are given a graph such as this one:
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/UndirectedWeightedGraph.png?raw=true" alt="Sample Graph"/>
 </p>
 
-We can draw the same graph in the program and give it the same edge weights.  Use pyautogui to plot the graph above ^^
+We can draw the same graph in the program and give it the same edge weights.
 
 <p align="center">
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/GraphTranslation.png?raw=true" alt="Graph Translation"/>
