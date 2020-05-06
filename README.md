@@ -93,7 +93,7 @@ If we are given a graph such as this one:
 We can draw the same graph in the program and give it the same edge weights.  Use pyautogui to plot the graph above ^^
 
 <p align="center">
-  <img src="new example graph?raw=true" alt="Example Graph"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/GraphTranslation.png?raw=true" alt="Graph Translation"/>
 </p>
 
 ### Adjacency Matrix
