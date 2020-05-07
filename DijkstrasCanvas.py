@@ -1,10 +1,13 @@
 '''
 Kyle Timmermans
-v1.5 Release Date: May xx, 2020
+v2.0 Release Date: May xx, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix weight numbers being too far from line, also fix weights being too far when line is short, use pyautogui to test?
+    1. Fix weight number printing - ######### MAYBE USE ANCHOR TAG???? ##########
+        - Numbers being too far from line
+        - Numbers being too far from line especially when the line is short,
+        - use pyautogui to test?
     2. Fix "Edge Doubles Up Bug" - Maybe due to bad weight inputs (Find why it happens and have a solve for it)? e.g. B=1,A=2,C=3 instead of A=1,B=2,C=3
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
@@ -16,7 +19,7 @@ ToDo:
             draw stuff like lines and vertexes, buttons, font with tkinter
         - elif windows
             draw stuff line lines and vertexes, buttons, font with aggdraw
-    4. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
+    5. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
