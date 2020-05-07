@@ -77,6 +77,10 @@ Include mega.nz download link for a zipped .app folder and zipped .exe folder
 
 <br/>
 
+Video of Dijkstra's Canvas in action! [https://youtu.be/_1Sd_68PKYE](https://youtu.be/_1Sd_68PKYE)
+
+<br/>
+
 ### Features
 
 |Features:|
