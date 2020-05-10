@@ -35,7 +35,8 @@ Table of Contents
 <br/>
 
 ### Installation
-Include mega.nz download link for a zipped .app folder and zipped .exe folder
+*Include mega.nz download link for a zipped .app folder and zipped .exe folder*
+.app created with [Platypus](https://sveinbjorn.org/platypus) and .exe made with [PyInstaller](https://www.pyinstaller.org/)
 
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `wget https://github.com/kyletimmermans/dijkstras-canvas/blob/master/DijkstrasCanvas.py`
