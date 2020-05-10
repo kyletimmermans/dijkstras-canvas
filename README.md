@@ -127,6 +127,7 @@ For instance, to get from point 0 to point 1, the distance is 4. We can see this
 7. Shortest path of two vertexes that are not connected at some point on the graph, will return "No Connection Found"
 8. If the "Shortest Paths" results bank gets too close to the Canvas Separation Line, it will remove the prior short path results and print the current short path result at the top, clearing the bank
 9. Can't draw an edge if its source and destination vertex are the same
+10. Edge weights can't be greater than 999, can't be 0, a negative number, or a float value
 
 <br/>
 
