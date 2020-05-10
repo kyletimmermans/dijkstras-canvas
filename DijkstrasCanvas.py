@@ -16,7 +16,7 @@ ToDo:
         - elif windows
             draw stuff line lines and vertexes, buttons, font with aggdraw
     4. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
-    5. ZeroDivisionError: float division by zero with class
+    5. ZeroDivisionError: float division by zero with class, maybe happens if x,y = 100, 100 (same numbers???)
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
