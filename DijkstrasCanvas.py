@@ -16,7 +16,6 @@ ToDo:
         - elif windows
             draw stuff line lines and vertexes, buttons, font with aggdraw
     4. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
-    5. ZeroDivisionError: float division by zero with class, maybe happens if x,y = 100, 100 (same numbers???)
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
@@ -61,9 +60,15 @@ class circleEdgePoint:
         self.y2 = y2
         self.r = r
     def cx(self):
-        return self.x1 + (self.r * (self.x2 - self.x1) / sqrt((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2 ))  # Needs the multiplication asterisk
+        try:
+            return self.x1 + (self.r * (self.x2 - self.x1) / sqrt((self.x2 - self.x1) ** 2 + (self.y2 - self.y1) ** 2))  # Needs the multiplication asterisk
+        except ZeroDivisionError:
+            return self.x1 + (self.r * (self.x2 - self.x1) / sqrt((self.x2 - self.x1) ** 2 + (self.y2 - self.y1) ** 2) + 0.1)   # Add 0.1 if divisor is 0
     def cy(self):
-        return self.y1 + (self.r * (self.y2 - self.y1) / sqrt((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2 ))
+        try:
+            return self.y1 + (self.r * (self.y2 - self.y1) / sqrt((self.x2 - self.x1) ** 2 + (self.y2 - self.y1) ** 2))
+        except ZeroDivisionError:
+            return self.y1 + (self.r * (self.y2 - self.y1) / sqrt((self.x2 - self.x1) ** 2 + (self.y2 - self.y1) ** 2) + 0.1)
     def final(self):
         return [round(self.cx(), 1), round(self.cy(), 1)]  # Return x,y of C-coord as a list, round() to nearest tenths place, e.g. 7.1
 
