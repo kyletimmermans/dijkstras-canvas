@@ -193,6 +193,9 @@ def addEdgeWeight():
             if sorted(inputValues)[lst][0] not in edges.keys():
                 inputValues.pop(lst)  # Pop removes element from list by index, .remove() is by value
                 messagebox.showwarning(title="Warning", message="One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")
+            if int(inputValues[lst][1]) <= 0 or int(inputValues[lst][1]) > 999:  # Weight can't be greater than 999 for format purposes, can't be 0  or negative for logic purposes
+                inputValues.pop(lst)
+                messagebox.showwarning(title="Warning", message="Weight values can't be greater than 999 or less than or equal to 0. All other values have been added.")
     for lst in inputValues: #  For list of lists of inputted weights separated by commas
         edgeName, weight = lst[0], int(lst[1])
         for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
@@ -202,7 +205,7 @@ def addEdgeWeight():
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0]+25, point1[1]+25, point2[0]+25, point2[1]+25  # e.g. 359.0y2 = point2[1], needs +25 for outer circumference line now
-        if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Reflect over line to match letter, based off "999" format
+        if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
             line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
             line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
