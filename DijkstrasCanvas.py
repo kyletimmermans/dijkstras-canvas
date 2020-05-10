@@ -4,22 +4,19 @@ v2.0 Release Date: May xx, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix weight number printing - ######### MAYBE USE ANCHOR TAG???? ##########
-        - Numbers being too far from line
-        - Numbers being too far from line especially when the line is short,
-        - use pyautogui to test?
-    2. Fix "Edge Doubles Up Bug" - Maybe due to bad weight inputs (Find why it happens and have a solve for it)? e.g. B=1,A=2,C=3 instead of A=1,B=2,C=3
+    1. Fix "Edge Doubles Up Bug" - Maybe due to bad weight inputs (Find why it happens and have a solve for it)? e.g. B=1,A=2,C=3 instead of A=1,B=2,C=3
             edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    3. Keep testing out bugs, try and break it
+    2. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
-    4. Add Anti-Aliasing for windows version
+    3. Add Anti-Aliasing for windows version
         - if mac
             draw stuff like lines and vertexes, buttons, font with tkinter
         - elif windows
             draw stuff line lines and vertexes, buttons, font with aggdraw
-    5. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
+    4. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
+    5. ZeroDivisionError: float division by zero with class
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
@@ -139,7 +136,7 @@ def addEdge(event):  # Why does *args work for this?
         x1, y1 = c1[0], c1[1]  # New Points to use, no longer using exact click points, rather the vertex centers
         x2, y2 = c2[0], c2[1]
         if letter <= 25:  # Go through uppercase letters
-            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
+            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):    # Hardcoded values because always only one letter to print
                 lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
             elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
                 lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
@@ -204,33 +201,17 @@ def addEdgeWeight():
                 adjacencyMatrix[edges[edgeName][1]-1][edges[edgeName][0]-1] = weight  # Reversed here, can travel edges both ways b/c its an undirected graph
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
-        x1, y1, x2, y2 = point1[0], point1[1], point2[0], point2[1]  # e.g. 359.0y2 = point2[1]
-        if (x2 - x1) > 0.0:
-            slope = (y2 - y1) / (x2 - x1)  # Check Slope for extra cases
-        else:  # Just in case we have zero in denominator
-            slope = 0
-        if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
+        x1, y1, x2, y2 = point1[0]+25, point1[1]+25, point2[0]+25, point2[1]+25  # e.g. 359.0y2 = point2[1], needs +25 for outer circumference line now
+        if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Reflect over line to match letter, based off "999" format
+            line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 5, text=weight, font=('Courier', 15), tags='edge')
-        elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):
-            if slope < 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif 1.50 > slope >= 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 25, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif 2.00 > slope >= 1.50:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 35, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif slope >= 2.00:
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 40, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
+            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+        elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+            line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            if slope < 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 5, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif 1.50 > slope >= 0.20:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif 2.00 > slope >= 1.50:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif slope >= 2.00:
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
+            line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+        else:
+            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
         finalElementID = line_text  # if stopping here before reset
 
 
