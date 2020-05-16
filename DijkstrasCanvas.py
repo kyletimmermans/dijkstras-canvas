@@ -10,12 +10,7 @@ ToDo:
     2. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
-    3. Add Anti-Aliasing for windows version
-        - if mac
-            draw stuff like lines and vertexes, buttons, font with tkinter
-        - elif windows
-            draw stuff line lines and vertexes, buttons, font with aggdraw
-    4. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
+    3. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
@@ -136,32 +131,58 @@ def addEdge(event):  # Why does *args work for this?
         # Edge Overlap fix here, auto geometry
         points1 = circleEdgePoint(c1[0], c1[1], c2[0], c2[1], 25).final()  # circleEdgePoint class called twice, for both clicks
         points2 = circleEdgePoint(c2[0], c2[1], c1[0], c1[1], 25).final()  # Both end points of the edge need a circle edge value
+        if platform == "win32":
+            aa_line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=6, tags='edge')   # Used to simulate anti-aliasing for Windows, thanks to Cameron
         line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
         finalElementID = line  # if stopping here before reset
         x1, y1 = c1[0], c1[1]  # New Points to use, no longer using exact click points, rather the vertex centers
         x2, y2 = c2[0], c2[1]
-        if letter <= 25:  # Go through uppercase letters
-            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):    # Hardcoded values because always only one letter to print
-                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
-            elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-            elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-            else:
-                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-        elif letter > 25:
-            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-            elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-            elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-            else:
-                lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+        if platform == "darwin":  # Go through uppercase letters
+            if letter <= 25:
+                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):    # Hardcoded values because always only one letter to print
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                else:
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+            elif letter > 25:
+                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                else:
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+        else:
+            if letter <= 25:
+                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):    # Hardcoded values because always only one letter to print
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 14, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 14, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 12, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 12, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+                else:
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
+            elif letter > 25:
+                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 14, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 14, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 12, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 12, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+                else:
+                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
         finalElementID = lineLetter  # if stopping here before reset
         draw_space.pack()  # Pack into canvas and give unique ID
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
@@ -210,16 +231,28 @@ def addEdgeWeight():
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0]+25, point1[1]+25, point2[0]+25, point2[1]+25  # e.g. 359.0y2 = point2[1], needs +25 for outer circumference line now
-        if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
-            line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-        elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-        elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-            line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-        elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+        if platform == "darwin":
+            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
+            elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+            elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+            else:
+                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
         else:
-            line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
+            elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+            elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+                line_text = draw_space.create_text(((x1 + x2) / 2) + 20, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+                line_text = draw_space.create_text(((x1 + x2) / 2) - 20, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+            else:
+                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
         finalElementID = line_text  # if stopping here before reset
 
 
