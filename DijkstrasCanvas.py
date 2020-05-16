@@ -11,6 +11,7 @@ ToDo:
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
     3. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
+    4. Use platypus and pyinstaller, put up .app and .exe on mega.nz in zipped folders
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
