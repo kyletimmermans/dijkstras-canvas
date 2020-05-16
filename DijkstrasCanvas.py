@@ -333,7 +333,7 @@ def dijkstra():
         if platform == "darwin":
             finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
         else:
-            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
+            finalLabel = draw_space.create_text(841, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
     draw_space.pack()  # Place the result onto the screen
     finalElementID = finalLabel  # Used for reset
 
