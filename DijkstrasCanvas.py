@@ -285,13 +285,22 @@ def dijkstra():
     # Short path spacing, starting with normal cases, needs anchor=W to keep results flush despite result length
     if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
-        finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # 884 is for when the string is smallest
+        if platform == "darwin":
+            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # 884 is for when the string is smallest
+        else:
+            finalLabel = draw_space.create_text(841, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # For windows format
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
-        finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
+        if platform == "darwin":
+            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
+        else:
+            finalLabel = draw_space.create_text(841, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
     elif inputValues[0] == inputValues[1]:  # If vertex to itself
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
-        finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
+        if platform == "darwin":
+            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
+        else:
+            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
     draw_space.pack()  # Place the result onto the screen
     finalElementID = finalLabel  # Used for reset
 
