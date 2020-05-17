@@ -4,14 +4,10 @@ v2.0 Release Date: May xx, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Fix "Edge Doubles Up Bug" - Maybe due to bad weight inputs (Find why it happens and have a solve for it)? e.g. B=1,A=2,C=3 instead of A=1,B=2,C=3
-            edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
-            UnboundLocalError: local variable 'vertexDestination' referenced before assignment
-    2. Keep testing out bugs, try and break it
+    1. Keep testing out bugs, try and break it
         -key error with non-existant edges
         -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
-    3. Use pyautogui to make a final screenshot pretty graph for github (Place vertexes in cool order)
-    4. Use platypus and pyinstaller, put up .app and .exe on mega.nz in zipped folders
+    2. Use platypus and pyinstaller, put up .app and .exe on mega.nz in zipped folders
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
@@ -125,10 +121,16 @@ def addEdge(event):  # Why does *args work for this?
             if (vertexes[key][0] < x2 < vertexes[key][2]) == True and (vertexes[key][1] < y2 < vertexes[key][3]) == True:
                 vertexDestination = key  # To be added to edges{}
                 c2 = [vertexes[key][0]+25, vertexes[key][1]+25]  # Used for circleEdgePoint center, +25 to undo mouse pointer fix and get original vertex center value
-        if letter <= 25:
-            edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
+        if letter <= 25:    # "local variable 'vertexDestination' referenced before assignment" fix
+            try:
+                edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
+            except UnboundLocalError:
+                addEdge(event)
         elif letter > 25:
-            edges[alphabet2[letter-26]] = [vertexStart, vertexDestination]  # Needs a -26 or will return index error
+            try:
+                edges[alphabet2[letter-26]] = [vertexStart, vertexDestination]  # Needs a -26 or will return index error
+            except UnboundLocalError:
+                addEdge(event)
         # Edge Overlap fix here, auto geometry
         points1 = circleEdgePoint(c1[0], c1[1], c2[0], c2[1], 25).final()  # circleEdgePoint class called twice, for both clicks
         points2 = circleEdgePoint(c2[0], c2[1], c1[0], c1[1], 25).final()  # Both end points of the edge need a circle edge value
