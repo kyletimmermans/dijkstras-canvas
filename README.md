@@ -30,6 +30,7 @@ Table of Contents
    * [Who is Dijkstra?](#who-is-dijkstra)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
       * [Pseudocode](#pseudocode)
+   * [Fun](#fun)
 <!--te-->
 
 <br/>
@@ -67,6 +68,7 @@ Table of Contents
 <div>&ensp;&ensp;-Added Windows compatibility</div>
 <div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment</div>
 <div>&ensp;&ensp;-Fixed ZeroDivisonError in class circleEdgePoint</div>
+<div>&ensp;&ensp;-Fixed key error with non-existant edges</div>
   
 </br>
 
@@ -146,3 +148,24 @@ An algorithm created by Dijkstra, that is used to find the shortest paths from a
 ### Pseudocode
 This is the backbone behind his algorithm
 ![alt text](https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/pseudocode.png "Pseudocode")
+
+<br/>
+
+### Fun
+
+<p align="center">
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/fun1.png?raw=true" alt="Dijkstra's Canvas"/>
+</p>
+
+<div>&ensp;</div>
+
+<p align="center">
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/fun2.png?raw=true" alt="Dijkstra's Canvas"/>
+</p>
+
+<div>&ensp;</div>
+
+<p align="center">
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/fun3.png?raw=true" alt="Dijkstra's Canvas"/>
+</p>
+
