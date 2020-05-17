@@ -31,7 +31,7 @@ Table of Contents
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
       * [Pseudocode](#pseudocode)
    * [Fun](#fun)
-      * [???]
+      * [???](#fun)
 <!--te-->
 
 <br/>
