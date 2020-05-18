@@ -70,6 +70,7 @@ Table of Contents
 <div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment</div>
 <div>&ensp;&ensp;-Fixed ZeroDivisonError in class circleEdgePoint</div>
 <div>&ensp;&ensp;-Fixed key error with non-existant edges</div>
+<div>&ensp;&ensp;-Fixed NSAlert runModal error on MacOSX</div>
   
 </br>
 
