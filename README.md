@@ -41,12 +41,14 @@ Table of Contents
 
 [Mac Download (.app)](https://google.com) | [Windows Download (.exe)](https://google.com)
 
-Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
 
 Running Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `wget https://github.com/kyletimmermans/dijkstras-canvas/blob/master/DijkstrasCanvas.py`
 3. Run `python3 DijsktrasCanvas.py`
+
+<div>&ensp;</div>
+Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
 
 <br/>
 
