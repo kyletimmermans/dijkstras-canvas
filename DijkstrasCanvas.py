@@ -15,7 +15,6 @@ from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 from math import sqrt  # For circleEdgePoint class math
 from sys import maxsize, platform  # Used for sys.maxsize and Operating System check
 import re  # Splitting up and sanitizing input strings
-import os  # Used for re-directing stdout
 
 #############
 # Variables #
