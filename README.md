@@ -39,11 +39,7 @@ Table of Contents
 ### Installation
 *Include mega.nz download link for a zipped .app folder and zipped .exe folder*
 
-[Mac Download (.app)](https://google.com)
-
-<div>&ensp;</div>
-
-[Windows Download (.exe)](https://google.com)
+[Mac Download (.app)](https://google.com) | [Windows Download (.exe)](https://google.com)
 
 Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
 
