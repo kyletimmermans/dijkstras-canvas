@@ -1,13 +1,10 @@
 '''
 Kyle Timmermans
-v2.0 Release Date: May xx, 2020
+v2.0 Release Date: May 18, 2020
 compiled in python v3.8.2
 
 ToDo:
-    1. Keep testing out bugs, try and break it
-        -key error with non-existant edges
-        -Hit buttons in different orders, maybe more global variables to fix and keep track of what is clicked
-    2. Use platypus and pyinstaller, put up .app and .exe on mega.nz in zipped folders
+    -Use platypus and pyinstaller, put up .app and .exe on mega.nz in zipped folders
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
@@ -18,6 +15,7 @@ from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 from math import sqrt  # For circleEdgePoint class math
 from sys import maxsize, platform  # Used for sys.maxsize and Operating System check
 import re  # Splitting up and sanitizing input strings
+import os  # Used for re-directing stdout
 
 #############
 # Variables #
@@ -74,9 +72,11 @@ def addVertex(event):
     x0 = event.x    # Current X-Coord for mouse click
     y0 = event.y    # Current Y-Coord for mouse click
     # Error Handling - If vertex is attempted to be placed above separation line
-    if y0 < 200:  # Separation line begins at y=200, anything above is widgets space
-        messagebox.showwarning(title="Warning", message="Can't place vertexes above the Canvas Separation Line!")
+    if y0 < 200 and (x0 > 0 and x0 < root.winfo_width()):  # Separation line begins at y=200, anything above is widgets space, x0 values to avoid NSAlert runModal error
+        messagebox.showwarning(title="Warning", message="Can't place vertexes above the Canvas Separation Line!")  # root.winfo_width b/c not every monitor can reach 1500 width
         return  # Exit, let user try again
+    if x0 <= 0 or x0 >= root.winfo_width():  # Still avoiding NSAlert AND not drawing vertex
+        return
     # -25s and +25s to ensure the tip of the mouse-pointer is the center of the created circle
     vertex = draw_space.create_oval(x0-25, y0-25, x0+25, y0+25, fill='Green', tags='vertex') # Create the vertex, give it a function soon to add to the dictionary
     vertex_text = draw_space.create_text(x0, y0, text=vertexNumber-12-vertexReset, tags='vertex')  # +25 to get to the center of a 50 circle
@@ -125,7 +125,7 @@ def addEdge(event):  # Why does *args work for this?
             try:
                 edges[alphabet1[letter]] = [vertexStart, vertexDestination]  # Labeling the dictionary of edges{} w/ letters
             except UnboundLocalError:
-                addEdge(event)
+                addEdge(event)  # Go back to beginning of addEdge(event) if issue arises
         elif letter > 25:
             try:
                 edges[alphabet2[letter-26]] = [vertexStart, vertexDestination]  # Needs a -26 or will return index error
@@ -215,16 +215,14 @@ def addEdgeWeight():
     inputValues = re.sub('[^0-9a-zA-Z]+', ' ', inputValues).split()  # Space allows for correct split, instead of just no spaces
     inputValues = [inputValues[x:x + 2] for x in range(0, len(inputValues), 2)]  # For every 2 items put them in a new list, increase x, stop at 2, repeat
     # Input one value, or multiple values separated by commas
-    if len(inputValues) > len(edges.keys()):    # Input sanitation
-        messagebox.showwarning(title="Warning", message="One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")  # User put too many edges in
-    else:
-        for lst in range(len(inputValues) - 1, -1, -1):  # Got to go backwards or its like sawing off a tree branch you're sitting on
-            if sorted(inputValues)[lst][0] not in edges.keys():
-                inputValues.pop(lst)  # Pop removes element from list by index, .remove() is by value
-                messagebox.showwarning(title="Warning", message="One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")
-            if int(inputValues[lst][1]) <= 0 or int(inputValues[lst][1]) > 999:  # Weight can't be greater than 999 for format purposes, can't be 0  or negative for logic purposes
-                inputValues.pop(lst)
-                messagebox.showwarning(title="Warning", message="Weight values can't be greater than 999 or less than or equal to 0. All other values have been added.")
+    for lst in range(len(inputValues) - 1, -1, -1):  # Got to go backwards or its like sawing off a tree branch you're sitting on
+        if inputValues[lst][0] not in edges.keys():  # Input sanitation
+            inputValues.pop(lst)  # Pop removes element from list by index, .remove() is by value
+            messagebox.showwarning(title="Warning", message="One or more weight value(s) were attempted to be added to edges that do not exist, but were removed! All other values have been added.")
+    for lst in range(len(inputValues) - 1, -1, -1):  # Separate for-loop necessary to avoid index error
+        if int(inputValues[lst][1]) <= 0 or int(inputValues[lst][1]) > 999:  # Weight can't be greater than 999 for format purposes, can't be 0  or negative for logic purposes
+            inputValues.pop(lst)
+            messagebox.showwarning(title="Warning", message="Weight values can't be greater than 999 or less than or equal to 0. All other values have been added.")
     for lst in inputValues: #  For list of lists of inputted weights separated by commas
         edgeName, weight = lst[0], int(lst[1])
         for key in edges:   # Place values into adjacencyMatrix, check with edges{} first to see if it exists
@@ -268,14 +266,18 @@ def dijkstra():
     inputValues = shortpathEntry.get()
     inputValues = re.sub('[^0-9]+', ' ', inputValues).split()
     # Error Handling - Chop off extra values if present
-    if (int(inputValues[0]) and int(inputValues[1])) in vertexes.keys():
-        if int(inputValues[1]) > int(inputValues[0]):
-            start, end = int(inputValues[0]) - 1, int(inputValues[1])
-        elif int(inputValues[0]) > int(inputValues[1]):   # if start > end, Allows for v2,v1 instead of v1,v2. Allows us to go backwards
-            start, end = int(inputValues[1]) - 1, int(inputValues[0])
-    else:
-        messagebox.showwarning(title="Warning", message="One or neither of the vertexes entered, do not exist!")  # Error Handling - If vertex(es) not found
-        return  # Show warning and backout of function
+    try:
+        if (int(inputValues[0]) and int(inputValues[1])) in vertexes.keys():
+            if int(inputValues[1]) > int(inputValues[0]):
+                start, end = int(inputValues[0]) - 1, int(inputValues[1])
+            elif int(inputValues[0]) > int(inputValues[1]):   # if start > end, Allows for v2,v1 instead of v1,v2. Allows us to go backwards
+                start, end = int(inputValues[1]) - 1, int(inputValues[0])
+        else:
+            messagebox.showwarning(title="Warning", message="One or neither of the vertexes entered, do not exist!")  # Error Handling - If vertex(es) not found
+            return  # Show warning and back out of function
+    except IndexError:
+        messagebox.showwarning(title="Warning", message="No graph found or invalid input!")  # No input or screwed up input
+        return  # Break out of function b/c invalid input can break function
     vertexesLocal = len(graph)  # -1 or +1, do we start at 0 in the graph?
     distance = [sys.maxsize+1] * vertexesLocal  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
