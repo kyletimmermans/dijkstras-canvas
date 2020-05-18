@@ -39,8 +39,12 @@ Table of Contents
 ### Installation
 *Include mega.nz download link for a zipped .app folder and zipped .exe folder*
 
-.app created with [Platypus](https://sveinbjorn.org/platypus) and .exe made with [PyInstaller](https://www.pyinstaller.org/)
+[Mac Download (.app)](https://google.com)
+[Windows Download (.exe)](https://google.com)
 
+Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
+
+Running Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `wget https://github.com/kyletimmermans/dijkstras-canvas/blob/master/DijkstrasCanvas.py`
 3. Run `python3 DijsktrasCanvas.py`
