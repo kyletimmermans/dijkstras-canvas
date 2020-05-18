@@ -41,6 +41,7 @@ Table of Contents
 
 [Mac Download (.app)](https://google.com) | [Windows Download (.exe)](https://google.com)
 
+<div>&ensp;</div>
 
 Running Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
