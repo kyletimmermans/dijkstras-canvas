@@ -65,12 +65,14 @@ Table of Contents
 <div>&ensp;&ensp;-Optimization fixes</div>
 <div>&ensp;&ensp;-Minor bug fixes</div>
 <div>v2.0:</div>
-<div>&ensp;&ensp;-Fixed edge weight placement being too far away in some cases</div>
 <div>&ensp;&ensp;-Added Windows compatibility</div>
+<div>&ensp;&ensp;-Fixed edge weight placement being too far away in some cases</div>
 <div>&ensp;&ensp;-Fixed UnboundLocalError: local variable 'vertexDestination' referenced before assignment</div>
 <div>&ensp;&ensp;-Fixed ZeroDivisonError in class circleEdgePoint</div>
 <div>&ensp;&ensp;-Fixed key error with non-existant edges</div>
-<div>&ensp;&ensp;-Fixed NSAlert runModal error on MacOSX</div>
+<div>&ensp;&ensp;-Fixed addEdgeWeight() input sanitation</div>
+<div>&ensp;&ensp;-Fixed dijkstra() input sanitation</div>
+<div>&ensp;&ensp;-Fixed NSAlert runModal error on MacOSX when trying to re-size window on x-axis</div>
   
 </br>
 
