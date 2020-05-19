@@ -37,7 +37,6 @@ Table of Contents
 <br/>
 
 ### Installation
-*Include mega.nz download link for a zipped .app folder and zipped .exe folder*
 
 [Mac Download (.app)](https://mega.nz/file/WFlUTILa#vLjT8ITgmyhQICSR8pREF4RFk6RauE-lFzpwbbDNRas) | [Windows Download (.exe)](https://mega.nz/file/yQtQBQQC#w7117wxk_43pJU2rOpuoxYMo5gFfX7Hrmv_g9qPdr-M)
 
