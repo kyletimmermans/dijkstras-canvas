@@ -48,6 +48,7 @@ Running Dijkstra's Canvas through command line:
 3. Run `python3 DijsktrasCanvas.py`
 
 <div>&ensp;</div>
+
 Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
 
 <br/>
