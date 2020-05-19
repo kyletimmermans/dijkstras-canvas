@@ -1,10 +1,7 @@
 '''
 Kyle Timmermans
-v2.0 Release Date: May 18, 2020
+v2.0 Release Date: May 19, 2020
 compiled in python v3.8.2
-
-ToDo:
-    -Use platypus and pyinstaller, put up .app and .exe on mega.nz in zipped folders
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
@@ -15,6 +12,7 @@ from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 from math import sqrt  # For circleEdgePoint class math
 from sys import maxsize, platform  # Used for sys.maxsize and Operating System check
 import re  # Splitting up and sanitizing input strings
+
 
 #############
 # Variables #
@@ -134,8 +132,9 @@ def addEdge(event):  # Why does *args work for this?
         points1 = circleEdgePoint(c1[0], c1[1], c2[0], c2[1], 25).final()  # circleEdgePoint class called twice, for both clicks
         points2 = circleEdgePoint(c2[0], c2[1], c1[0], c1[1], 25).final()  # Both end points of the edge need a circle edge value
         if platform == "win32":
-            aa_line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=6, tags='edge')   # Used to simulate anti-aliasing for Windows, thanks to Cameron
-        line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
+            line = draw_space.create_polygon([points1[0], points1[1], points2[0], points2[1]], fill='Black', outline='Black', width=5, tags='edge')   # Used to simulate anti-aliasing for Windows, thanks to Cameron
+        elif platform == "darwin":
+            line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
         finalElementID = line  # if stopping here before reset
         x1, y1 = c1[0], c1[1]  # New Points to use, no longer using exact click points, rather the vertex centers
         x2, y2 = c2[0], c2[1]
