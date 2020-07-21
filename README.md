@@ -81,8 +81,9 @@ Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https:
 <div>&ensp;&ensp;-Fixed dijkstra() input sanitation</div>
 <div>&ensp;&ensp;-Fixed NSAlert runModal error on MacOSX when trying to re-size window on x-axis</div>
 <div>v2.1:</div>
-<div>&ensp;&ensp;-Code cleanup, wrapped lots of math into classes. Deprecated Windows version b/c no anti-aliasing (Binary still available)</div>
+<div>&ensp;&ensp;-Code cleanup, wrapped lots of math into classes. Deprecated Windows version b/c no anti-aliasing</div>
 <div>&ensp;&ensp;-Added logo to the application window</div>
+
 
 </br>
 
