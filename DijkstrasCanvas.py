@@ -1,22 +1,24 @@
 '''
 Kyle Timmermans
-v2.0 Release Date: May 19, 2020
+v2.1 Release Date: July 21, 2020
 compiled in python v3.8.2
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
+# Event driven i.e. Buttons, Input Boxes #
 
 from tkinter import *  # Import all widgets, canvas, etc
 from tkinter import messagebox, font  # Messagebox warnings, custom font
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 from math import sqrt  # For circleEdgePoint class math
 from sys import maxsize, platform  # Used for sys.maxsize and Operating System check
-import re  # Splitting up and sanitizing input strings
+import re  # Splitting up and sanitizing input strings w/ regex
 
 
 #############
 # Variables #
 #############
+
 alphabet1 = ascii_uppercase
 alphabet2 = ascii_lowercase
 letter = 0
@@ -34,9 +36,11 @@ isReset = False  # Used in resetButton
 vertexButtonisClicked = 0  # Used in resetButton
 separationLineLimit = 1  # Max amount of short path results to be shown at once
 
+
 ##############
 # Data Types #
 ##############
+
 # This point lies on the edge of the circle so there's no line overhang on the green vertex (cuts off extra overlap)
 # https://math.stackexchange.com/questions/127613/closest-point-on-circle-edge-from-point-outside-inside-the-circle
 class circleEdgePoint:
@@ -59,9 +63,11 @@ class circleEdgePoint:
     def final(self):
         return [round(self.cx(), 1), round(self.cy(), 1)]  # Return x,y of C-coord as a list, round() to nearest tenths place, e.g. 7.1
 
+
 #############
 # Functions #
 #############
+
 def addVertex(event):
     global vertexNumber, helperNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now  # helperNumber: Need a dynamic number to add to vertex number
     global isReset, finalElementID, vertexButtonisClicked
@@ -87,6 +93,34 @@ def addVertex(event):
         vertexes[vertexNumber - 12 - vertexReset] = draw_space.coords(finalElementID+1)  # +1 because vertex_text also cost an id when printed
         vertexNumber += 1
         finalElementID = vertex_text  # If stop here, this is the final element id
+
+
+# Set of if statements to determine best place to put edge labels, depending on edge angle orientation
+# Lots of hard-coded values for nice placement, lots of tweaking for perfect values
+def edgeMath(isLetterLabel, text, fontSize, x1, y1, x2, y2):  # Helper Function for addEdge() and addEdgeWeight()
+    if isLetterLabel:
+        if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Hardcoded values because always only one letter to print
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=text, font=('Courier', fontSize), tags='edge')
+        elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=text, font=('Courier', fontSize), tags='edge')
+        elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), tags='edge')
+        elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), tags='edge')
+        else:
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), tags='edge')
+    else:
+        if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=text, font=('Courier', fontSize), tags='edge')
+        elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+        elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+        elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+        else:
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+    return varToEqual  # lineLetter or line_text = varToEqual
 
 
 def addEdge(event):  # Why does *args work for this?
@@ -131,59 +165,14 @@ def addEdge(event):  # Why does *args work for this?
         # Edge Overlap fix here, auto geometry
         points1 = circleEdgePoint(c1[0], c1[1], c2[0], c2[1], 25).final()  # circleEdgePoint class called twice, for both clicks
         points2 = circleEdgePoint(c2[0], c2[1], c1[0], c1[1], 25).final()  # Both end points of the edge need a circle edge value
-        if platform == "win32":
-            line = draw_space.create_polygon([points1[0], points1[1], points2[0], points2[1]], fill='Black', outline='Black', width=5, tags='edge')   # Used to simulate anti-aliasing for Windows, thanks to Cameron
-        elif platform == "darwin":
-            line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
+        line = draw_space.create_line(points1[0], points1[1], points2[0], points2[1], fill='Black', width=5, tags='edge')   # Draw line with those coords, needs edge tag for reset
         finalElementID = line  # if stopping here before reset
         x1, y1 = c1[0], c1[1]  # New Points to use, no longer using exact click points, rather the vertex centers
         x2, y2 = c2[0], c2[1]
-        if platform == "darwin":  # Go through uppercase letters
-            if letter <= 25:
-                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):    # Hardcoded values because always only one letter to print
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                else:
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-            elif letter > 25:
-                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                else:
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-        else:
-            if letter <= 25:
-                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):    # Hardcoded values because always only one letter to print
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 14, ((y1 + y2) / 2), text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 14, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 12, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 12, ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-                else:
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet1[letter], font=('Courier', 25), tags='edge')
-            elif letter > 25:
-                if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 14, ((y1 + y2) / 2), text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 14, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) - 12, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2) + 12, ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
-                else:
-                    lineLetter = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=alphabet2[letter-26], font=('Courier', 25), tags='edge')
+        if letter <= 25:
+            lineLetter = edgeMath(isLetterLabel=True, text=alphabet1[letter], fontSize=25, x1=x1, y1=y1, x2=x2, y2=y2)
+        elif letter > 25:
+            lineLetter = edgeMath(isLetterLabel=True, text=alphabet2[letter], fontSize=25, x1=x1, y1=y1, x2=x2, y2=y2)
         finalElementID = lineLetter  # if stopping here before reset
         draw_space.pack()  # Pack into canvas and give unique ID
         clickNumber = 0   # We have a line drawn, go back and determine the x1, y1 start coords for the next line)
@@ -230,29 +219,18 @@ def addEdgeWeight():
         point1 = vertexes[edges[edgeName][0]]  # Storing vertexes{} points from edges{} for x1,x2,y1,y2
         point2 = vertexes[edges[edgeName][1]]  # e.g. [359.0, 448.0, 530.0, 343.0]
         x1, y1, x2, y2 = point1[0]+25, point1[1]+25, point2[0]+25, point2[1]+25  # e.g. 359.0y2 = point2[1], needs +25 for outer circumference line now
-        if platform == "darwin":
-            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-            elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-            else:
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-        else:
-            if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 20, ((y1 + y2) / 2), text=weight, font=('Courier', 15), tags='edge')
-            elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-            elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-                line_text = draw_space.create_text(((x1 + x2) / 2) + 20, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-            elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-                line_text = draw_space.create_text(((x1 + x2) / 2) - 20, ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
-            else:
-                line_text = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=weight, font=('Courier', 15), tags='edge')
+        line_text = edgeMath(isLetterLabel=False, text=weight, fontSize=15, x1=x1, y1=y1, x2=x2, y2=y2)
         finalElementID = line_text  # if stopping here before reset
+
+
+# Helper Function for dijkstra()
+def getPath(parent, j):  # Recurse through parent array and append vertexes to path
+    global path
+    if parent[j] == -1:   # -1 is the source
+        path.append(j)
+        return
+    getPath(parent, parent[j])
+    path.append(j)
 
 
 # Function that implements Dijkstra's single source shortest path using a 2D array to represent an Adjacency Matrix
@@ -295,13 +273,6 @@ def dijkstra():
                 distance[dist] = distance[vertex] + graph[vertex][dist]  # Add smallest distance
                 parent[dist] = vertex  # Why does this line work
     path = []  # Reset path so it doesn't add the last pass's data, bc path is global
-    def getPath(parent, j):  # Recurse through parent array and append vertexes to path
-        global path
-        if parent[j] == -1:   # -1 is the source
-            path.append(j)
-            return
-        getPath(parent, parent[j])
-        path.append(j)
     getPath(parent, end-1)  # Execute getPath here, for start to end
     if int(inputValues[0]) > int(inputValues[1]):  # Allows us to check original input values and do v2,v1 instead of v1,v2
         path = [elem for elem in reversed(path)]  # One liner to reverse list, if it can be found going forwards, it can be found going backwards
@@ -321,22 +292,11 @@ def dijkstra():
     # Short path spacing, starting with normal cases, needs anchor=W to keep results flush despite result length
     if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
-        if platform == "darwin":
-            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # 884 is for when the string is smallest
-        else:
-            finalLabel = draw_space.create_text(841, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # For windows format
     elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
-        if platform == "darwin":
-            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
-        else:
-            finalLabel = draw_space.create_text(841, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
     elif inputValues[0] == inputValues[1]:  # If vertex to itself
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
-        if platform == "darwin":
-            finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
-        else:
-            finalLabel = draw_space.create_text(841, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')
+    finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # 773 is for when the string is smallest
     draw_space.pack()  # Place the result onto the screen
     finalElementID = finalLabel  # Used for reset
 
@@ -362,15 +322,19 @@ def resetGraph():
 ##########
 # Window #
 ##########
+
 root = Tk()
 root.title("Dijkstra's Canvas - @KyleTimmermans")
+root.resizable(0, 0)  # Prevent resize, exposes blank background if resized incorrectly
 draw_space = Canvas(root, width=1500, height=1000, background='Floral White')  # Canvas for drawing, make dynamic sizing in the future
 draw_space.pack()
 draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
+
 ###########
 # Widgets #
 ###########
+
 '''
 We have 13 widgets, they take up first eleven ID Numbers, so start vertexNumber at 13
 Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
@@ -406,35 +370,7 @@ if platform == "darwin":  # MacOS widget dimension and spacing setup
     draw_space.create_window(825, 25, window=resultTitle)  # Draw Result Title
     separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
     draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
-elif platform == "win32":  # Windows widget dimension and spacing setup
-    vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), background='Floral White')  # Vertex Text
-    draw_space.create_window(165, 30, window=vertexText)  # Draw Vertex Text
-    vertexButton = Button(text='Done', command=vertexButtonSet, background='Floral White')  # Vertex Button
-    draw_space.create_window(355, 30, window=vertexButton)  # Draw Vertex Button
-    edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('Helvetica', 14), background='Floral White')  # Edge Text
-    draw_space.create_window(319, 75, window=edgeText)  # Draw Edge Text
-    edgeButton = Button(text='Done', command=edgeButtonSet, background='Floral White')  # Edge Button
-    draw_space.create_window(660, 75, window=edgeButton)  # Draw Edge Button
-    weightText = Label(text='Input the weights of edges between nodes e.g. A=7, B=8 (Case-Sensitive)', font=('Helvetica', 14), background='Floral White')  # Weight Text
-    draw_space.create_window(319, 120, window=weightText)  # Draw Weight Text
-    weightEntry = Entry(root)  # Weight Entry
-    draw_space.create_window(705, 120, window=weightEntry)  # Draw Weight Entry
-    weightInput = Button(text='Input', command=addEdgeWeight, background='Floral White')  # Weight Button
-    draw_space.create_window(800, 120, window=weightInput)  # Draw Weight Button
-    shortpathText = Label(text='Enter the two vertexes for the shortest path you want e.g. v2,v4', font=('Helvetica', 14), background='Floral White')  # Short Path Text
-    draw_space.create_window(270, 165, window=shortpathText)  # Draw Short Path Text
-    shortpathEntry = Entry(root)  # Short Path Entry
-    draw_space.create_window(605, 165, window=shortpathEntry)  # Draw Short Path Entry
-    shortpathButton = Button(text='Show Result', command=dijkstra, background='Floral White')  # Short Path Button
-    draw_space.create_window(715, 165, window=shortpathButton)  # Draw Short Path Button
-    resetButton = Button(text='Reset Canvas', command=resetGraph, background='Floral White')  # Reset Button
-    draw_space.create_window(539, 30, window=resetButton)  # Draw Reset Button
-    custFont = font.Font(family='Helvetica', size=15, weight='bold', underline=1)  # Custom Font
-    resultTitle = Label(text='Shortest Paths', font=custFont, background='Floral White')  # Result Title (Bold, Underlined)
-    draw_space.create_window(910, 20, window=resultTitle)  # Draw Result Title
-    separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
-    draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
-else:  # If the OS is unsupported e.g. Linux
+else:  # If the OS is unsupported e.g. Windows/Linux  (Windows deprecated b/c does not have anti-aliasing, causing graphs to look poorly drawn)
     print("OS Not Supported!")
     exit()
 
