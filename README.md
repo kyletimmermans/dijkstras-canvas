@@ -39,7 +39,7 @@ Table of Contents
 
 ### Installation
 
-[Mac Download (.app)](https://mega.nz/file/WFlUTILa#vLjT8ITgmyhQICSR8pREF4RFk6RauE-lFzpwbbDNRas) | [Windows Download (.exe)](https://mega.nz/file/yQtQBQQC#w7117wxk_43pJU2rOpuoxYMo5gFfX7Hrmv_g9qPdr-M)
+[Mac Download (.app)](https://mega.nz/file/WFlUTILa#vLjT8ITgmyhQICSR8pREF4RFk6RauE-lFzpwbbDNRas) | [Windows Download (.exe)](https://mega.nz/file/yQtQBQQC#w7117wxk_43pJU2rOpuoxYMo5gFfX7Hrmv_g9qPdr-M) (Decprecated)
 
 <div>&ensp;</div>
 
@@ -52,7 +52,7 @@ Running Dijkstra's Canvas through command line:
 
 Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
 
-<br/>
+<div>&ensp;</div>
 
 ### Changelog
 <div>v1.0: Initial-Relase</div>
