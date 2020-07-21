@@ -80,7 +80,10 @@ Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https:
 <div>&ensp;&ensp;-Fixed addEdgeWeight() input sanitation</div>
 <div>&ensp;&ensp;-Fixed dijkstra() input sanitation</div>
 <div>&ensp;&ensp;-Fixed NSAlert runModal error on MacOSX when trying to re-size window on x-axis</div>
-  
+<div>v2.1:</div>
+<div>&ensp;&ensp;-Code cleanup, wrapped lots of math into functions. General reorganization</div>
+<div>&ensp;&ensp;-Added logo to the application window</div>
+
 </br>
 
 ### Usage
