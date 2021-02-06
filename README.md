@@ -26,7 +26,7 @@ Table of Contents
       * [Features](#features)
       * [Example](#example)
       * [Adjacency Matrix](#adjacency-matrix)
-      * [Algorith Implementation](#algorith-implementation)
+      * [Algorithm Implementation](#algorithm-implementation)
       * [Error Handling](#error-handling)
    * [Who is Dijkstra?](#who-is-dijkstra)
       * [Dijkstra's Algorithm](#dijkstras-algorithm)
