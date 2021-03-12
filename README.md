@@ -190,4 +190,3 @@ This is the backbone behind his algorithm
 <p align="center">
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/fun3.png?raw=true" alt="Dijkstra's Canvas"/>
 </p>
-
