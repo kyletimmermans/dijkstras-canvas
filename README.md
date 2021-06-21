@@ -50,7 +50,7 @@ Running Dijkstra's Canvas through command line:
 
 <div>&ensp;</div>
 
-Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
+Previously packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
 
 <div>&ensp;</div>
 
