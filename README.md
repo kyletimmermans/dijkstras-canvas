@@ -19,6 +19,7 @@ Table of Contents
 =================
 
 <!--ts-->
+   * [Installation](*installation)
    * [Changelog](#changelog)
    * [Usage](#usage)
       * [Features](#features)
@@ -35,6 +36,7 @@ Table of Contents
 
 <div>&ensp;</div>
 
+### Installaion
 Running Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `wget https://github.com/kyletimmermans/dijkstras-canvas/blob/master/DijkstrasCanvas.py`
