@@ -1,5 +1,5 @@
 ![Version 2.2](https://img.shields.io/badge/version-v2.2-orange.svg)
-![Python 3.8 &#124; 3.9](https://img.shields.io/badge/python-3.8%20%7C%203.9-blue.svg)
+![Python 3.8 | 3.9](https://img.shields.io/badge/python-3.8%20%7C%203.9-blue.svg)
 ![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
@@ -19,7 +19,6 @@ Table of Contents
 =================
 
 <!--ts-->
-   * [Installation](#installation)
    * [Changelog](#changelog)
    * [Usage](#usage)
       * [Features](#features)
@@ -33,13 +32,6 @@ Table of Contents
    * [Fun](#fun)
       * [???](#fun)
 <!--te-->
-
-<br/>
-
-### Installation
-
-[Mac Download (.app)](https://mega.nz/file/WFlUTILa#vLjT8ITgmyhQICSR8pREF4RFk6RauE-lFzpwbbDNRas) |
-[Windows Download (.exe)](https://github.com/kyletimmermans/dijkstras-canvas/releases/download/WindowsV2.0/DijkstrasCanvasv2.0Windows.zip) (Deprecated)
 
 <div>&ensp;</div>
 
