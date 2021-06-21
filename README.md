@@ -85,6 +85,10 @@ Packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https:
 <div>&ensp;&ensp;-Code cleanup, wrapped lots of math into classes. Deprecated Windows version b/c no anti-aliasing</div>
 <div>&ensp;&ensp;-Fixed resize window issue</div>
 <div>&ensp;&ensp;-Windows Binary still available</div>
+<div>v2.2:</div>
+<div>&ensp;&ensp;-Fixed 'sys' module not being recognized</div>
+<div>&ensp;&ensp;-Removed binaries from relases, better to compile per machine basis</div>
+
 
 </br>
 
