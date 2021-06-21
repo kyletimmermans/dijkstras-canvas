@@ -36,15 +36,11 @@ Table of Contents
 
 <div>&ensp;</div>
 
-### Installaion
+### Installation
 Running Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `wget https://github.com/kyletimmermans/dijkstras-canvas/blob/master/DijkstrasCanvas.py`
 3. Run `python3 DijsktrasCanvas.py`
-
-<div>&ensp;</div>
-
-Previously packed with [Platypus](https://sveinbjorn.org/platypus) and [PyInstaller](https://www.pyinstaller.org/)
 
 <div>&ensp;</div>
 
