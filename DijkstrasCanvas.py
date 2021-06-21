@@ -11,6 +11,7 @@ from tkinter import *  # Import all widgets, canvas, etc
 from tkinter import messagebox, font  # Messagebox warnings, custom font
 from string import ascii_uppercase, ascii_lowercase  # Use to label edges
 from math import sqrt  # For circleEdgePoint class math
+import sys as system  # Recognize sys module
 from sys import maxsize, platform  # Used for sys.maxsize and Operating System check
 import re  # Splitting up and sanitizing input strings w/ regex
 
@@ -255,12 +256,12 @@ def dijkstra():
         messagebox.showwarning(title="Warning", message="No graph found or invalid input!")  # No input or screwed up input
         return  # Break out of function b/c invalid input can break function
     vertexesLocal = len(graph)  # -1 or +1, do we start at 0 in the graph?
-    distance = [sys.maxsize+1] * vertexesLocal  # Initialize distance super far, so unreachable (sys.maxsize+1)
+    distance = [system.maxsize+1] * vertexesLocal  # Initialize distance super far, so unreachable (sys.maxsize+1)
     distance[start] = 0   # Initialize source to be 0
     visited = [False] * vertexesLocal  # Visited array initialized to not visited
     parent = [-1] * vertexesLocal  # Parent array of previous vertexes to store shortest path tree, see:  path[dist] = vertex
     for nextVertex in range(vertexesLocal):  # For all vertexes
-        minDistance = sys.maxsize + 1  # Impossible to be at, so its automatically the largest
+        minDistance = system.maxsize + 1  # Impossible to be at, so its automatically the largest
         for length in range(vertexesLocal):  # Return smallest distance of a row  # Return
             if distance[length] < minDistance and visited[length] is False:
                 minDistance = distance[length]
@@ -290,9 +291,9 @@ def dijkstra():
         textCounterVertical = 45  # Reset to normal
         draw_space.delete('shortPath')  # Remove prior shortest path results
     # Short path spacing, starting with normal cases, needs anchor=W to keep results flush despite result length
-    if distance[end-1] < sys.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
+    if distance[end-1] < system.maxsize and (inputValues[0] != inputValues[1]):  # Normal and backwards cases, has a connection, and not going to itself
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": Path = "+path_string+" | Distance = "+str(distance[end-1])  # Final string to output, start always needs +1
-    elif distance[end-1] > sys.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
+    elif distance[end-1] > system.maxsize and (inputValues[0] != inputValues[1]):  # If no connection found
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
     elif inputValues[0] == inputValues[1]:  # If vertex to itself
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
