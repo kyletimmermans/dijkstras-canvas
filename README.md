@@ -1,5 +1,5 @@
-![Version 2.1](https://img.shields.io/badge/version-v2.1-orange.svg)
-![Python 3.8.2](https://img.shields.io/badge/python-3.8.2-blue.svg)
+![Version 2.2](https://img.shields.io/badge/version-v2.2-orange.svg)
+![Python 3.9.5](https://img.shields.io/badge/python-3.9.5-blue.svg)
 ![Latest Release Date](https://img.shields.io/github/release-date/kyletimmermans/dijkstras-canvas?color=red)
 ![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
