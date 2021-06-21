@@ -1,7 +1,7 @@
 '''
 Kyle Timmermans
-v2.1 Release Date: July 21, 2020
-Compiled in Python v3.8.2
+v2.2 Release Date: June 21, 2021
+Compiled in Python v3.9.5
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
