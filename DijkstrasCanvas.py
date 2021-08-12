@@ -327,7 +327,7 @@ def resetGraph():
 ##########
 
 root = Tk()
-root.title("Dijkstra's Canvas - @KyleTimmermans")
+root.title("Dijkstra's Canvas v3.0 - @KyleTimmermans")
 root.geometry('1500x1000+0+0')
 draw_space = Canvas(root, width=1500, height=1000, background='White')  # Canvas for drawing, make dynamic sizing in the future
 draw_space.pack()
