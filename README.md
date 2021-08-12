@@ -101,7 +101,7 @@ Video of Dijkstra's Canvas in action! [https://youtu.be/_1Sd_68PKYE](https://you
 |Reset Canvas Button: Reset the entire graph and start from scratch|
 |Forward and Reverse Path Finding: Go from v1,v2 or from v2,v1 and get its traversal path in reverse!|
 |Automatic Edge Fix: Click on one vertex and then another, the resulting line will always be drawn from the outer-circumference of both vertexes, and it will never overlap the vertex. It is only drawn from the circumference of the vertex, making edges a breeze!|
-|Available for MacOSX (.app) and Windows (.exe): A GUI has been specifically crafted for both MacOS and Windows through testing and developing around each OS's rendering system, making Dijkstra's Canvas look like a native app on both operating systems!|
+|Available for MacOSX (.app): A GUI has been specifically crafted for MacOSX through testing and developing around the OS's rendering system, making Dijkstra's Canvas look like a native app!|
 
 </br>
 
