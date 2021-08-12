@@ -47,7 +47,7 @@ Table of Contents
 
 ### Installation
 Download DijkstrasCanvas.zip which contains the .app file [here](https://github.com/kyletimmermans/dijkstras-canvas/files/6977352/Dijkstra.s.Canvas.zip)
-  -Packaged with Platypus
+<div>&ensp;&ensp;-Packaged with Platypus</div>
 
 
 Running Dijkstra's Canvas through command line:
