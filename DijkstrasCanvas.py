@@ -1,11 +1,11 @@
 '''
 Kyle Timmermans
-v2.2 Release Date: June 21, 2021
-Compiled in Python v3.9.5
+v3.0 Release Date: Aug 12, 2021
+Compiled in Python v3.9.6
 '''
 
-# Many global variables and long functions because many of these functions can't take parameters because of tkinter module #
-# Event driven i.e. Buttons, Input Boxes #
+# Many global variables and long functions because many of these functions can't take parameters because of tkinter module
+# Event driven i.e. Buttons, Input Boxes
 
 from tkinter import *  # Import all widgets, canvas, etc
 from tkinter import messagebox, font  # Messagebox warnings, custom font
@@ -14,7 +14,8 @@ from math import sqrt  # For circleEdgePoint class math
 import sys as system  # Recognize sys module
 from sys import maxsize, platform  # Used for sys.maxsize and Operating System check
 import re  # Splitting up and sanitizing input strings w/ regex
-import time
+import time  # Needed for sleep()
+import tkmacosx as tkm  # Native mac tkinter widgets
 
 
 #############
@@ -102,26 +103,26 @@ def addVertex(event):
 def edgeMath(isLetterLabel, text, fontSize, x1, y1, x2, y2):  # Helper Function for addEdge() and addEdgeWeight()
     if isLetterLabel:
         if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Hardcoded values because always only one letter to print
-            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2), text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 12, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 10, ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 10, ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         else:
-            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) + 15, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
     else:
         if ((x1 == x2) and ((y1 > y2) or (y1 < y2))):  # Works for 9, 99, and 999
-            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2), text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         elif ((y1 == y2) and ((x1 > x2) or (x1 < x2))):
-            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         elif ((x1 < x2) and (y1 < y2)) or ((x1 > x2) and (y1 > y2)):  # Get Edge labeling correct, if same do one way, if different, do other way
-            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) + 15, ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         elif ((x1 > x2) and (y1 < y2)) or ((x1 < x2) and (y1 > y2)):
-            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2) - 15, ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
         else:
-            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), tags='edge')
+            varToEqual = draw_space.create_text(((x1 + x2) / 2), ((y1 + y2) / 2) - 15, text=text, font=('Courier', fontSize), fill='Black', tags='edge')
     return varToEqual  # lineLetter or line_text = varToEqual
 
 
@@ -298,7 +299,7 @@ def dijkstra():
         final_string = "v"+str(inputValues[0])+" to v"+str(inputValues[1])+": No Connection Found"
     elif inputValues[0] == inputValues[1]:  # If vertex to itself
         final_string = "v" + str(inputValues[0]) + " to v" + str(inputValues[1]) + ": Path = None | Distance = 0"
-    finalLabel = draw_space.create_text(773, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), tags='shortPath')  # 773 is for when the string is smallest
+    finalLabel = draw_space.create_text(823, textCounterVertical, text=final_string, anchor=W, font=('Times', 14), fill='Black', tags='shortPath')  # 773 is for when the string is smallest
     draw_space.pack()  # Place the result onto the screen
     finalElementID = finalLabel  # Used for reset
 
@@ -327,8 +328,8 @@ def resetGraph():
 
 root = Tk()
 root.title("Dijkstra's Canvas - @KyleTimmermans")
-root.resizable(0, 0)  # Prevent resize, exposes blank background if resized incorrectly
-draw_space = Canvas(root, width=1500, height=1000, background='Floral White')  # Canvas for drawing, make dynamic sizing in the future
+root.geometry('1500x1000+0+0')
+draw_space = Canvas(root, width=1500, height=1000, background='White')  # Canvas for drawing, make dynamic sizing in the future
 draw_space.pack()
 draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
@@ -345,36 +346,35 @@ Look for "-12" too
 Fix everything in addVertex() and addEdgeWeight() when adding another widget
 '''
 if platform == "darwin":  # MacOS widget dimension and spacing setup
-    vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), background='Floral White')  # Vertex Text
+    vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), fg='Black', bg='White')  # Vertex Text
     draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
-    vertexButton = Button(text='Done', command=vertexButtonSet, background='Floral White')  # Vertex Button
-    draw_space.create_window(276, 30, window=vertexButton)  # Draw Vertex Button
-    edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('Helvetica', 14), background='Floral White')  # Edge Text
+    vertexButton = tkm.Button(draw_space, text='Done', command=vertexButtonSet, fg='Black', bg='White', borderless=1)  # Vertex Button
+    draw_space.create_window(300, 30, window=vertexButton)  # Draw Vertex Button
+    edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('Helvetica', 14), fg='Black', bg='White')  # Edge Text
     draw_space.create_window(245, 75, window=edgeText)  # Draw Edge Text
-    edgeButton = Button(text='Done', command=edgeButtonSet, background='Floral White')  # Edge Button
-    draw_space.create_window(510, 75, window=edgeButton)    # Draw Edge Button
-    weightText = Label(text='Input the weights of edges between nodes e.g. A=7, B=8 (Case-Sensitive)', font=('Helvetica', 14), background='Floral White')  # Weight Text
+    edgeButton = tkm.Button(draw_space, text='Done', command=edgeButtonSet, fg='Black', bg='White', borderless=1)  # Edge Button
+    draw_space.create_window(537, 75, window=edgeButton)    # Draw Edge Button
+    weightText = Label(text='Input the weights of edges between nodes e.g. A=7, B=8 (Case-Sensitive):', font=('Helvetica', 14), fg='Black', bg='White')  # Weight Text
     draw_space.create_window(241, 120, window=weightText)   # Draw Weight Text
     weightEntry = Entry(root)   # Weight Entry
-    draw_space.create_window(589, 120, window=weightEntry)  # Draw Weight Entry
-    weightInput = Button(text='Input', command=addEdgeWeight, background='Floral White')  # Weight Button
-    draw_space.create_window(715, 120, window=weightInput)   # Draw Weight Button
-    shortpathText = Label(text='Enter the two vertexes for the shortest path you want e.g. v2,v4', font=('Helvetica', 14), background='Floral White')  # Short Path Text
+    draw_space.create_window(584, 120, window=weightEntry)  # Draw Weight Entry
+    weightInput = tkm.Button(draw_space, text='Input', command=addEdgeWeight, fg='Black', bg='White', borderless=1)  # Weight Button
+    draw_space.create_window(745, 120, window=weightInput)   # Draw Weight Button
+    shortpathText = Label(text='Enter the two vertexes for the shortest path you want e.g. v2,v4:', font=('Helvetica', 14), fg='Black', bg='White')  # Short Path Text
     draw_space.create_window(209, 165, window=shortpathText)    # Draw Short Path Text
     shortpathEntry = Entry(root)    # Short Path Entry
-    draw_space.create_window(521, 165, window=shortpathEntry)  # Draw Short Path Entry
-    shortpathButton = Button(text='Show Result', command=dijkstra, background='Floral White')    # Short Path Button
-    draw_space.create_window(671, 165, window=shortpathButton)  # Draw Short Path Button
-    resetButton = Button(text='Reset Canvas', command=resetGraph, background='Floral White')  # Reset Button
-    draw_space.create_window(500, 30, window=resetButton)  # Draw Reset Button
+    draw_space.create_window(516, 165, window=shortpathEntry)  # Draw Short Path Entry
+    shortpathButton = tkm.Button(draw_space, text='Show Result', command=dijkstra, fg='Black', bg='White', borderless=1)    # Short Path Button
+    draw_space.create_window(688, 165, window=shortpathButton)  # Draw Short Path Button
+    resetButton = tkm.Button(draw_space, text='Reset Canvas', command=resetGraph, fg='Black', bg='White', borderless=1)  # Reset Button
+    draw_space.create_window(490, 30, window=resetButton)  # Draw Reset Button
     custFont = font.Font(family='Helvetica', size=15, weight='bold', underline=1)  # Custom Font
-    resultTitle = Label(text='Shortest Paths', font=custFont, background='Floral White')  # Result Title (Bold, Underlined)
-    draw_space.create_window(825, 25, window=resultTitle)  # Draw Result Title
+    resultTitle = Label(text='Shortest Paths', font=custFont, fg='Black', bg='White')  # Result Title (Bold, Underlined)
+    draw_space.create_window(875, 25, window=resultTitle)  # Draw Result Title
     separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
     draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
 else:  # If the OS is unsupported e.g. Windows/Linux  (Windows deprecated b/c does not have anti-aliasing, causing graphs to look poorly drawn)
-    print("OS Not Supported!")
-    sleep(10)  # Give it a second for someone to read the above print
+    messagebox.showerror(title="Error", message="OS Not Supported!")  # Will wait for button press to exit
     exit()
 
 root.mainloop()  # Keep window open and loop all its functions / widgets
