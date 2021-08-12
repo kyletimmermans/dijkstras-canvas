@@ -90,6 +90,8 @@ Running Dijkstra's Canvas through command line:
 <div>&ensp;&ensp;-Update tkinter code to follow Python3.9</div>
 <div>&ensp;&ensp;-Using tkmacosx library to have widgets look more native</div>
 <div>&ensp;&ensp;-MacOSX 'Dark Mode' compliant</div>
+<div>&ensp;&ensp;-Added app version to window header</div>
+<div>&ensp;&ensp;-Added root window geometry for proper window placement</div>
 
 
 
