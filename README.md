@@ -46,6 +46,10 @@ Table of Contents
 <div>&ensp;</div>
 
 ### Installation
+Download DijkstrasCanvas.zip which contains the .app file [here](https://github.com/kyletimmermans/dijkstras-canvas/files/6977352/Dijkstra.s.Canvas.zip)
+  -Packaged with Platypus
+
+
 Running Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `wget https://raw.githubusercontent.com/kyletimmermans/dijkstras-canvas/master/DijkstrasCanvas.py`
