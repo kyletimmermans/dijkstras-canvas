@@ -49,7 +49,7 @@ Table of Contents
 Download DijkstrasCanvas.zip which contains the .app file [here](https://github.com/kyletimmermans/dijkstras-canvas/files/6977352/Dijkstra.s.Canvas.zip)
   * Packaged with [Platypus](https://github.com/sveinbjornt/Platypus)
 
-or
+**or**
 
 Run Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
