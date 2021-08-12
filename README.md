@@ -1,4 +1,4 @@
-![Version 2.2](https://img.shields.io/badge/version-v2.2-orange.svg)
+![Version 3.0](https://img.shields.io/badge/version-v3.0-orange.svg)
 ![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)
 ![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
@@ -11,6 +11,13 @@ Dijkstra's Canvas is an application written in Python3 and Tkinter that allows u
 <p align="center">
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/final_screenshot3.png?raw=true" alt="Dijkstra's Canvas"/>
 </p>
+
+
+</br>
+
+
+### Updated v3.0 look with dark mode
+
 
 
 <br/>
@@ -77,6 +84,11 @@ Running Dijkstra's Canvas through command line:
 <div>v2.2:</div>
 <div>&ensp;&ensp;-Fixed 'sys' module not being recognized</div>
 <div>&ensp;&ensp;-Removed binaries from relases, better to compile per machine basis</div>
+<div>v3.0</div>
+<div>&ensp;&ensp;-Update tkinter code to follow Python3.9</div>
+<div>&ensp;&ensp;-Using tkmacosx library to have widgets look more native</div>
+<div>&ensp;&ensp;-MacOSX 'Dark Mode' compliant</div>
+
 
 
 </br>
