@@ -14,6 +14,7 @@ from math import sqrt  # For circleEdgePoint class math
 import sys as system  # Recognize sys module
 from sys import maxsize, platform  # Used for sys.maxsize and Operating System check
 import re  # Splitting up and sanitizing input strings w/ regex
+import time
 
 
 #############
@@ -373,6 +374,7 @@ if platform == "darwin":  # MacOS widget dimension and spacing setup
     draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
 else:  # If the OS is unsupported e.g. Windows/Linux  (Windows deprecated b/c does not have anti-aliasing, causing graphs to look poorly drawn)
     print("OS Not Supported!")
+    sleep(10)  # Give it a second for someone to read the above print
     exit()
 
 root.mainloop()  # Keep window open and loop all its functions / widgets
