@@ -16,7 +16,7 @@ Dijkstra's Canvas is an application written in Python3 and Tkinter that allows u
 </br>
 
 
-### Updated v3.0 look with dark mode
+### Updated v3.0 Look with Dark Mode
 <p align="center">
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/newlook2.png?raw=true" alt="v3.0 Dark Mode Look"/>
 </p>
