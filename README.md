@@ -53,8 +53,9 @@ Download DijkstrasCanvas.zip which contains the .app file [here](https://github.
 
 Run Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
-2. Run `wget https://raw.githubusercontent.com/kyletimmermans/dijkstras-canvas/master/DijkstrasCanvas.py`
-3. Run `python3 DijsktrasCanvas.py`
+2. Run `pip3 install tkmacosx'
+3. Run `wget https://raw.githubusercontent.com/kyletimmermans/dijkstras-canvas/master/DijkstrasCanvas.py`
+4. Run `python3 DijkstrasCanvas.py`
 
 <div>&ensp;</div>
 
