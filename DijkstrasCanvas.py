@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 Kyle Timmermans
 v3.0 Release Date: Aug 12, 2021
@@ -18,31 +20,7 @@ import time  # Needed for sleep()
 import tkmacosx as tkm  # Native mac tkinter widgets
 
 
-#############
-# Variables #
-#############
-
-alphabet1 = ascii_uppercase
-alphabet2 = ascii_lowercase
-letter = 0
-vertexNumber = 13   # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
-helperNumber = 1
-clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
-vertexes = {}       # Store vertex number and its location
-edges = {}          # Store edge and its location
-adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edited by addEdgeWeight()
-path = []  # Store shortest path vertexes
-start, end = 0, 0   # Init start and end to be used with the button
-textCounterVertical = 25  # y-value to place shortest paths, incremented in dijkstra() so we can have a clean list
-vertexReset = 0  # Used in resetButton
-isReset = False  # Used in resetButton
-vertexButtonisClicked = 0  # Used in resetButton
-separationLineLimit = 1  # Max amount of short path results to be shown at once
-
-
-##############
-# Data Types #
-##############
+# Data Types 
 
 # This point lies on the edge of the circle so there's no line overhang on the green vertex (cuts off extra overlap)
 # https://math.stackexchange.com/questions/127613/closest-point-on-circle-edge-from-point-outside-inside-the-circle
@@ -67,9 +45,7 @@ class circleEdgePoint:
         return [round(self.cx(), 1), round(self.cy(), 1)]  # Return x,y of C-coord as a list, round() to nearest tenths place, e.g. 7.1
 
 
-#############
-# Functions #
-#############
+# Functions
 
 def addVertex(event):
     global vertexNumber, helperNumber   # Grab vertexNumber from earlier, it is now global, no need to pass it through as a param now  # helperNumber: Need a dynamic number to add to vertex number
@@ -320,63 +296,75 @@ def resetGraph():
     draw_space.bind('<Button-1>', addVertex)  #Start back to placing vertexes
 
 
-# Start Main #
+if __name__ == "__main__":
 
-##########
-# Window #
-##########
+    # Variables
 
-root = Tk()
-root.title("Dijkstra's Canvas v3.0 - @KyleTimmermans")
-root.geometry('1500x1000+0+0')
-draw_space = Canvas(root, width=1500, height=1000, background='White')  # Canvas for drawing, make dynamic sizing in the future
-draw_space.pack()
-draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
+    alphabet1 = ascii_uppercase
+    alphabet2 = ascii_lowercase
+    letter = 0
+    vertexNumber = 13   # ID's start being assigned at 1, but we already have the widgets, they make up first 10 ID's
+    helperNumber = 1
+    clickNumber = 0     # Start click number at 0, i.e. start first of 2 clicks to make line
+    vertexes = {}       # Store vertex number and its location
+    edges = {}          # Store edge and its location
+    adjacencyMatrix = []  # Store all weights and vertexes to be traversed over, edited by addEdgeWeight()
+    path = []  # Store shortest path vertexes
+    start, end = 0, 0   # Init start and end to be used with the button
+    textCounterVertical = 25  # y-value to place shortest paths, incremented in dijkstra() so we can have a clean list
+    vertexReset = 0  # Used in resetButton
+    isReset = False  # Used in resetButton
+    vertexButtonisClicked = 0  # Used in resetButton
+    separationLineLimit = 1  # Max amount of short path results to be shown at once
 
+    # Window
 
-###########
-# Widgets #
-###########
+    root = Tk()
+    root.title("Dijkstra's Canvas v3.0 - @KyleTimmermans")
+    root.geometry('1500x1000+0+0')
+    draw_space = Canvas(root, width=1500, height=1000, background='White')  # Canvas for drawing, make dynamic sizing in the future
+    draw_space.pack()
+    draw_space.bind('<Button-1>', addVertex)  # Bind addVertex to mouse1 to Begin Program
 
-'''
-We have 13 widgets, they take up first eleven ID Numbers, so start vertexNumber at 13
-Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
-Search for "-13" or -"whatever number of widgets there are"
-Look for "-12" too
-Fix everything in addVertex() and addEdgeWeight() when adding another widget
-'''
-if platform == "darwin":  # MacOS widget dimension and spacing setup
-    vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), fg='Black', bg='White')  # Vertex Text
-    draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
-    vertexButton = tkm.Button(draw_space, text='Done', command=vertexButtonSet, fg='Black', bg='White', borderless=1)  # Vertex Button
-    draw_space.create_window(300, 30, window=vertexButton)  # Draw Vertex Button
-    edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('Helvetica', 14), fg='Black', bg='White')  # Edge Text
-    draw_space.create_window(245, 75, window=edgeText)  # Draw Edge Text
-    edgeButton = tkm.Button(draw_space, text='Done', command=edgeButtonSet, fg='Black', bg='White', borderless=1)  # Edge Button
-    draw_space.create_window(537, 75, window=edgeButton)    # Draw Edge Button
-    weightText = Label(text='Input the weights of edges between nodes e.g. A=7, B=8 (Case-Sensitive):', font=('Helvetica', 14), fg='Black', bg='White')  # Weight Text
-    draw_space.create_window(241, 120, window=weightText)   # Draw Weight Text
-    weightEntry = Entry(root)   # Weight Entry
-    draw_space.create_window(584, 120, window=weightEntry)  # Draw Weight Entry
-    weightInput = tkm.Button(draw_space, text='Input', command=addEdgeWeight, fg='Black', bg='White', borderless=1)  # Weight Button
-    draw_space.create_window(745, 120, window=weightInput)   # Draw Weight Button
-    shortpathText = Label(text='Enter the two vertexes for the shortest path you want e.g. v2,v4:', font=('Helvetica', 14), fg='Black', bg='White')  # Short Path Text
-    draw_space.create_window(209, 165, window=shortpathText)    # Draw Short Path Text
-    shortpathEntry = Entry(root)    # Short Path Entry
-    draw_space.create_window(516, 165, window=shortpathEntry)  # Draw Short Path Entry
-    shortpathButton = tkm.Button(draw_space, text='Show Result', command=dijkstra, fg='Black', bg='White', borderless=1)    # Short Path Button
-    draw_space.create_window(688, 165, window=shortpathButton)  # Draw Short Path Button
-    resetButton = tkm.Button(draw_space, text='Reset Canvas', command=resetGraph, fg='Black', bg='White', borderless=1)  # Reset Button
-    draw_space.create_window(490, 30, window=resetButton)  # Draw Reset Button
-    custFont = font.Font(family='Helvetica', size=15, weight='bold', underline=1)  # Custom Font
-    resultTitle = Label(text='Shortest Paths', font=custFont, fg='Black', bg='White')  # Result Title (Bold, Underlined)
-    draw_space.create_window(875, 25, window=resultTitle)  # Draw Result Title
-    separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
-    draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
-else:  # If the OS is unsupported e.g. Windows/Linux  (Windows deprecated b/c does not have anti-aliasing, causing graphs to look poorly drawn)
-    messagebox.showerror(title="Error", message="OS Not Supported!")  # Will wait for button press to exit
-    exit()
+    # Widgets
 
-root.mainloop()  # Keep window open and loop all its functions / widgets
+    '''
+    We have 13 widgets, they take up first eleven ID Numbers, so start vertexNumber at 13
+    Anytime a widget is added, the vertexNumber must be changed and addVertex values must be changed
+    Search for "-13" or -"whatever number of widgets there are"
+    Look for "-12" too
+    Fix everything in addVertex() and addEdgeWeight() when adding another widget
+    '''
+    if platform == "darwin":  # MacOS widget dimension and spacing setup
+        vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), fg='Black', bg='White')  # Vertex Text
+        draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
+        vertexButton = tkm.Button(draw_space, text='Done', command=vertexButtonSet, fg='Black', bg='White', borderless=1)  # Vertex Button
+        draw_space.create_window(300, 30, window=vertexButton)  # Draw Vertex Button
+        edgeText = Label(text='Input Edges by left clicking the start vertex and then the destination vertex: ', font=('Helvetica', 14), fg='Black', bg='White')  # Edge Text
+        draw_space.create_window(245, 75, window=edgeText)  # Draw Edge Text
+        edgeButton = tkm.Button(draw_space, text='Done', command=edgeButtonSet, fg='Black', bg='White', borderless=1)  # Edge Button
+        draw_space.create_window(537, 75, window=edgeButton)    # Draw Edge Button
+        weightText = Label(text='Input the weights of edges between nodes e.g. A=7, B=8 (Case-Sensitive):', font=('Helvetica', 14), fg='Black', bg='White')  # Weight Text
+        draw_space.create_window(241, 120, window=weightText)   # Draw Weight Text
+        weightEntry = Entry(root)   # Weight Entry
+        draw_space.create_window(584, 120, window=weightEntry)  # Draw Weight Entry
+        weightInput = tkm.Button(draw_space, text='Input', command=addEdgeWeight, fg='Black', bg='White', borderless=1)  # Weight Button
+        draw_space.create_window(745, 120, window=weightInput)   # Draw Weight Button
+        shortpathText = Label(text='Enter the two vertexes for the shortest path you want e.g. v2,v4:', font=('Helvetica', 14), fg='Black', bg='White')  # Short Path Text
+        draw_space.create_window(209, 165, window=shortpathText)    # Draw Short Path Text
+        shortpathEntry = Entry(root)    # Short Path Entry
+        draw_space.create_window(516, 165, window=shortpathEntry)  # Draw Short Path Entry
+        shortpathButton = tkm.Button(draw_space, text='Show Result', command=dijkstra, fg='Black', bg='White', borderless=1)    # Short Path Button
+        draw_space.create_window(688, 165, window=shortpathButton)  # Draw Short Path Button
+        resetButton = tkm.Button(draw_space, text='Reset Canvas', command=resetGraph, fg='Black', bg='White', borderless=1)  # Reset Button
+        draw_space.create_window(490, 30, window=resetButton)  # Draw Reset Button
+        custFont = font.Font(family='Helvetica', size=15, weight='bold', underline=1)  # Custom Font
+        resultTitle = Label(text='Shortest Paths', font=custFont, fg='Black', bg='White')  # Result Title (Bold, Underlined)
+        draw_space.create_window(875, 25, window=resultTitle)  # Draw Result Title
+        separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
+        draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
+    else:  # If the OS is unsupported e.g. Windows/Linux  (Windows deprecated b/c does not have anti-aliasing, causing graphs to look poorly drawn)
+        messagebox.showerror(title="Error", message="OS Not Supported!")  # Will wait for button press to exit
+        exit()
 
-# End of Main #
+    root.mainloop()  # Keep window open and loop all its functions / widgets
