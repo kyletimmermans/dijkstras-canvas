@@ -101,6 +101,7 @@ Run Dijkstra's Canvas through command line:
 <div>v3.1</div>
 <div>&ensp;&ensp;-Added if __name__ == "__main__":</div>
 <div>&ensp;&ensp;-Refactor / Moved code into main</div>
+<div>&ensp;&ensp;-Added Python Shebang</div>
 
 
 </br>
