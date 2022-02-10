@@ -2,8 +2,8 @@
 
 '''
 Kyle Timmermans
-v3.0 Release Date: Aug 12, 2021
-Compiled in Python v3.9.6
+v3.1 Release Date: Feb 9, 2022
+Compiled in Python v3.9.7
 DijkstrasCanvas v3.1
 '''
 
