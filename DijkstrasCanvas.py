@@ -4,6 +4,7 @@
 Kyle Timmermans
 v3.0 Release Date: Aug 12, 2021
 Compiled in Python v3.9.6
+DijkstrasCanvas v3.1
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module
@@ -320,7 +321,7 @@ if __name__ == "__main__":
     # Window
 
     root = Tk()
-    root.title("Dijkstra's Canvas v3.0 - @KyleTimmermans")
+    root.title("Dijkstra's Canvas v3.1 - @KyleTimmermans")
     root.geometry('1500x1000+0+0')
     draw_space = Canvas(root, width=1500, height=1000, background='White')  # Canvas for drawing, make dynamic sizing in the future
     draw_space.pack()
