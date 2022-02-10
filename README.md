@@ -1,4 +1,4 @@
-![Version 3.0](https://img.shields.io/badge/version-v3.0-orange.svg)
+![Version 3.1](https://img.shields.io/badge/version-v3.1-orange.svg)
 ![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)
 ![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
@@ -16,7 +16,7 @@ Dijkstra's Canvas is an application written in Python3 and Tkinter that allows u
 </br>
 
 
-### Updated v3.0 Look with Dark Mode
+### Updated v3 Look with Dark Mode
 <p align="center">
   <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/newlook2.png?raw=true" alt="v3.0 Dark Mode Look"/>
 </p>
@@ -98,7 +98,9 @@ Run Dijkstra's Canvas through command line:
 <div>&ensp;&ensp;-MacOSX 'Dark Mode' compliant</div>
 <div>&ensp;&ensp;-Added app version to window header</div>
 <div>&ensp;&ensp;-Added root window geometry for proper window placement</div>
-
+<div>v3.1</div>
+<div>&ensp;&ensp;-Added if __name__ == "__main__":</div>
+<div>&ensp;&ensp;-Refactor / Moved code into main</div>
 
 
 </br>
