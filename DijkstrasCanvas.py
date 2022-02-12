@@ -2,7 +2,7 @@
 
 '''
 Kyle Timmermans
-v3.1 Release Date: Feb 9, 2022
+v3.1 Release Date: Feb 11, 2022
 Compiled in Python v3.9.7
 DijkstrasCanvas v3.1
 '''
@@ -19,6 +19,7 @@ from sys import maxsize, platform  # Used for sys.maxsize and Operating System c
 import re  # Splitting up and sanitizing input strings w/ regex
 import time  # Needed for sleep()
 import tkmacosx as tkm  # Native mac tkinter widgets
+import sys
 
 
 # Data Types 
@@ -56,7 +57,7 @@ def addVertex(event):
     y0 = event.y    # Current Y-Coord for mouse click
     # Error Handling - If vertex is attempted to be placed above separation line
     if y0 < 200 and (x0 > 0 and x0 < root.winfo_width()):  # Separation line begins at y=200, anything above is widgets space, x0 values to avoid NSAlert runModal error
-        messagebox.showwarning(title="Warning", message="Can't place vertexes above the Canvas Separation Line!")  # root.winfo_width b/c not every monitor can reach 1500 width
+        messagebox.showwarning(title="Warning", message="Cannot place vertexes above the Canvas Separation Line!")  # root.winfo_width b/c not every monitor can reach 1500 width
         return  # Exit, let user try again
     if x0 <= 0 or x0 >= root.winfo_width():  # Still avoiding NSAlert AND not drawing vertex
         return
@@ -121,7 +122,7 @@ def addEdge(event):  # Why does *args work for this?
         y2 = event.y    # end y pos of mouse
         # Error Handling - When drawing edge to itself
         if (x1 <= x2 <= x1+25) and (y1 <= y2 <= y1+25):
-            messagebox.showwarning(title="Warning", message="Can not draw an edge from a vertex to itself!")
+            messagebox.showwarning(title="Warning", message="Cannot draw an edge from a vertex to itself!")
             clickNumber = 0  # Allow a new line to be drawn again, from a new spot
             return  # Drop the rest of the function
         # If start of edge is found in a vertex (x1, y1) and end of edge is found in a vertex (x2, y2), place them in edges {}
@@ -298,6 +299,10 @@ def resetGraph():
 
 
 if __name__ == "__main__":
+
+    if '--version' in sys.argv or '-v' in sys.argv:
+        print("\nDijkstra's Canvas v3.1\n")
+        quit()
 
     # Variables
 
