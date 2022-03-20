@@ -2,9 +2,9 @@
 
 '''
 Kyle Timmermans
+DijkstrasCanvas v3.1
 v3.1 Release Date: Feb 11, 2022
 Compiled in Python v3.9.7
-DijkstrasCanvas v3.1
 '''
 
 # Many global variables and long functions because many of these functions can't take parameters because of tkinter module
