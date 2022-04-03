@@ -57,7 +57,7 @@ Run Dijkstra's Canvas through command line:
 3. Run `wget https://raw.githubusercontent.com/kyletimmermans/dijkstras-canvas/master/DijkstrasCanvas.py`
 4. Run `python3 DijkstrasCanvas.py`
 
-Note: Use `--force-run` flag in command line to have program run in any OS
+Note: Use `--force-run` flag in command line to have the program run in any OS
 
 <div>&ensp;</div>
 
