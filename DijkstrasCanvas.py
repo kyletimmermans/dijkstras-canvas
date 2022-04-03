@@ -2,8 +2,8 @@
 
 '''
 Kyle Timmermans
-DijkstrasCanvas v3.1
-v3.1 Release Date: Feb 11, 2022
+DijkstrasCanvas v3.2
+v3.2 Release Date: April 3rd, 2022
 Compiled in Python v3.9.7
 '''
 
@@ -298,8 +298,14 @@ def resetGraph():
 
 if __name__ == "__main__":
 
+    # Check for proper command line usage
+    if len(sys.argv) > 2:
+        print("\nError: Improper command line usage!\n")
+        quit()
+
+    # Version flag
     if '--version' in sys.argv or '-v' in sys.argv:
-        print("\nDijkstra's Canvas v3.1\n")
+        print("\nDijkstra's Canvas v3.2\n")
         quit()
 
     # Variables
@@ -324,7 +330,7 @@ if __name__ == "__main__":
     # Window
 
     root = Tk()
-    root.title("Dijkstra's Canvas v3.1 - @KyleTimmermans")
+    root.title("Dijkstra's Canvas v3.2 - @KyleTimmermans")
     root.geometry('1500x1000+0+0')
     draw_space = Canvas(root, width=1500, height=1000, background='White')  # Canvas for drawing, make dynamic sizing in the future
     draw_space.pack()
@@ -339,7 +345,7 @@ if __name__ == "__main__":
     Look for "-12" too
     Fix everything in addVertex() and addEdgeWeight() when adding another widget
     '''
-    if sys.platform == "darwin":  # MacOS widget dimension and spacing setup
+    if (sys.platform == "darwin") or ('--force-run' in sys.argv):  # MacOS widget dimension and spacing setup
         vertexText = Label(text='Input Vertexes by left clicking mouse: ', font=('Helvetica', 14), fg='Black', bg='White')  # Vertex Text
         draw_space.create_window(126, 30, window=vertexText)  # Draw Vertex Text
         vertexButton = tkm.Button(draw_space, text='Done', command=vertexButtonSet, fg='Black', bg='White', borderless=1)  # Vertex Button
@@ -368,7 +374,7 @@ if __name__ == "__main__":
         separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
         draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
     else:  # If the OS is unsupported e.g. Windows/Linux  (Windows deprecated b/c does not have anti-aliasing, causing graphs to look poorly drawn)
-        messagebox.showerror(title="Error", message="OS Not Supported!")  # Will wait for button press to exit
+        messagebox.showerror(title="Error", message="OS Not Supported! Use '--force-run' in command line to run on any OS.")  # Will wait for button press to exit
         exit()
 
     root.mainloop()  # Keep window open and loop all its functions / widgets
