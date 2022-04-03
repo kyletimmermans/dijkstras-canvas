@@ -374,7 +374,8 @@ if __name__ == "__main__":
         separationLine = draw_space.create_line(0, 200, 1500, 200, fill='Black', width=1)  # Separation Line, needs .pack() b/c it's not a window
         draw_space.pack()  # Pack in separationLine, ID#13, Final Static ID
     else:  # If the OS is unsupported e.g. Windows/Linux  (Windows deprecated b/c does not have anti-aliasing, causing graphs to look poorly drawn)
-        messagebox.showerror(title="Error", message="OS Not Supported! Use '--force-run' in command line to run on any OS.")  # Will wait for button press to exit
+        # Will wait for button press to exit
+        messagebox.showerror(title="Error", message="OS Not Supported! Use '--force-run' flag in command line to run on any OS.")
         exit()
 
     root.mainloop()  # Keep window open and loop all its functions / widgets
