@@ -1,4 +1,4 @@
-![Version 3.1](https://img.shields.io/badge/version-v3.1-orange.svg)
+![Version 3.2](https://img.shields.io/badge/version-v3.2-orange.svg)
 ![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)
 ![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
@@ -103,7 +103,9 @@ Run Dijkstra's Canvas through command line:
 <div>&ensp;&ensp;-Refactor / Moved code into main</div>
 <div>&ensp;&ensp;-Added Python Shebang</div>
 <div>&ensp;&ensp;-Added --version and -v command line flag<div>
-
+<div>v3.2</div>
+<div>&ensp;&ensp;-Check for proper command line usage</div>
+<div>&ensp;&ensp;-Added '--force-run' flag for command line which forces program to run on any OS</div>
 
 </br>
 
