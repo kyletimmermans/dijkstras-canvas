@@ -2,7 +2,7 @@
 
 '''
 Kyle Timmermans
-DijkstrasCanvas v3.2
+TkinterDijkstrasCanvas v3.2
 v3.2 Release Date: April 3rd, 2022
 Compiled in Python v3.9.7
 '''
