@@ -1,6 +1,6 @@
 ![Version 3.2](https://img.shields.io/badge/version-v3.2-orange.svg)
 ![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)
-![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/DijkstrasCanvas?color=success)
+![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
 
@@ -9,7 +9,7 @@
 Dijkstra's Canvas is an application written in Python3 and Tkinter that allows users to draw a visual undirected weighted graph in the program's window. Using only the mouse, users can click where they want to place different vertex points. They can then draw edges from one vertex to another by first clicking on the source vertex, and then on the destination vertex, creating the connections. At this point, the user can now enter weights for the edges they drew, in order to simulate distance between the vertex points. Finally, they can specify two vertex points and then have the program use Dijkstra's algorithm to find the shortest path between the specified points. The visual aspect of this program is solely created with Tkinter and does not use visual-graphing libraries such as networkx or matplotlib.
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/final_screenshot3.png?raw=true" alt="Dijkstra's Canvas"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/final_screenshot3.png?raw=true" alt="Dijkstra's Canvas"/>
 </p>
 
 
@@ -18,7 +18,7 @@ Dijkstra's Canvas is an application written in Python3 and Tkinter that allows u
 
 ### Updated v3 Look with Dark Mode
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/newlook2.png?raw=true" alt="v3.0 Dark Mode Look"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/newlook2.png?raw=true" alt="v3.0 Dark Mode Look"/>
 </p>
 
 
@@ -46,7 +46,7 @@ Table of Contents
 <div>&ensp;</div>
 
 ### Installation
-Download DijkstrasCanvas.zip which contains the .app file [here](https://github.com/kyletimmermans/DijkstrasCanvas/releases/download/v3.1/DijkstrasCanvas.zip)
+Download DijkstrasCanvas.zip which contains the .app file [here](https://github.com/kyletimmermans/dijkstras-canvas/releases/download/v3.1/dijkstras-canvas.zip)
   * Packaged with [Platypus](https://github.com/sveinbjornt/Platypus)
 
 **or**
@@ -54,7 +54,7 @@ Download DijkstrasCanvas.zip which contains the .app file [here](https://github.
 Run Dijkstra's Canvas through command line:
 1. If you don't already have Python 3 on your system, download the installer [here](https://www.python.org/downloads/ "Python Installer").
 2. Run `pip3 install tkmacosx`
-3. Run `wget https://raw.githubusercontent.com/kyletimmermans/DijkstrasCanvas/master/DijkstrasCanvas.py`
+3. Run `wget https://raw.githubusercontent.com/kyletimmermans/dijkstras-canvas/master/DijkstrasCanvas.py`
 4. Run `python3 DijkstrasCanvas.py`
 
 Note: Use `--force-run` flag in command line to have the program run in any OS
@@ -140,20 +140,20 @@ Geeksforgeeks.org has a well-made undirected weighted graph image that I will us
 If we are given a graph such as this one:
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/UndirectedWeightedGraph.png?raw=true" alt="Sample Graph"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/UndirectedWeightedGraph.png?raw=true" alt="Sample Graph"/>
 </p>
 
 We can draw the same graph in the program and give it the same edge weights.
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/GraphTranslation2.png?raw=true" alt="Graph Translation"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/GraphTranslation2.png?raw=true" alt="Graph Translation"/>
 </p>
 
 ### Adjacency Matrix
 Once the graph is initialized with all its vertexes, edges, and edge weights, the program will take all the data and create an "Adjacency Matrix." A data structure that the path finding algorithm can read and work with. The Adjacency Matrix for the example graph would look something like this:
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/adjacencyMatrix.png?raw=true" alt="Adjacency Matrix"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/adjacencyMatrix.png?raw=true" alt="Adjacency Matrix"/>
 </p>
 
 For instance, to get from node 0 to node 1, the distance is 4. We can see this in the first row of the 2D Array "adjancencyMatrix." Each row acts as a vertex, and each value in the row represents a distance to another vertex. The index of each value within each row represents the other vertexes. So adjacencyMatrix[0][1] is 4, from node 0 to node 1 has a distance of 4. Using that same logic, adjacencyMatrix[1][0] is also 4. Going backwards from point 1 to point 0 is still 4. This is how the entire matrix is built up, it is the way in which the program can interpret the visual data and find the shortest path of our sketched out graph. If adjacencyMatrix[x][y] = 0, then it indicates that there is no immediate edge/connection between the two points.
@@ -192,24 +192,24 @@ An algorithm created by Dijkstra, that is used to find the shortest paths from a
 
 ### Pseudocode
 This is the backbone behind his algorithm
-![alt text](https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/pseudocode.png "Pseudocode")
+![alt text](https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/pseudocode.png "Pseudocode")
 
 <br/>
 
 ### Fun
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/fun1.png?raw=true" alt="Dijkstra's Canvas"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/fun1.png?raw=true" alt="Dijkstra's Canvas"/>
 </p>
 
 <div>&ensp;</div>
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/fun2.png?raw=true" alt="Dijkstra's Canvas"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/fun2.png?raw=true" alt="Dijkstra's Canvas"/>
 </p>
 
 <div>&ensp;</div>
 
 <p align="center">
-  <img src="https://github.com/kyletimmermans/DijkstrasCanvas/blob/master/media/fun3.png?raw=true" alt="Dijkstra's Canvas"/>
+  <img src="https://github.com/kyletimmermans/dijkstras-canvas/blob/master/media/fun3.png?raw=true" alt="Dijkstra's Canvas"/>
 </p>
