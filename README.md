@@ -1,6 +1,6 @@
-![Version 3.2](https://img.shields.io/badge/version-v3.2-orange.svg)
-![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)
-![Last Updated](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success)
+![Version 3.2](https://img.shields.io/badge/Version-3.2-orange.svg)
+![Python 3.9](https://img.shields.io/badge/Python-3.9-blue.svg)
+![Latest Commit](https://img.shields.io/github/last-commit/kyletimmermans/dijkstras-canvas?color=success&label=Latest%20Commit)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
 
